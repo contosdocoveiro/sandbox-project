@@ -1,0 +1,17 @@
+[gd_scene load_steps=4 format=3 uid="uid://btx3bvsv03ji5"]
+
+[ext_resource type="PackedScene" uid="uid://cq1sue73qtdx6" path="res://scenes/dog.tscn" id="1_s3i72"]
+[ext_resource type="PackedScene" uid="uid://du2nkbrxyw642" path="res://scenes/sword.tscn" id="2_eqy1d"]
+[ext_resource type="PackedScene" uid="uid://diyiqf6t5d2j" path="res://scenes/test_dummy.tscn" id="3_wg4cu"]
+
+[node name="Jogo" type="Node2D"]
+y_sort_enabled = true
+
+[node name="Dog" parent="." instance=ExtResource("1_s3i72")]
+position = Vector2(205, 150)
+
+[node name="Sword" parent="." instance=ExtResource("2_eqy1d")]
+position = Vector2(276, 53)
+
+[node name="TestDummy" parent="." instance=ExtResource("3_wg4cu")]
+position = Vector2(390, 106)
