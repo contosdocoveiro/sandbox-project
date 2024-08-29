@@ -30,17 +30,17 @@ func _move():
 	
 	
 	if(_dog.last_faced_direction == Vector2.RIGHT):
-		_dog_position_offset[0] += 70
-		_dog_position_offset[1] -= 50
+		_dog_position_offset[0] += 2
+		_dog_position_offset[1] -= 5
 	elif(_dog.last_faced_direction == Vector2.LEFT):
-		_dog_position_offset[0] -= 70
-		_dog_position_offset[1] -= 50
+		_dog_position_offset[0] -= 2
+		_dog_position_offset[1] -= 5
 	elif(_dog.last_faced_direction == Vector2.UP):
-		_dog_position_offset[0] -= 30
-		_dog_position_offset[1] -= 30
+		_dog_position_offset[0] -= 2
+		_dog_position_offset[1] -= 5
 	elif(_dog.last_faced_direction == Vector2.DOWN):
-		_dog_position_offset[0] -= 30
-		_dog_position_offset[1] += 0
+		_dog_position_offset[0] -= 2
+		_dog_position_offset[1] += 5
 	
 	global_transform.origin = lerp(global_transform.origin, _dog_position_offset, 0.025)
 	
