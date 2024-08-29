@@ -1,40 +1,73 @@
 extends CharacterBody2D
 
-@onready var dog = $"../Dog"
-@onready var horizontal_attack = $SwordSprite/HorizontalAttack
-var time = 0
-var animation_amplitude := 0.5
-var animation_frequency := 7
-var default_position = get_position()
+var _state_machine
 
+@onready var _dog = $"../Dog"
+@onready var _animation_tree : AnimationTree = $AnimationTree
+var _time = 0
+var _animation_amplitude := 0.5
+var _animation_frequency := 7
+var _default_position = get_position()
+var _dog_position_offset : Vector2
+
+func _ready() -> void:
+	_state_machine = _animation_tree["parameters/playback"]
+
+func teleport_to_attack_location() -> void:
+	set_position(_dog_position_offset)
+	
 
 func _physics_process(delta: float) -> void:
-	##floating animation and positioning
-	var dog_position_offset = dog.position
 	
-	if(dog.direction == Vector2.RIGHT):
-		dog_position_offset[0] += 70
-		dog_position_offset[1] -= 90
-	elif(dog.direction == Vector2.LEFT):
-		dog_position_offset[0] -= 70
-		dog_position_offset[1] -= 90
-	elif(dog.direction == Vector2.UP):
-		dog_position_offset[0] += 70
-		dog_position_offset[1] -= 90
-	elif(dog.direction == Vector2.DOWN):
-		dog_position_offset[0] -= 70
-		dog_position_offset[1] += 0
+	_move()
+	_attack()
+	_animate(delta)
 	
+
+func _move():
+	
+	_dog_position_offset = _dog.position
+	
+	
+	if(_dog.last_faced_direction == Vector2.RIGHT):
+		_dog_position_offset[0] += 70
+		_dog_position_offset[1] -= 50
+	elif(_dog.last_faced_direction == Vector2.LEFT):
+		_dog_position_offset[0] -= 70
+		_dog_position_offset[1] -= 50
+	elif(_dog.last_faced_direction == Vector2.UP):
+		_dog_position_offset[0] -= 30
+		_dog_position_offset[1] -= 30
+	elif(_dog.last_faced_direction == Vector2.DOWN):
+		_dog_position_offset[0] -= 30
+		_dog_position_offset[1] += 0
+	
+	global_transform.origin = lerp(global_transform.origin, _dog_position_offset, 0.025)
+	
+	if(_dog._direction != Vector2.ZERO):
+		_animation_tree["parameters/attack/blend_position"] = _dog._direction
 		
+func _attack() -> void:
+	if Input.is_action_just_pressed("attack") and not _dog._is_attacking:
+		set_physics_process(false)
 	
-	global_transform.origin = lerp(global_transform.origin, dog_position_offset, 0.025)
+func _animate(delta: float) -> void:
+	_default_position = get_position()
+	_time += delta * _animation_frequency
+	set_position(_default_position + Vector2(0, sin(_time)*_animation_amplitude))
 	
-	##attack input
-	if(Input.is_action_just_pressed("click")):
-		horizontal_attack.play("horizontal slash")
-		
+	if _dog._is_attacking:
+		if(_dog_position_offset.distance_squared_to(get_position()) > 5000):
+			teleport_to_attack_location()
+		_state_machine.travel("attack")
+		return
 	
-func _process(delta: float) -> void:
-	default_position = get_position()
-	time += delta * animation_frequency
-	set_position(default_position + Vector2(0, sin(time)*animation_amplitude))
+	_state_machine.travel("idle")
+
+
+func _on_animation_tree_animation_finished(anim_name: StringName) -> void:
+	if (anim_name == "slash down"
+	or anim_name == "slash up"
+	or anim_name == "slash left"
+	or anim_name == "slash right"):
+		set_physics_process(true)

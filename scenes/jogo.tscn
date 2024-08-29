@@ -10,8 +10,8 @@ y_sort_enabled = true
 [node name="Dog" parent="." instance=ExtResource("1_s3i72")]
 position = Vector2(205, 150)
 
-[node name="Sword" parent="." instance=ExtResource("2_eqy1d")]
-position = Vector2(276, 53)
-
 [node name="TestDummy" parent="." instance=ExtResource("3_wg4cu")]
-position = Vector2(390, 106)
+position = Vector2(801, 452)
+
+[node name="Sword" parent="." instance=ExtResource("2_eqy1d")]
+position = Vector2(122, 133)

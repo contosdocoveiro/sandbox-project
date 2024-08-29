@@ -1,75 +1,65 @@
 extends CharacterBody2D
 
+var _state_machine
+var _is_attacking : bool = false
 
-const SPEED = 500.0
+@export_category("Variables")
+@export var _move_speed = 500.0
+@export var last_faced_direction := Vector2.RIGHT
+var _direction := Vector2.ZERO
+var is_attacking : bool
 
-@onready var dog_sprite = $DogSprite
+@export_category("Objects")
+@onready var _animation_tree : AnimationTree = $AnimationTree
 
-#variable to store last faced direction for animation purposes
-var direction = Vector2.RIGHT
+func _ready() -> void:
+	_state_machine = _animation_tree["parameters/playback"]
 
 func _physics_process(delta: float) -> void:
-
-	#gets input direction
-	var direction_x := Input.get_axis("left", "right")
-	var direction_y := Input.get_axis("up", "down")
 	
-	#moves in X axis
-	if direction_x:
-		velocity.x = direction_x * SPEED
-	else:
-		velocity.x = move_toward(velocity.x, 0, SPEED)
-	
-	#moves in Y axis
-	if direction_y:
-		velocity.y = direction_y * SPEED
-	else:
-		velocity.y = move_toward(velocity.y, 0, SPEED)
-		
+	_move()
+	_attack()
+	_animate()
 	move_and_slide()
+	
+
+func _move() -> void:
+	#moves in 4 directions
+	_direction = Input.get_vector("left","right","up","down").normalized()
+	#blend positions
+	if(_direction != Vector2.ZERO):
+		_animation_tree["parameters/idle/blend_position"] = _direction
+		_animation_tree["parameters/run/blend_position"] = _direction
+		_animation_tree["parameters/attack/blend_position"] = _direction
+		last_faced_direction = _direction
+	
+	velocity = _direction * _move_speed
+	
+func _attack() -> void:
+	if Input.is_action_just_pressed("attack") and not _is_attacking:
+		_is_attacking = true
+		set_physics_process(false)
 		
+	pass
+
+func _animate() -> void:
+	if _is_attacking:
+		_state_machine.travel("attack")
+		return
 		
-func _process(delta: float) -> void:
-	#gets input direction
-	var direction_x := Input.get_axis("left", "right")
-	var direction_y := Input.get_axis("up", "down")
+	if velocity.length() > 5:
+		_state_machine.travel("run")
+		return
 	
-	#flips the sprite horizontally
-	if direction_x > 0:
-		dog_sprite.flip_h = false
-	elif direction_x < 0:
-		dog_sprite.flip_h = true
-		
-	#play animations:
-	#horizontal
-	if (Input.is_action_pressed("left") or Input.is_action_pressed("right")):
-		dog_sprite.play("run horizontal")
-		if (Input.is_action_pressed("left")):
-			direction = Vector2.LEFT
-		else:
-			direction = Vector2.RIGHT
+	_state_machine.travel("idle")
 	
-	#frontal (down direction)
-	elif (Input.is_action_pressed("down")):
-		dog_sprite.play("run frontal")
-		direction = Vector2.DOWN
-	
-	#back (up direction)
-	elif(Input.is_action_pressed("up")):
-		dog_sprite.play("run back")
-		direction = Vector2.UP
-	
-	#idle after horizontal
-	elif ( (Input.is_action_just_released("left") or Input.is_action_just_released("right"))
-	and (direction_x == 0 and direction_y == 0)):
-		dog_sprite.play("idle horizontal")
-	
-	#idle after frontal
-	elif (Input.is_action_just_released("down")
-	and (direction_x == 0 and direction_y == 0)):
-		dog_sprite.play("idle frontal")
-	
-	#idle after back
-	elif (Input.is_action_just_released("up")
-	and (direction_x == 0 and direction_y ==0)):
-		dog_sprite.play("idle back")
+
+
+
+func _on_animation_tree_animation_finished(anim_name: StringName) -> void:
+	if (anim_name == "attack foward"
+	or anim_name == "attack up"
+	or anim_name == "attack left"
+	or anim_name == "attack right"):
+		_is_attacking = false
+		set_physics_process(true)
