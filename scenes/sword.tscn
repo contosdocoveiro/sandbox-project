@@ -1,4 +1,4 @@
-[gd_scene load_steps=33 format=3 uid="uid://du2nkbrxyw642"]
+[gd_scene load_steps=30 format=3 uid="uid://du2nkbrxyw642"]
 
 [ext_resource type="Script" path="res://scripts/weaponBehavior.gd" id="1_gijjp"]
 [ext_resource type="Texture2D" uid="uid://dtp8ovwjbmvxf" path="res://assets/espada new.png" id="2_0rjf5"]
@@ -8,6 +8,7 @@
 [ext_resource type="Script" path="res://addons/godot_state_charts/atomic_state.gd" id="6_ssq3d"]
 [ext_resource type="Script" path="res://addons/godot_state_charts/transition.gd" id="7_132pl"]
 [ext_resource type="PackedScene" uid="uid://bcwkugn6v3oy7" path="res://addons/godot_state_charts/utilities/state_chart_debugger.tscn" id="8_3i1bj"]
+[ext_resource type="Script" path="res://scripts/sword_state_machine.gd" id="9_dgymn"]
 
 [sub_resource type="Animation" id="Animation_m281q"]
 length = 0.001
@@ -38,7 +39,7 @@ tracks/1/keys = {
 tracks/2/type = "value"
 tracks/2/imported = false
 tracks/2/enabled = true
-tracks/2/path = NodePath(".:can_input_attack")
+tracks/2/path = NodePath("SwordStateMachine:can_input_attack")
 tracks/2/interp = 1
 tracks/2/loop_wrap = true
 tracks/2/keys = {
@@ -102,14 +103,14 @@ tracks/3/keys = {
 tracks/4/type = "value"
 tracks/4/imported = false
 tracks/4/enabled = true
-tracks/4/path = NodePath(".:can_input_attack")
+tracks/4/path = NodePath("SwordStateMachine:can_input_attack")
 tracks/4/interp = 1
 tracks/4/loop_wrap = true
 tracks/4/keys = {
-"times": PackedFloat32Array(0, 0.466667),
-"transitions": PackedFloat32Array(1, 1),
+"times": PackedFloat32Array(0.5),
+"transitions": PackedFloat32Array(1),
 "update": 1,
-"values": [false, true]
+"values": [true]
 }
 
 [sub_resource type="Animation" id="Animation_bn3df"]
@@ -198,111 +199,94 @@ _data = {
 "idle": SubResource("Animation_abvij")
 }
 
-[sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_8nery"]
-animation = &"combo 1"
-
-[sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_agtho"]
-animation = &"combo 2"
-
-[sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_kfycw"]
-animation = &"idle"
-
-[sub_resource type="AnimationNodeStateMachine" id="AnimationNodeStateMachine_ghhi4"]
-"states/combo 1/node" = SubResource("AnimationNodeAnimation_8nery")
-"states/combo 1/position" = Vector2(471, 56)
-"states/combo 2/node" = SubResource("AnimationNodeAnimation_agtho")
-"states/combo 2/position" = Vector2(471, 109)
-states/idle/node = SubResource("AnimationNodeAnimation_kfycw")
-states/idle/position = Vector2(471, 166)
-
-[sub_resource type="AtlasTexture" id="AtlasTexture_syxjk"]
+[sub_resource type="AtlasTexture" id="AtlasTexture_jx1g7"]
 atlas = ExtResource("3_sxpv6")
 region = Rect2(0, 0, 80, 64)
 
-[sub_resource type="AtlasTexture" id="AtlasTexture_yeoxl"]
+[sub_resource type="AtlasTexture" id="AtlasTexture_vt6wr"]
 atlas = ExtResource("3_sxpv6")
 region = Rect2(80, 0, 80, 64)
 
-[sub_resource type="AtlasTexture" id="AtlasTexture_yvhpe"]
+[sub_resource type="AtlasTexture" id="AtlasTexture_e26ce"]
 atlas = ExtResource("3_sxpv6")
 region = Rect2(160, 0, 80, 64)
 
-[sub_resource type="AtlasTexture" id="AtlasTexture_g7c7w"]
+[sub_resource type="AtlasTexture" id="AtlasTexture_hqwtw"]
 atlas = ExtResource("3_sxpv6")
 region = Rect2(240, 0, 80, 64)
 
-[sub_resource type="AtlasTexture" id="AtlasTexture_loi66"]
+[sub_resource type="AtlasTexture" id="AtlasTexture_allfx"]
 atlas = ExtResource("3_sxpv6")
 region = Rect2(320, 0, 80, 64)
 
-[sub_resource type="AtlasTexture" id="AtlasTexture_6emlx"]
+[sub_resource type="AtlasTexture" id="AtlasTexture_4vtmb"]
 atlas = ExtResource("3_sxpv6")
 region = Rect2(400, 0, 80, 64)
 
-[sub_resource type="AtlasTexture" id="AtlasTexture_fi83p"]
+[sub_resource type="AtlasTexture" id="AtlasTexture_2pnt3"]
 atlas = ExtResource("3_sxpv6")
 region = Rect2(480, 0, 80, 64)
 
-[sub_resource type="AtlasTexture" id="AtlasTexture_r6a7a"]
+[sub_resource type="AtlasTexture" id="AtlasTexture_t1d4q"]
 atlas = ExtResource("3_sxpv6")
 region = Rect2(560, 0, 80, 64)
 
-[sub_resource type="AtlasTexture" id="AtlasTexture_cbd4f"]
+[sub_resource type="AtlasTexture" id="AtlasTexture_qc4iw"]
 atlas = ExtResource("3_sxpv6")
 region = Rect2(640, 0, 80, 64)
 
-[sub_resource type="AtlasTexture" id="AtlasTexture_5gsbt"]
+[sub_resource type="AtlasTexture" id="AtlasTexture_6xfrx"]
 atlas = ExtResource("3_sxpv6")
 region = Rect2(720, 0, 80, 64)
 
-[sub_resource type="AtlasTexture" id="AtlasTexture_2ubq6"]
+[sub_resource type="AtlasTexture" id="AtlasTexture_4q8e4"]
 atlas = ExtResource("3_sxpv6")
 region = Rect2(800, 0, 80, 64)
 
-[sub_resource type="AtlasTexture" id="AtlasTexture_g345e"]
+[sub_resource type="AtlasTexture" id="AtlasTexture_44dtd"]
 atlas = ExtResource("3_sxpv6")
 region = Rect2(880, 0, 80, 64)
 
-[sub_resource type="AtlasTexture" id="AtlasTexture_tof62"]
+[sub_resource type="AtlasTexture" id="AtlasTexture_l33vx"]
 atlas = ExtResource("3_sxpv6")
 region = Rect2(960, 0, 80, 64)
 
-[sub_resource type="AtlasTexture" id="AtlasTexture_c1fyt"]
+[sub_resource type="AtlasTexture" id="AtlasTexture_5kye1"]
 atlas = ExtResource("3_sxpv6")
 region = Rect2(1040, 0, 80, 64)
 
-[sub_resource type="SpriteFrames" id="SpriteFrames_u7wg4"]
+[sub_resource type="SpriteFrames" id="SpriteFrames_qs03q"]
 animations = [{
 "frames": [{
 "duration": 1.0,
-"texture": SubResource("AtlasTexture_syxjk")
+"texture": SubResource("AtlasTexture_jx1g7")
 }, {
 "duration": 1.0,
-"texture": SubResource("AtlasTexture_yeoxl")
+"texture": SubResource("AtlasTexture_vt6wr")
 }, {
 "duration": 1.0,
-"texture": SubResource("AtlasTexture_yvhpe")
+"texture": SubResource("AtlasTexture_e26ce")
 }, {
 "duration": 1.0,
-"texture": SubResource("AtlasTexture_g7c7w")
+"texture": SubResource("AtlasTexture_hqwtw")
 }, {
 "duration": 1.0,
-"texture": SubResource("AtlasTexture_loi66")
+"texture": SubResource("AtlasTexture_allfx")
 }, {
 "duration": 1.0,
-"texture": SubResource("AtlasTexture_6emlx")
+"texture": SubResource("AtlasTexture_4vtmb")
 }, {
 "duration": 1.0,
-"texture": SubResource("AtlasTexture_fi83p")
+"texture": SubResource("AtlasTexture_2pnt3")
 }, {
 "duration": 1.0,
-"texture": SubResource("AtlasTexture_r6a7a")
+"texture": SubResource("AtlasTexture_t1d4q")
 }, {
 "duration": 1.0,
-"texture": SubResource("AtlasTexture_cbd4f")
+"texture": SubResource("AtlasTexture_qc4iw")
 }, {
 "duration": 1.0,
-"texture": SubResource("AtlasTexture_5gsbt")
+"texture": SubResource("AtlasTexture_6xfrx")
 }],
 "loop": false,
 "name": &"combo 1",
@@ -310,20 +294,25 @@ animations = [{
 }, {
 "frames": [{
 "duration": 1.0,
-"texture": SubResource("AtlasTexture_2ubq6")
+"texture": SubResource("AtlasTexture_4q8e4")
 }, {
 "duration": 1.0,
-"texture": SubResource("AtlasTexture_g345e")
+"texture": SubResource("AtlasTexture_44dtd")
 }, {
 "duration": 1.0,
-"texture": SubResource("AtlasTexture_tof62")
+"texture": SubResource("AtlasTexture_l33vx")
 }, {
 "duration": 1.0,
-"texture": SubResource("AtlasTexture_c1fyt")
+"texture": SubResource("AtlasTexture_5kye1")
 }],
 "loop": false,
 "name": &"combo 2",
 "speed": 10.0
+}, {
+"frames": [],
+"loop": false,
+"name": &"new_animation",
+"speed": 5.0
 }]
 
 [node name="Sword" type="CharacterBody2D"]
@@ -331,25 +320,14 @@ collision_layer = 0
 collision_mask = 0
 script = ExtResource("1_gijjp")
 
-[node name="Sprite2D" type="Sprite2D" parent="."]
-texture = ExtResource("2_0rjf5")
-offset = Vector2(0.5, 10)
-
 [node name="AnimationPlayer" type="AnimationPlayer" parent="."]
 libraries = {
 "": SubResource("AnimationLibrary_srk60")
 }
 
-[node name="AnimationTree" type="AnimationTree" parent="."]
-tree_root = SubResource("AnimationNodeStateMachine_ghhi4")
-anim_player = NodePath("../AnimationPlayer")
-
-[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
-visible = false
-position = Vector2(2, 1)
-sprite_frames = SubResource("SpriteFrames_u7wg4")
-animation = &""
-offset = Vector2(9, 8)
+[node name="Sprite2D" type="Sprite2D" parent="."]
+texture = ExtResource("2_0rjf5")
+offset = Vector2(0.5, 10)
 
 [node name="StateChart" type="Node" parent="."]
 script = ExtResource("4_3gwx7")
@@ -401,11 +379,19 @@ offset_top = -13.0
 offset_right = 190.0
 offset_bottom = 194.0
 scale = Vector2(0.4, 0.4)
-enabled = false
 initial_node_to_watch = NodePath("../StateChart")
 
-[connection signal="animation_finished" from="AnimationTree" to="." method="_on_animation_tree_animation_finished"]
-[connection signal="state_entered" from="StateChart/CompoundState/Idle" to="." method="_on_idle_state_entered"]
-[connection signal="state_entered" from="StateChart/CompoundState/Attack/Combo 1" to="." method="_on_combo_1_state_entered"]
-[connection signal="state_physics_processing" from="StateChart/CompoundState/Attack/Combo 1" to="." method="_on_combo_1_state_physics_processing"]
-[connection signal="state_physics_processing" from="StateChart/CompoundState/Attack/Combo 2" to="." method="_on_combo_2_state_physics_processing"]
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
+visible = false
+sprite_frames = SubResource("SpriteFrames_qs03q")
+animation = &"combo 1"
+offset = Vector2(0.5, 10)
+
+[node name="SwordStateMachine" type="Node" parent="."]
+script = ExtResource("9_dgymn")
+
+[connection signal="animation_finished" from="AnimationPlayer" to="SwordStateMachine" method="_on_animation_player_animation_finished"]
+[connection signal="state_entered" from="StateChart/CompoundState/Idle" to="SwordStateMachine" method="_on_idle_state_entered"]
+[connection signal="state_entered" from="StateChart/CompoundState/Attack/Combo 1" to="SwordStateMachine" method="_on_combo_1_state_entered"]
+[connection signal="state_physics_processing" from="StateChart/CompoundState/Attack/Combo 1" to="SwordStateMachine" method="_on_combo_1_state_physics_processing"]
+[connection signal="state_physics_processing" from="StateChart/CompoundState/Attack/Combo 2" to="SwordStateMachine" method="_on_combo_2_state_physics_processing"]

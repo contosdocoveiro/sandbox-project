@@ -1,8 +1,8 @@
 [gd_scene load_steps=8 format=3 uid="uid://diyiqf6t5d2j"]
 
-[ext_resource type="Script" path="res://scripts/hurtbox.gd" id="1_3xnmy"]
-[ext_resource type="Script" path="res://scenes/test_dummy.gd" id="1_bu6ae"]
+[ext_resource type="Script" path="res://scripts/test_dummy.gd" id="1_bu6ae"]
 [ext_resource type="Texture2D" uid="uid://ci0pldf061fyw" path="res://assets/test dummy.png" id="2_sjfhv"]
+[ext_resource type="Script" path="res://script_templates/Area2D/hurtbox.gd" id="3_mytjg"]
 
 [sub_resource type="CapsuleShape2D" id="CapsuleShape2D_gbvdr"]
 radius = 13.0
@@ -59,7 +59,7 @@ position = Vector2(0, 4)
 scale = Vector2(0.444444, 0.444444)
 collision_layer = 0
 collision_mask = 0
-script = ExtResource("1_3xnmy")
+script = ExtResource("3_mytjg")
 
 [node name="HurtboxShape" type="CollisionShape2D" parent="Sprite2D/Hurtbox"]
 position = Vector2(0, -18)
