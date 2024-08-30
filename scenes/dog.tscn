@@ -1,8 +1,19 @@
-[gd_scene load_steps=35 format=3 uid="uid://cq1sue73qtdx6"]
+[gd_scene load_steps=38 format=3 uid="uid://cq1sue73qtdx6"]
 
 [ext_resource type="Script" path="res://scripts/movement.gd" id="1_wcb0j"]
+[ext_resource type="Shader" path="res://scripts/dog.gdshader" id="2_k1jm2"]
 [ext_resource type="Texture2D" uid="uid://cbsfr7rifa06p" path="res://assets/cachorro idle e andando.png" id="2_tlfsv"]
 [ext_resource type="Script" path="res://scripts/hurtbox.gd" id="3_mhbnm"]
+[ext_resource type="PackedScene" uid="uid://du2nkbrxyw642" path="res://scenes/sword.tscn" id="5_g1hmt"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_rgh44"]
+shader = ExtResource("2_k1jm2")
+shader_parameter/color = Color(0.351216, 0.219814, 0.14561, 1)
+shader_parameter/width = 1.0
+shader_parameter/pattern = 0
+shader_parameter/inside = false
+shader_parameter/add_margins = true
+shader_parameter/number_of_images = Vector2(4, 9)
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_1aob0"]
 radius = 28.0179
@@ -480,6 +491,7 @@ collision_mask = 0
 script = ExtResource("1_wcb0j")
 
 [node name="Body" type="Sprite2D" parent="."]
+material = SubResource("ShaderMaterial_rgh44")
 texture = ExtResource("2_tlfsv")
 offset = Vector2(0, -6)
 hframes = 4
@@ -504,5 +516,8 @@ anim_player = NodePath("../AnimationPlayer")
 parameters/attack/blend_position = Vector2(0, 0)
 parameters/idle/blend_position = Vector2(0, 0)
 parameters/run/blend_position = Vector2(-0.00158983, 1)
+
+[node name="Sword" parent="." instance=ExtResource("5_g1hmt")]
+position = Vector2(-18, -21)
 
 [connection signal="animation_finished" from="AnimationTree" to="." method="_on_animation_tree_animation_finished"]

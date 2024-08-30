@@ -5,7 +5,7 @@ var _is_attacking : bool = false
 
 @export_category("Variables")
 @export var _move_speed = 120
-@export var last_faced_direction := Vector2.RIGHT
+var last_faced_direction := Vector2.RIGHT
 var _direction := Vector2.ZERO
 var is_attacking : bool
 
