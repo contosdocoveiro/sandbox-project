@@ -3,6 +3,7 @@ extends CharacterBody2D
 
 @export_category("Variables")
 @export var _move_speed = 120
+@export var _life = 100
 @onready var _state_machine := $DogStateMachine
 var _direction := Vector2.ZERO
 var _last_faced_direction := Vector2.RIGHT

@@ -80,5 +80,5 @@ func _on_animation_player_animation_finished(anim_name: StringName) -> void:
 
 func _on_combo_3_state_entered() -> void:
 	_sword_attack_sprite.rotation = _sword.angle_to_mouse
-	_sword.global_transform.origin = _sword.mouse_pos
+	_sword.global_transform.origin = _sword.mouse_pos #mouse piece of shit
 	_animation_player.play("combo 3")
