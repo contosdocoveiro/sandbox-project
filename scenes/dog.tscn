@@ -1,8 +1,9 @@
-[gd_scene load_steps=62 format=3 uid="uid://cq1sue73qtdx6"]
+[gd_scene load_steps=63 format=3 uid="uid://cq1sue73qtdx6"]
 
 [ext_resource type="Script" path="res://scripts/dog/dog.gd" id="1_wcb0j"]
 [ext_resource type="Shader" path="res://shaders/dog.gdshader" id="2_k1jm2"]
 [ext_resource type="Texture2D" uid="uid://cbsfr7rifa06p" path="res://assets/cachorro idle e andando.png" id="2_tlfsv"]
+[ext_resource type="Script" path="res://scripts/global/hurtbox.gd" id="4_b87sp"]
 [ext_resource type="PackedScene" uid="uid://du2nkbrxyw642" path="res://scenes/sword.tscn" id="5_g1hmt"]
 [ext_resource type="Script" path="res://addons/godot_state_charts/state_chart.gd" id="6_8muun"]
 [ext_resource type="Script" path="res://addons/godot_state_charts/compound_state.gd" id="7_ng7lq"]
@@ -320,10 +321,10 @@ animations = [{
 "speed": 8.0
 }]
 
-[sub_resource type="GDScript" id="GDScript_2nkai"]
-
 [sub_resource type="CircleShape2D" id="CircleShape2D_1aob0"]
 radius = 28.0179
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_4ujrj"]
 
 [sub_resource type="Animation" id="Animation_ax262"]
 length = 0.001
@@ -604,7 +605,7 @@ _data = {
 "run up": SubResource("Animation_pw6o6")
 }
 
-[node name="Dog" type="CharacterBody2D"]
+[node name="Dog" type="CharacterBody2D" groups=["player"]]
 position = Vector2(-1, 0)
 collision_layer = 0
 collision_mask = 0
@@ -616,13 +617,23 @@ sprite_frames = SubResource("SpriteFrames_hfqqu")
 animation = &"idle sideways"
 offset = Vector2(0, -6)
 
-[node name="Hurtbox" type="Area2D" parent="Body"]
-scale = Vector2(0.166667, 0.166667)
-script = SubResource("GDScript_2nkai")
+[node name="Hurtbox2" type="Area2D" parent="Body"]
+collision_layer = 3
+collision_mask = 2
+script = ExtResource("4_b87sp")
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="Body/Hurtbox"]
-position = Vector2(0, -15)
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Body/Hurtbox2"]
+position = Vector2(0, -2.50001)
+scale = Vector2(0.166667, 0.166667)
 shape = SubResource("CircleShape2D_1aob0")
+
+[node name="Area2D" type="Area2D" parent="Body" groups=["player"]]
+collision_layer = 2
+collision_mask = 0
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Body/Area2D"]
+show_behind_parent = true
+shape = SubResource("CircleShape2D_4ujrj")
 
 [node name="Sword" parent="." instance=ExtResource("5_g1hmt")]
 position = Vector2(1, 0)
