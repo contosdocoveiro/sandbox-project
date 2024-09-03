@@ -69,3 +69,6 @@ shape = SubResource("CapsuleShape2D_gbvdr")
 libraries = {
 "": SubResource("AnimationLibrary_py75n")
 }
+
+[node name="DamageNumbersOrigin" type="Node2D" parent="."]
+position = Vector2(0, -14)
