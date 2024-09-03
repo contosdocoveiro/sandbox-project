@@ -193,7 +193,7 @@ tracks/4/path = NodePath("AnimatedSprite2D/combo 1 hitbox/combo 1 hitbox shape:d
 tracks/4/interp = 1
 tracks/4/loop_wrap = true
 tracks/4/keys = {
-"times": PackedFloat32Array(0, 0.3, 0.533333),
+"times": PackedFloat32Array(0, 0.3, 0.633333),
 "transitions": PackedFloat32Array(1, 1, 1),
 "update": 1,
 "values": [true, false, true]
@@ -368,7 +368,7 @@ tracks/3/path = NodePath("AnimatedSprite2D/combo 2 hitbox/combo 2 hitbox shape:d
 tracks/3/interp = 1
 tracks/3/loop_wrap = true
 tracks/3/keys = {
-"times": PackedFloat32Array(0, 0.1, 0.366667),
+"times": PackedFloat32Array(0, 0.1, 0.4),
 "transitions": PackedFloat32Array(1, 1, 1),
 "update": 1,
 "values": [true, false, true]
@@ -923,12 +923,12 @@ animations = [{
 }]
 
 [sub_resource type="CapsuleShape2D" id="CapsuleShape2D_fvodr"]
-radius = 13.0
+radius = 19.0
 height = 42.0
 
 [sub_resource type="CapsuleShape2D" id="CapsuleShape2D_lnjr7"]
-radius = 15.0
-height = 36.0
+radius = 16.0
+height = 42.0
 
 [sub_resource type="CapsuleShape2D" id="CapsuleShape2D_yef6w"]
 radius = 12.0
@@ -1014,14 +1014,15 @@ delay_in_seconds = "0.0"
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
 visible = false
 sprite_frames = SubResource("SpriteFrames_qs03q")
-animation = &"combo 3"
+animation = &"combo 2"
 offset = Vector2(0.5, -15)
 
 [node name="combo 1 hitbox" type="Area2D" parent="AnimatedSprite2D"]
 script = ExtResource("9_rjo8c")
 
 [node name="combo 1 hitbox shape" type="CollisionShape2D" parent="AnimatedSprite2D/combo 1 hitbox"]
-position = Vector2(13, -4)
+visible = false
+position = Vector2(15, -4)
 shape = SubResource("CapsuleShape2D_fvodr")
 disabled = true
 
@@ -1029,11 +1030,12 @@ disabled = true
 script = ExtResource("9_rjo8c")
 
 [node name="combo 2 hitbox shape" type="CollisionShape2D" parent="AnimatedSprite2D/combo 2 hitbox"]
-position = Vector2(15, 0)
+position = Vector2(18, 0)
 shape = SubResource("CapsuleShape2D_lnjr7")
 disabled = true
 
 [node name="combo 3 hitbox" type="Area2D" parent="AnimatedSprite2D"]
+visible = false
 script = ExtResource("9_rjo8c")
 
 [node name="combo 3 hitbox shape" type="CollisionShape2D" parent="AnimatedSprite2D/combo 3 hitbox"]
@@ -1056,6 +1058,8 @@ initial_node_to_watch = NodePath("../StateChart")
 
 [node name="sfx_player" type="AudioStreamPlayer2D" parent="."]
 stream = SubResource("AudioStreamRandomizer_l1lgt")
+
+[node name="BufferTimer" type="Timer" parent="."]
 
 [connection signal="animation_finished" from="AnimationPlayer" to="SwordStateMachine" method="_on_animation_player_animation_finished"]
 [connection signal="state_entered" from="StateChart/Root/Idle" to="SwordStateMachine" method="_on_idle_state_entered"]

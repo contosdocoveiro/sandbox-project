@@ -49,7 +49,7 @@ func _move():
 
 func _animate(delta: float) -> void:
 	
-	if(attack_playing == true):
+	if(_animation_player.is_playing()):
 		return
 	_default_position = get_position()
 	_time += delta * _animation_frequency
