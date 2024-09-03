@@ -2,6 +2,7 @@ extends Node
 
 @export_category("Variables")
 @export var can_input_attack := false
+@export var _attack_buffer_timer := 0.5
 
 
 @onready var _attack_sprite = $"../AnimatedSprite2D"
@@ -10,7 +11,6 @@ extends Node
 @onready var _sword = $".."
 @onready var _sword_attack_sprite = $"../AnimatedSprite2D"
 
-@export var _attack_buffer_timer := 0.5
 var _attack_buffer := false
 
 func _store_attack_buffer() -> void:

@@ -82,3 +82,7 @@ script = ExtResource("4_m1f0g")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="DetectionArea"]
 shape = SubResource("CircleShape2D_u6wlf")
+
+[node name="DamageNumbersOrigin" type="Node2D" parent="."]
+position = Vector2(0, -14)
+

@@ -3,6 +3,7 @@ extends CharacterBody2D
 @onready var detection_area = $DetectionArea
 @export var _life = 100
 @onready var animation_player = $AnimationPlayer
+@onready var _damage_number_position =$DamageNumbersOrigin
 
 
 
@@ -12,6 +13,7 @@ func take_damage(damage): #Damage function
 	animation_player.play("take damage")
 	_life -= damage
 	print(_life)
+  DamageNumbers.display_number(damage, _damage_number_position.global_position, true)
 
 
 
