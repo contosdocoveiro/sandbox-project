@@ -4,6 +4,7 @@ extends Node
 @onready var _animation_player = $"../AnimationPlayer"
 @onready var _sprite = $"../Body"
 
+var _last_pressed
 var _is_attacking := false
 var mouse_dir := Vector2(0,0)
 
@@ -11,11 +12,23 @@ func _physics_process(delta: float) -> void:
 	_detect_states()
 	
 
+
+
 func _detect_states() -> void:
 	
 	var mouse_pos = $"..".get_global_mouse_position()
 	var player_pos = owner.global_transform.origin 
 	mouse_dir = (mouse_pos-player_pos).normalized()
+	
+	if(Input.is_action_just_released("left")):
+		_last_pressed = "left"
+	if(Input.is_action_just_released("right")):
+		_last_pressed = "right"
+	if(Input.is_action_just_released("down")):
+		_last_pressed = "down"
+	if(Input.is_action_just_released("up")):
+		_last_pressed = "up"
+	
 	
 	if(Input.is_action_just_pressed("attack")):
 		_state_chart.send_event("attacking")
@@ -42,8 +55,12 @@ func _on_attack_state_entered() -> void:
 
 func _on_idle_state_entered() -> void:
 	
-	_animation_player.play("idle sideways")
-
+	if(_last_pressed == "left" or _last_pressed == "right"):
+		_animation_player.play("idle sideways")
+	elif(_last_pressed == "down"):
+		_animation_player.play("idle down")
+	else:
+		_animation_player.play("idle up")
 
 func _on_animation_player_animation_finished(anim_name: StringName) -> void:
 	if((anim_name == "attack up" or "attack down" or "attack sideways")):
