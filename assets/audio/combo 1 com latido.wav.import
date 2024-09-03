@@ -1,0 +1,24 @@
+[remap]
+
+importer="wav"
+type="AudioStreamWAV"
+uid="uid://fjntuhggrrnh"
+path="res://.godot/imported/combo 1 com latido.wav-701cc4ff4c011c8b0ab6675f10d2db7c.sample"
+
+[deps]
+
+source_file="res://assets/audio/combo 1 com latido.wav"
+dest_files=["res://.godot/imported/combo 1 com latido.wav-701cc4ff4c011c8b0ab6675f10d2db7c.sample"]
+
+[params]
+
+force/8_bit=false
+force/mono=false
+force/max_rate=false
+force/max_rate_hz=44100
+edit/trim=false
+edit/normalize=false
+edit/loop_mode=0
+edit/loop_begin=0
+edit/loop_end=-1
+compress/mode=0

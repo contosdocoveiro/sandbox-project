@@ -699,5 +699,4 @@ initial_node_to_watch = NodePath("../StateChart")
 
 [connection signal="state_entered" from="StateChart/Root/Idle" to="DogStateMachine" method="_on_idle_state_entered"]
 [connection signal="state_entered" from="StateChart/Root/Attack" to="DogStateMachine" method="_on_attack_state_entered"]
-[connection signal="state_processing" from="StateChart/Root/Running" to="DogStateMachine" method="_on_running_state_processing"]
 [connection signal="animation_finished" from="AnimationPlayer" to="DogStateMachine" method="_on_animation_player_animation_finished"]
