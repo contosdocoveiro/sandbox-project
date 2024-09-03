@@ -9,6 +9,8 @@ extends Node
 @onready var _attack_sprite = $"../AnimatedSprite2D"
 @onready var _animation_player = $"../AnimationPlayer"
 @onready var _state_chart = $"../StateChart"
+@onready var _sword = $".."
+@onready var _sword_attack_sprite = $"../AnimatedSprite2D"
 
 func _physics_process(delta: float) -> void:
 	_detect_states()
@@ -19,12 +21,8 @@ func _detect_states() -> void:
 		_state_chart.send_event("attack_pressed")
 
 func _on_combo_1_state_entered() -> void:
-	if(_attack_sprite.flip_h == true):
-		_attack_sprite.offset.x = -32.5
-		_combo1_hitbox.position.x = -13
-	else:
-		_attack_sprite.offset.x = 32.5
-		_combo1_hitbox.position.x = 13
+	_sword_attack_sprite.rotation = _sword.angle_to_mouse
+	_sword.global_transform.origin = _sword.mouse_pos
 	_animation_player.play("combo 1")
 
 
@@ -41,10 +39,8 @@ func _on_combo_2_state_physics_processing(delta: float) -> void:
 		_state_chart.send_event("attack_pressed_mid_combo")
 	
 func _on_combo_2_state_entered() -> void:
-	if(_attack_sprite.flip_h == true):
-		_combo2_hitbox.position.x = -38
-	else:
-		_combo2_hitbox.position.x = 38
+	_sword_attack_sprite.rotation = _sword.angle_to_mouse
+	_sword.global_transform.origin = _sword.mouse_pos
 	_animation_player.play("combo 2")
 	
 	
@@ -64,8 +60,6 @@ func _on_animation_player_animation_finished(anim_name: StringName) -> void:
 
 
 func _on_combo_3_state_entered() -> void:
-	if(_attack_sprite.flip_h == true):
-		_combo3_hitbox.position.x = -38
-	else:
-		_combo3_hitbox.position.x = 38
+	_sword_attack_sprite.rotation = _sword.angle_to_mouse
+	_sword.global_transform.origin = _sword.mouse_pos
 	_animation_player.play("combo 3")
