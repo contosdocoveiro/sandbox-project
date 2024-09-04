@@ -23,7 +23,7 @@ func instance_ghost():
 	
 	ghost.global_position = global_position
 	ghost.sprite_frames = sprite.sprite_frames
-	ghost.frame = sprite.frame
+	ghost.frame = sprite.get_frame()
 	ghost.flip_h = sprite.flip_h
 	ghost.animation = sprite.animation
 	ghost.speed_scale = sprite.speed_scale
@@ -36,7 +36,9 @@ func end_dash():
 	_ghost_timer.stop()
 	can_dash = false
 	await get_tree().create_timer(dash_cooldown).timeout
+	sprite.position = Vector2.ZERO
 	can_dash = true
+	
 
 
 func _on_duration_timer_timeout() -> void:

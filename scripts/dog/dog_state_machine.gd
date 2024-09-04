@@ -5,6 +5,7 @@ class_name DogStateMachine
 @onready var _animation_player = $"../AnimationPlayer"
 @onready var _sprite = $"../Body"
 @onready var _sword = $"../Sword"
+@onready var _dash = $"../Dash"
 var _last_pressed
 var _is_attacking := false
 var mouse_dir := Vector2(0,0)
@@ -24,19 +25,19 @@ func _detect_states() -> void:
 	var player_pos = owner.global_transform.origin 
 	mouse_dir = (mouse_pos-player_pos).normalized()
 	
-	if(Input.is_action_just_released("left")):
+	if(Input.is_action_just_pressed("left")):
 		_last_pressed = "left"
-	if(Input.is_action_just_released("right")):
+	if(Input.is_action_just_pressed("right")):
 		_last_pressed = "right"
-	if(Input.is_action_just_released("down")):
+	if(Input.is_action_just_pressed("down")):
 		_last_pressed = "down"
-	if(Input.is_action_just_released("up")):
+	if(Input.is_action_just_pressed("up")):
 		_last_pressed = "up"
 	
 	
-	if($"..".velocity != Vector2(0,0) and _is_attacking == false):
+	if($"..".velocity != Vector2(0,0) and _is_attacking == false and _dash.is_dashing() == false):
 		_state_chart.send_event("running")
-	elif(_is_attacking == false and $"..".velocity == Vector2(0,0)):
+	elif(_is_attacking == false and $"..".velocity == Vector2(0,0) and _dash.is_dashing() == false):
 		_state_chart.send_event("idle")
 	
 

@@ -1,4 +1,4 @@
-[gd_scene load_steps=4 format=3 uid="uid://cmistnpv7cbar"]
+[gd_scene load_steps=4 format=3 uid="uid://cde3ja0sa85p"]
 
 [ext_resource type="Shader" path="res://shaders/dash_ghost.gdshader" id="1_352fx"]
 [ext_resource type="Script" path="res://scripts/mechanics/dash_ghost.gd" id="1_jgocd"]

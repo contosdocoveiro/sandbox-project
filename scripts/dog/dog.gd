@@ -5,7 +5,8 @@ extends CharacterBody2D
 @export var _move_speed = 120
 @export var life = 100
 @export var dash_speed = 300
-@export var dash_duration = 0.2
+@export var dash_duration = 0.3
+
 
 @onready var _state_machine := $DogStateMachine
 @onready var dash := $Dash

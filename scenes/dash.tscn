@@ -1,4 +1,4 @@
-[gd_scene load_steps=2 format=3 uid="uid://dsv6w8xgenrnn"]
+[gd_scene load_steps=2 format=3 uid="uid://c41v5nytvgb45"]
 
 [ext_resource type="Script" path="res://scripts/mechanics/dash.gd" id="1_sc3c4"]
 
