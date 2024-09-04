@@ -1,4 +1,4 @@
-[gd_scene load_steps=76 format=3 uid="uid://cq1sue73qtdx6"]
+[gd_scene load_steps=64 format=3 uid="uid://cq1sue73qtdx6"]
 
 [ext_resource type="Script" path="res://scripts/dog/dog.gd" id="1_wcb0j"]
 [ext_resource type="Shader" path="res://shaders/dog.gdshader" id="2_k1jm2"]
@@ -10,8 +10,8 @@
 [ext_resource type="Script" path="res://scripts/dog/dog_state_machine.gd" id="8_kyyyl"]
 [ext_resource type="Script" path="res://addons/godot_state_charts/atomic_state.gd" id="8_vljn6"]
 [ext_resource type="Script" path="res://addons/godot_state_charts/transition.gd" id="9_jfl2k"]
+[ext_resource type="PackedScene" uid="uid://bcwkugn6v3oy7" path="res://addons/godot_state_charts/utilities/state_chart_debugger.tscn" id="11_4c7w1"]
 [ext_resource type="PackedScene" uid="uid://dsv6w8xgenrnn" path="res://scenes/dash.tscn" id="12_dqava"]
-[ext_resource type="PackedScene" uid="uid://bcwkugn6v3oy7" path="res://addons/godot_state_charts/utilities/state_chart_debugger.tscn" id="12_irfq6"]
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_d8kcd"]
 shader = ExtResource("2_k1jm2")
@@ -20,7 +20,7 @@ shader_parameter/width = 1.0
 shader_parameter/pattern = 0
 shader_parameter/inside = false
 shader_parameter/add_margins = true
-shader_parameter/number_of_images = Vector2(4, 12)
+shader_parameter/number_of_images = Vector2(4, 9)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_68yov"]
 atlas = ExtResource("2_tlfsv")
@@ -69,42 +69,6 @@ region = Rect2(32, 32, 16, 16)
 [sub_resource type="AtlasTexture" id="AtlasTexture_coc8r"]
 atlas = ExtResource("2_tlfsv")
 region = Rect2(48, 32, 16, 16)
-
-[sub_resource type="AtlasTexture" id="AtlasTexture_f5dvu"]
-atlas = ExtResource("2_tlfsv")
-region = Rect2(0, 176, 16, 16)
-
-[sub_resource type="AtlasTexture" id="AtlasTexture_8ieit"]
-atlas = ExtResource("2_tlfsv")
-region = Rect2(16, 176, 16, 16)
-
-[sub_resource type="AtlasTexture" id="AtlasTexture_w2lqf"]
-atlas = ExtResource("2_tlfsv")
-region = Rect2(32, 176, 16, 16)
-
-[sub_resource type="AtlasTexture" id="AtlasTexture_36y1h"]
-atlas = ExtResource("2_tlfsv")
-region = Rect2(0, 144, 16, 16)
-
-[sub_resource type="AtlasTexture" id="AtlasTexture_k1hc7"]
-atlas = ExtResource("2_tlfsv")
-region = Rect2(16, 144, 16, 16)
-
-[sub_resource type="AtlasTexture" id="AtlasTexture_ty77s"]
-atlas = ExtResource("2_tlfsv")
-region = Rect2(32, 144, 16, 16)
-
-[sub_resource type="AtlasTexture" id="AtlasTexture_1x2vx"]
-atlas = ExtResource("2_tlfsv")
-region = Rect2(0, 160, 16, 16)
-
-[sub_resource type="AtlasTexture" id="AtlasTexture_1y0qh"]
-atlas = ExtResource("2_tlfsv")
-region = Rect2(16, 160, 16, 16)
-
-[sub_resource type="AtlasTexture" id="AtlasTexture_y1k0p"]
-atlas = ExtResource("2_tlfsv")
-region = Rect2(32, 160, 16, 16)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_p2btm"]
 atlas = ExtResource("2_tlfsv")
@@ -257,48 +221,6 @@ animations = [{
 }, {
 "frames": [{
 "duration": 1.0,
-"texture": SubResource("AtlasTexture_f5dvu")
-}, {
-"duration": 1.0,
-"texture": SubResource("AtlasTexture_8ieit")
-}, {
-"duration": 1.0,
-"texture": SubResource("AtlasTexture_w2lqf")
-}],
-"loop": false,
-"name": &"dash down",
-"speed": 8.0
-}, {
-"frames": [{
-"duration": 1.0,
-"texture": SubResource("AtlasTexture_36y1h")
-}, {
-"duration": 1.0,
-"texture": SubResource("AtlasTexture_k1hc7")
-}, {
-"duration": 1.0,
-"texture": SubResource("AtlasTexture_ty77s")
-}],
-"loop": false,
-"name": &"dash sideways",
-"speed": 8.0
-}, {
-"frames": [{
-"duration": 1.0,
-"texture": SubResource("AtlasTexture_1x2vx")
-}, {
-"duration": 1.0,
-"texture": SubResource("AtlasTexture_1y0qh")
-}, {
-"duration": 1.0,
-"texture": SubResource("AtlasTexture_y1k0p")
-}],
-"loop": false,
-"name": &"dash up",
-"speed": 8.0
-}, {
-"frames": [{
-"duration": 1.0,
 "texture": SubResource("AtlasTexture_p2btm")
 }, {
 "duration": 1.0,
@@ -422,7 +344,6 @@ tracks/0/keys = {
 
 [sub_resource type="Animation" id="Animation_uu772"]
 length = 0.5
-loop_mode = 1
 tracks/0/type = "value"
 tracks/0/imported = false
 tracks/0/enabled = true
@@ -451,7 +372,6 @@ tracks/1/keys = {
 [sub_resource type="Animation" id="Animation_81gvo"]
 resource_name = "attack sideways"
 length = 0.5
-loop_mode = 1
 tracks/0/type = "value"
 tracks/0/imported = false
 tracks/0/enabled = true
@@ -479,7 +399,6 @@ tracks/1/keys = {
 
 [sub_resource type="Animation" id="Animation_lsq0u"]
 length = 0.5
-loop_mode = 1
 tracks/0/type = "value"
 tracks/0/imported = false
 tracks/0/enabled = true
@@ -503,87 +422,6 @@ tracks/1/keys = {
 "transitions": PackedFloat32Array(1),
 "update": 1,
 "values": ["attack up"]
-}
-
-[sub_resource type="Animation" id="Animation_3igrc"]
-length = 0.375
-tracks/0/type = "value"
-tracks/0/imported = false
-tracks/0/enabled = true
-tracks/0/path = NodePath("Body:frame")
-tracks/0/interp = 1
-tracks/0/loop_wrap = true
-tracks/0/keys = {
-"times": PackedFloat32Array(0, 0.125, 0.25),
-"transitions": PackedFloat32Array(1, 1, 1),
-"update": 1,
-"values": [0, 1, 2]
-}
-tracks/1/type = "value"
-tracks/1/imported = false
-tracks/1/enabled = true
-tracks/1/path = NodePath("Body:animation")
-tracks/1/interp = 1
-tracks/1/loop_wrap = true
-tracks/1/keys = {
-"times": PackedFloat32Array(0),
-"transitions": PackedFloat32Array(1),
-"update": 1,
-"values": ["dash down"]
-}
-
-[sub_resource type="Animation" id="Animation_mqur5"]
-length = 0.375
-tracks/0/type = "value"
-tracks/0/imported = false
-tracks/0/enabled = true
-tracks/0/path = NodePath("Body:frame")
-tracks/0/interp = 1
-tracks/0/loop_wrap = true
-tracks/0/keys = {
-"times": PackedFloat32Array(0, 0.125, 0.25),
-"transitions": PackedFloat32Array(1, 1, 1),
-"update": 1,
-"values": [0, 1, 2]
-}
-tracks/1/type = "value"
-tracks/1/imported = false
-tracks/1/enabled = true
-tracks/1/path = NodePath("Body:animation")
-tracks/1/interp = 1
-tracks/1/loop_wrap = true
-tracks/1/keys = {
-"times": PackedFloat32Array(0),
-"transitions": PackedFloat32Array(1),
-"update": 1,
-"values": ["dash sideways"]
-}
-
-[sub_resource type="Animation" id="Animation_7kokr"]
-length = 0.375
-tracks/0/type = "value"
-tracks/0/imported = false
-tracks/0/enabled = true
-tracks/0/path = NodePath("Body:frame")
-tracks/0/interp = 1
-tracks/0/loop_wrap = true
-tracks/0/keys = {
-"times": PackedFloat32Array(0, 0.125, 0.25),
-"transitions": PackedFloat32Array(1, 1, 1),
-"update": 1,
-"values": [0, 1, 2]
-}
-tracks/1/type = "value"
-tracks/1/imported = false
-tracks/1/enabled = true
-tracks/1/path = NodePath("Body:animation")
-tracks/1/interp = 1
-tracks/1/loop_wrap = true
-tracks/1/keys = {
-"times": PackedFloat32Array(0),
-"transitions": PackedFloat32Array(1),
-"update": 1,
-"values": ["dash up"]
 }
 
 [sub_resource type="Animation" id="Animation_d0ubb"]
@@ -760,9 +598,6 @@ _data = {
 "attack down": SubResource("Animation_uu772"),
 "attack sideways": SubResource("Animation_81gvo"),
 "attack up": SubResource("Animation_lsq0u"),
-"dash down": SubResource("Animation_3igrc"),
-"dash sideways": SubResource("Animation_mqur5"),
-"dash up": SubResource("Animation_7kokr"),
 "idle down": SubResource("Animation_d0ubb"),
 "idle sideways": SubResource("Animation_e2jwp"),
 "idle up": SubResource("Animation_ol7qu"),
@@ -780,7 +615,7 @@ script = ExtResource("1_wcb0j")
 [node name="Body" type="AnimatedSprite2D" parent="."]
 material = SubResource("ShaderMaterial_d8kcd")
 sprite_frames = SubResource("SpriteFrames_hfqqu")
-animation = &"attack down"
+animation = &"idle sideways"
 offset = Vector2(0, -6)
 
 [node name="Hurtbox" type="Area2D" parent="Body"]
@@ -789,7 +624,6 @@ collision_mask = 2
 script = ExtResource("4_b87sp")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Body/Hurtbox"]
-visible = false
 position = Vector2(0, -2.50001)
 scale = Vector2(0.166667, 0.166667)
 shape = SubResource("CircleShape2D_1aob0")
@@ -799,12 +633,11 @@ collision_layer = 2
 collision_mask = 0
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Body/Area2D"]
-visible = false
 show_behind_parent = true
 shape = SubResource("CircleShape2D_4ujrj")
 
 [node name="Sword" parent="." instance=ExtResource("5_g1hmt")]
-position = Vector2(12, 1)
+position = Vector2(1, 0)
 
 [node name="StateChart" type="Node" parent="."]
 script = ExtResource("6_8muun")
@@ -828,12 +661,6 @@ to = NodePath("../../Running")
 event = &"running"
 delay_in_seconds = "0.0"
 
-[node name="To Dashing" type="Node" parent="StateChart/Root/Idle"]
-script = ExtResource("9_jfl2k")
-to = NodePath("../../Dashing")
-event = &"dashing"
-delay_in_seconds = "0.0"
-
 [node name="Attack" type="Node" parent="StateChart/Root"]
 script = ExtResource("8_vljn6")
 
@@ -847,12 +674,6 @@ delay_in_seconds = "0.0"
 script = ExtResource("9_jfl2k")
 to = NodePath("../../Running")
 event = &"running"
-delay_in_seconds = "0.0"
-
-[node name="To Dashing" type="Node" parent="StateChart/Root/Attack"]
-script = ExtResource("9_jfl2k")
-to = NodePath("../../Dashing")
-event = &"dashing"
 delay_in_seconds = "0.0"
 
 [node name="Running" type="Node" parent="StateChart/Root"]
@@ -870,33 +691,6 @@ to = NodePath("../../Attack")
 event = &"attacking"
 delay_in_seconds = "0.0"
 
-[node name="To Dashing" type="Node" parent="StateChart/Root/Running"]
-script = ExtResource("9_jfl2k")
-to = NodePath("../../Dashing")
-event = &"dashing"
-delay_in_seconds = "0.0"
-
-[node name="Dashing" type="Node" parent="StateChart/Root"]
-script = ExtResource("8_vljn6")
-
-[node name="To Idle" type="Node" parent="StateChart/Root/Dashing"]
-script = ExtResource("9_jfl2k")
-to = NodePath("../../Idle")
-event = &"idle"
-delay_in_seconds = "0.0"
-
-[node name="To Attack" type="Node" parent="StateChart/Root/Dashing"]
-script = ExtResource("9_jfl2k")
-to = NodePath("../../Attack")
-event = &"attacking"
-delay_in_seconds = "0.0"
-
-[node name="To Running" type="Node" parent="StateChart/Root/Dashing"]
-script = ExtResource("9_jfl2k")
-to = NodePath("../../Running")
-event = &"running"
-delay_in_seconds = "0.0"
-
 [node name="AnimationPlayer" type="AnimationPlayer" parent="."]
 libraries = {
 "": SubResource("AnimationLibrary_o7bou")
@@ -905,21 +699,18 @@ libraries = {
 [node name="DogStateMachine" type="Node" parent="."]
 script = ExtResource("8_kyyyl")
 
-[node name="Dash" parent="." instance=ExtResource("12_dqava")]
-
-[node name="DamageNumberPosition" type="Node2D" parent="."]
-position = Vector2(0, -14)
-
-[node name="StateChartDebugger" parent="." instance=ExtResource("12_irfq6")]
-offset_left = -69.0
-offset_top = -42.0
-offset_right = 221.0
-offset_bottom = 258.0
+[node name="StateChartDebugger" parent="." instance=ExtResource("11_4c7w1")]
+offset_left = -91.0
+offset_top = -35.0
+offset_right = 284.0
+offset_bottom = 320.0
 scale = Vector2(0.2, 0.2)
+enabled = false
 initial_node_to_watch = NodePath("../StateChart")
+
+[node name="Dash" parent="." instance=ExtResource("12_dqava")]
 
 [connection signal="state_entered" from="StateChart/Root/Idle" to="DogStateMachine" method="_on_idle_state_entered"]
 [connection signal="state_entered" from="StateChart/Root/Attack" to="DogStateMachine" method="_on_attack_state_entered"]
 [connection signal="state_processing" from="StateChart/Root/Running" to="DogStateMachine" method="_on_running_state_processing"]
-[connection signal="state_entered" from="StateChart/Root/Dashing" to="DogStateMachine" method="_on_dashing_state_entered"]
 [connection signal="animation_finished" from="AnimationPlayer" to="DogStateMachine" method="_on_animation_player_animation_finished"]

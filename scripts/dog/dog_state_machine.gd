@@ -1,17 +1,21 @@
 extends Node
+class_name DogStateMachine
 
 @onready var _state_chart = $"../StateChart"
 @onready var _animation_player = $"../AnimationPlayer"
 @onready var _sprite = $"../Body"
-
+@onready var _sword = $"../Sword"
 var _last_pressed
 var _is_attacking := false
 var mouse_dir := Vector2(0,0)
 
+
+func send_attack_signal() -> void:
+	_state_chart.send_event("attacking")
+
 func _physics_process(delta: float) -> void:
 	_detect_states()
 	
-
 
 
 func _detect_states() -> void:
@@ -30,9 +34,7 @@ func _detect_states() -> void:
 		_last_pressed = "up"
 	
 	
-	if(Input.is_action_just_pressed("attack")):
-		_state_chart.send_event("attacking")
-	elif($"..".velocity != Vector2(0,0) and _is_attacking == false):
+	if($"..".velocity != Vector2(0,0) and _is_attacking == false):
 		_state_chart.send_event("running")
 	elif(_is_attacking == false and $"..".velocity == Vector2(0,0)):
 		_state_chart.send_event("idle")
@@ -40,6 +42,7 @@ func _detect_states() -> void:
 
 
 func _on_attack_state_entered() -> void:
+	
 	if((mouse_dir.x)**2 > (mouse_dir.y)**2):
 		if(mouse_dir.x < 0):
 			_sprite.flip_h = true
@@ -68,7 +71,7 @@ func _on_animation_player_animation_finished(anim_name: StringName) -> void:
 			_is_attacking = false
 
 
-func _on_running_state_processing(delta: float) -> void:	
+func _on_running_state_processing(delta: float) -> void:
 	if(Input.is_action_pressed("right")):
 		_sprite.flip_h = false
 		_animation_player.play("run sideways")
@@ -79,3 +82,15 @@ func _on_running_state_processing(delta: float) -> void:
 		_animation_player.play("run up")
 	elif(Input.is_action_pressed("down")):
 		_animation_player.play("run down")
+		
+	if(Input.is_action_just_pressed("dash")):
+		_state_chart.send_event("dashing")
+
+
+func _on_dashing_state_entered() -> void:
+	if(_last_pressed == "left" or _last_pressed == "right"):
+		_animation_player.play("dash sideways")
+	elif(_last_pressed == "down"):
+		_animation_player.play("dash down")
+	else:
+		_animation_player.play("dash up")
