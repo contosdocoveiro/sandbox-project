@@ -811,9 +811,8 @@ script = ExtResource("1_wcb0j")
 
 [node name="Body" type="AnimatedSprite2D" parent="."]
 material = SubResource("ShaderMaterial_d8kcd")
-position = Vector2(0, -5)
 sprite_frames = SubResource("SpriteFrames_hfqqu")
-animation = &"run up"
+animation = &"attack down"
 offset = Vector2(0, -6)
 
 [node name="Hurtbox" type="Area2D" parent="Body"]
@@ -926,6 +925,7 @@ offset_top = -42.0
 offset_right = 221.0
 offset_bottom = 258.0
 scale = Vector2(0.2, 0.2)
+enabled = false
 initial_node_to_watch = NodePath("../StateChart")
 
 [connection signal="state_entered" from="StateChart/Root/Idle" to="DogStateMachine" method="_on_idle_state_entered"]

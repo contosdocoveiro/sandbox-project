@@ -83,15 +83,3 @@ func _on_running_state_processing(delta: float) -> void:
 		_animation_player.play("run up")
 	elif(Input.is_action_pressed("down")):
 		_animation_player.play("run down")
-		
-	if(Input.is_action_just_pressed("dash")):
-		_state_chart.send_event("dashing")
-
-
-func _on_dashing_state_entered() -> void:
-	if(_last_pressed == "left" or _last_pressed == "right"):
-		_animation_player.play("dash sideways")
-	elif(_last_pressed == "down"):
-		_animation_player.play("dash down")
-	else:
-		_animation_player.play("dash up")
