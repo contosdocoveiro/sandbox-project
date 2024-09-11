@@ -1,4 +1,4 @@
-[gd_scene load_steps=60 format=3 uid="uid://du2nkbrxyw642"]
+[gd_scene load_steps=59 format=3 uid="uid://du2nkbrxyw642"]
 
 [ext_resource type="Script" path="res://scripts/sword/weapon_behavior.gd" id="1_gijjp"]
 [ext_resource type="Texture2D" uid="uid://dtp8ovwjbmvxf" path="res://assets/espada new.png" id="2_0rjf5"]
@@ -9,7 +9,6 @@
 [ext_resource type="Texture2D" uid="uid://cwb8mtprnpdsm" path="res://assets/ataque alternativo espada com transicao.png" id="7_alr62"]
 [ext_resource type="Texture2D" uid="uid://dlqt3sl2gs0u7" path="res://assets/espada idle entered animation.png" id="8_la174"]
 [ext_resource type="Script" path="res://scripts/sword/sword_state_machine.gd" id="9_dgymn"]
-[ext_resource type="PackedScene" uid="uid://bcwkugn6v3oy7" path="res://addons/godot_state_charts/utilities/state_chart_debugger.tscn" id="9_mdi1l"]
 [ext_resource type="Script" path="res://scripts/global/hitbox.gd" id="9_rjo8c"]
 [ext_resource type="AudioStream" uid="uid://fjntuhggrrnh" path="res://assets/audio/combo 1 com latido.wav" id="12_kr2ha"]
 
@@ -575,6 +574,18 @@ tracks/7/keys = {
 "update": 1,
 "values": [false, true]
 }
+tracks/8/type = "value"
+tracks/8/imported = false
+tracks/8/enabled = true
+tracks/8/path = NodePath(".:attack_playing")
+tracks/8/interp = 1
+tracks/8/loop_wrap = true
+tracks/8/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [true]
+}
 
 [sub_resource type="Animation" id="Animation_21euv"]
 resource_name = "idle entered"
@@ -1014,7 +1025,7 @@ delay_in_seconds = "0.0"
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
 visible = false
 sprite_frames = SubResource("SpriteFrames_qs03q")
-animation = &"combo 2"
+animation = &"combo 3"
 offset = Vector2(0.5, -15)
 
 [node name="combo 1 hitbox" type="Area2D" parent="AnimatedSprite2D"]
@@ -1046,15 +1057,7 @@ disabled = true
 
 [node name="SwordStateMachine" type="Node" parent="."]
 script = ExtResource("9_dgymn")
-
-[node name="StateChartDebugger" parent="." instance=ExtResource("9_mdi1l")]
-offset_left = -55.0
-offset_top = 4.0
-offset_right = 180.0
-offset_bottom = 339.0
-scale = Vector2(0.2, 0.2)
-enabled = false
-initial_node_to_watch = NodePath("../StateChart")
+_attack_buffer_timer = 0.125
 
 [node name="sfx_player" type="AudioStreamPlayer2D" parent="."]
 stream = SubResource("AudioStreamRandomizer_l1lgt")

@@ -15,7 +15,6 @@ var _attack_buffer := false
 
 func _store_attack_buffer() -> void:
 	_attack_buffer = true
-	print("entrei!")
 	get_tree().create_timer(_attack_buffer_timer).timeout.connect(_on_attack_buffer_timeout)
 
 func _on_attack_buffer_timeout() -> void:
@@ -32,6 +31,7 @@ func _detect_states() -> void:
 func _on_combo_1_state_entered() -> void:
 	_sword_attack_sprite.rotation = _sword.angle_to_mouse
 	_sword.global_transform.origin = _sword.mouse_pos
+	_sword.owner.send_attack_signal()
 	_animation_player.play("combo 1")
 
 
@@ -60,6 +60,7 @@ func _on_combo_2_state_physics_processing(delta: float) -> void:
 func _on_combo_2_state_entered() -> void:
 	_sword_attack_sprite.rotation = _sword.angle_to_mouse
 	_sword.global_transform.origin = _sword.mouse_pos
+	_sword.owner.send_attack_signal()
 	_animation_player.play("combo 2")
 	
 	
@@ -81,4 +82,5 @@ func _on_animation_player_animation_finished(anim_name: StringName) -> void:
 func _on_combo_3_state_entered() -> void:
 	_sword_attack_sprite.rotation = _sword.angle_to_mouse
 	_sword.global_transform.origin = _sword.mouse_pos #mouse piece of shit
+	_sword.owner.send_attack_signal()
 	_animation_player.play("combo 3")
