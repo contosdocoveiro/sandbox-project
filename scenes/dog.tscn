@@ -1,4 +1,4 @@
-[gd_scene load_steps=76 format=3 uid="uid://cq1sue73qtdx6"]
+[gd_scene load_steps=77 format=3 uid="uid://cq1sue73qtdx6"]
 
 [ext_resource type="Script" path="res://scripts/dog/dog.gd" id="1_wcb0j"]
 [ext_resource type="Shader" path="res://shaders/dog.gdshader" id="2_k1jm2"]
@@ -804,6 +804,9 @@ _data = {
 "run up": SubResource("Animation_pw6o6")
 }
 
+[sub_resource type="CircleShape2D" id="CircleShape2D_krfs2"]
+radius = 4.0
+
 [node name="Dog" type="CharacterBody2D" groups=["player"]]
 collision_layer = 0
 collision_mask = 0
@@ -812,7 +815,8 @@ script = ExtResource("1_wcb0j")
 [node name="Body" type="AnimatedSprite2D" parent="."]
 material = SubResource("ShaderMaterial_d8kcd")
 sprite_frames = SubResource("SpriteFrames_hfqqu")
-animation = &"attack down"
+animation = &"dash sideways"
+frame = 2
 offset = Vector2(0, -6)
 
 [node name="Hurtbox" type="Area2D" parent="Body"]
@@ -927,6 +931,10 @@ offset_bottom = 258.0
 scale = Vector2(0.2, 0.2)
 enabled = false
 initial_node_to_watch = NodePath("../StateChart")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+position = Vector2(0, -2)
+shape = SubResource("CircleShape2D_krfs2")
 
 [connection signal="state_entered" from="StateChart/Root/Idle" to="DogStateMachine" method="_on_idle_state_entered"]
 [connection signal="state_entered" from="StateChart/Root/Attack" to="DogStateMachine" method="_on_attack_state_entered"]

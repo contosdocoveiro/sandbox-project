@@ -19,7 +19,6 @@ y_sort_enabled = true
 z_index = 1
 y_sort_enabled = true
 position = Vector2(-92, 0)
-dash_speed = 250
 
 [node name="TestDummy" parent="." instance=ExtResource("3_wg4cu")]
 position = Vector2(29, 18)
