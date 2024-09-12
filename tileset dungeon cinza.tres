@@ -1,11 +1,56 @@
-[gd_resource type="TileSet" load_steps=3 format=3 uid="uid://d3i8x7h6osvuv"]
+[gd_resource type="TileSet" load_steps=9 format=3 uid="uid://d3i8x7h6osvuv"]
 
+[ext_resource type="Texture2D" uid="uid://bfdepimv6j67y" path="res://assets/tocha.png" id="1_lmjhc"]
 [ext_resource type="Texture2D" uid="uid://del2p3eddgr3h" path="res://assets/tilesheet dungeon better terrain.png" id="2_4jgno"]
+
+[sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_hyltm"]
+texture = ExtResource("1_lmjhc")
+0:0/size_in_atlas = Vector2i(1, 2)
+0:0/animation_columns = 8
+0:0/animation_speed = 8.0
+0:0/animation_frame_0/duration = 1.0
+0:0/animation_frame_1/duration = 1.0
+0:0/animation_frame_2/duration = 1.0
+0:0/animation_frame_3/duration = 1.0
+0:0/animation_frame_4/duration = 1.0
+0:0/animation_frame_5/duration = 1.0
+0:0/animation_frame_6/duration = 1.0
+0:0/animation_frame_7/duration = 1.0
+0:0/0 = 0
+0:0/0/texture_origin = Vector2i(10, 14)
+0:0/0/y_sort_origin = 25
+0:2/size_in_atlas = Vector2i(1, 2)
+0:2/animation_columns = 8
+0:2/animation_speed = 8.0
+0:2/animation_frame_0/duration = 1.0
+0:2/animation_frame_1/duration = 1.0
+0:2/animation_frame_2/duration = 1.0
+0:2/animation_frame_3/duration = 1.0
+0:2/animation_frame_4/duration = 1.0
+0:2/animation_frame_5/duration = 1.0
+0:2/animation_frame_6/duration = 1.0
+0:2/animation_frame_7/duration = 1.0
+0:2/0 = 0
+0:2/0/z_index = 1
+0:2/0/y_sort_origin = 11
+
+[sub_resource type="OccluderPolygon2D" id="OccluderPolygon2D_7w0ye"]
+polygon = PackedVector2Array(-8, -8, 8, -8, 8, 8, -8, 8)
+
+[sub_resource type="OccluderPolygon2D" id="OccluderPolygon2D_vuvb1"]
+polygon = PackedVector2Array(-8, -8, 8, -8, 8, 8, -8, 8)
+
+[sub_resource type="OccluderPolygon2D" id="OccluderPolygon2D_7vlmu"]
+polygon = PackedVector2Array(-8, -8, 8, -8, 8, 8, -8, 8)
+
+[sub_resource type="OccluderPolygon2D" id="OccluderPolygon2D_p5hvm"]
+polygon = PackedVector2Array(-8, -8, 8, -8, 8, 8, -8, 8)
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_htkan"]
 texture = ExtResource("2_4jgno")
 0:6/0 = 0
-0:6/0/z_index = 1
+0:6/0/z_index = 5
+0:6/0/occlusion_layer_0/polygon = SubResource("OccluderPolygon2D_7w0ye")
 0:6/0/metadata/_better_terrain = {
 0: [1],
 12: [1],
@@ -15,7 +60,8 @@ texture = ExtResource("2_4jgno")
 }
 1:6/next_alternative_id = 3
 1:6/0 = 0
-1:6/0/z_index = 1
+1:6/0/z_index = 5
+1:6/0/occlusion_layer_0/polygon = SubResource("OccluderPolygon2D_7w0ye")
 1:6/0/metadata/_better_terrain = {
 0: [1],
 7: [1],
@@ -27,7 +73,8 @@ texture = ExtResource("2_4jgno")
 "type": 1
 }
 1:6/2 = 2
-1:6/2/z_index = 1
+1:6/2/z_index = 5
+1:6/2/occlusion_layer_0/polygon = SubResource("OccluderPolygon2D_7vlmu")
 1:6/2/metadata/_better_terrain = {
 0: [1],
 7: [3],
@@ -39,12 +86,14 @@ texture = ExtResource("2_4jgno")
 "type": 1
 }
 2:6/0 = 0
-2:6/0/z_index = 1
+2:6/0/z_index = 5
+2:6/0/occlusion_layer_0/polygon = SubResource("OccluderPolygon2D_7w0ye")
 2:6/0/metadata/_better_terrain = {
 "type": 2
 }
 0:7/0 = 0
-0:7/0/z_index = 1
+0:7/0/z_index = 5
+0:7/0/occlusion_layer_0/polygon = SubResource("OccluderPolygon2D_vuvb1")
 0:7/0/metadata/_better_terrain = {
 4: [1],
 8: [2],
@@ -53,7 +102,8 @@ texture = ExtResource("2_4jgno")
 "type": 1
 }
 1:7/0 = 0
-1:7/0/z_index = 1
+1:7/0/z_index = 5
+1:7/0/occlusion_layer_0/polygon = SubResource("OccluderPolygon2D_vuvb1")
 1:7/0/metadata/_better_terrain = {
 0: [1],
 8: [1],
@@ -62,7 +112,8 @@ texture = ExtResource("2_4jgno")
 "type": 1
 }
 2:7/0 = 0
-2:7/0/z_index = 1
+2:7/0/z_index = 5
+2:7/0/occlusion_layer_0/polygon = SubResource("OccluderPolygon2D_vuvb1")
 2:7/0/metadata/_better_terrain = {
 0: [3],
 12: [3],
@@ -72,7 +123,8 @@ texture = ExtResource("2_4jgno")
 }
 3:7/next_alternative_id = 2
 3:7/0 = 0
-3:7/0/z_index = 1
+3:7/0/z_index = 5
+3:7/0/occlusion_layer_0/polygon = SubResource("OccluderPolygon2D_vuvb1")
 3:7/0/metadata/_better_terrain = {
 4: [3],
 12: [3],
@@ -80,14 +132,16 @@ texture = ExtResource("2_4jgno")
 "type": 3
 }
 3:7/1 = 1
-3:7/1/z_index = 1
+3:7/1/z_index = 5
+3:7/1/occlusion_layer_0/polygon = SubResource("OccluderPolygon2D_7vlmu")
 3:7/1/metadata/_better_terrain = {
 4: [3],
 12: [1],
 "type": 3
 }
 4:7/0 = 0
-4:7/0/z_index = 1
+4:7/0/z_index = 5
+4:7/0/occlusion_layer_0/polygon = SubResource("OccluderPolygon2D_vuvb1")
 4:7/0/metadata/_better_terrain = {
 0: [3],
 8: [3],
@@ -99,7 +153,8 @@ texture = ExtResource("2_4jgno")
 }
 5:7/next_alternative_id = 3
 5:7/0 = 0
-5:7/0/z_index = 1
+5:7/0/z_index = 5
+5:7/0/occlusion_layer_0/polygon = SubResource("OccluderPolygon2D_vuvb1")
 5:7/0/metadata/_better_terrain = {
 0: [2],
 4: [3],
@@ -108,7 +163,8 @@ texture = ExtResource("2_4jgno")
 "type": 3
 }
 5:7/1 = 1
-5:7/1/z_index = 1
+5:7/1/z_index = 5
+5:7/1/occlusion_layer_0/polygon = SubResource("OccluderPolygon2D_7vlmu")
 5:7/1/metadata/_better_terrain = {
 0: [3],
 3: [3],
@@ -119,7 +175,8 @@ texture = ExtResource("2_4jgno")
 "type": 3
 }
 5:7/2 = 2
-5:7/2/z_index = 1
+5:7/2/z_index = 5
+5:7/2/occlusion_layer_0/polygon = SubResource("OccluderPolygon2D_p5hvm")
 5:7/2/metadata/_better_terrain = {
 0: [2],
 4: [3],
@@ -130,7 +187,8 @@ texture = ExtResource("2_4jgno")
 }
 0:8/next_alternative_id = 3
 0:8/0 = 0
-0:8/0/z_index = 1
+0:8/0/z_index = 5
+0:8/0/occlusion_layer_0/polygon = SubResource("OccluderPolygon2D_vuvb1")
 0:8/0/metadata/_better_terrain = {
 0: [1],
 4: [2],
@@ -141,7 +199,8 @@ texture = ExtResource("2_4jgno")
 "type": 1
 }
 0:8/1 = 1
-0:8/1/z_index = 1
+0:8/1/z_index = 5
+0:8/1/occlusion_layer_0/polygon = SubResource("OccluderPolygon2D_7vlmu")
 0:8/1/metadata/_better_terrain = {
 0: [1],
 3: [2],
@@ -154,7 +213,8 @@ texture = ExtResource("2_4jgno")
 "type": 1
 }
 0:8/2 = 2
-0:8/2/z_index = 1
+0:8/2/z_index = 5
+0:8/2/occlusion_layer_0/polygon = SubResource("OccluderPolygon2D_7vlmu")
 0:8/2/metadata/_better_terrain = {
 0: [1],
 3: [2],
@@ -167,7 +227,8 @@ texture = ExtResource("2_4jgno")
 "type": 1
 }
 1:8/0 = 0
-1:8/0/z_index = 1
+1:8/0/z_index = 5
+1:8/0/occlusion_layer_0/polygon = SubResource("OccluderPolygon2D_vuvb1")
 1:8/0/metadata/_better_terrain = {
 0: [3],
 12: [3],
@@ -175,26 +236,30 @@ texture = ExtResource("2_4jgno")
 "type": 3
 }
 2:8/0 = 0
-2:8/0/z_index = 1
+2:8/0/z_index = 5
+2:8/0/occlusion_layer_0/polygon = SubResource("OccluderPolygon2D_vuvb1")
 2:8/0/metadata/_better_terrain = {
 12: [3],
 "symmetry": 2,
 "type": 3
 }
 3:8/0 = 0
-3:8/0/z_index = 1
+3:8/0/z_index = 5
+3:8/0/occlusion_layer_0/polygon = SubResource("OccluderPolygon2D_vuvb1")
 3:8/0/metadata/_better_terrain = {
 0: [3],
 "symmetry": 1,
 "type": 3
 }
 4:8/0 = 0
-4:8/0/z_index = 1
+4:8/0/z_index = 5
+4:8/0/occlusion_layer_0/polygon = SubResource("OccluderPolygon2D_vuvb1")
 4:8/0/metadata/_better_terrain = {
 "type": 3
 }
 5:8/0 = 0
-5:8/0/z_index = 1
+5:8/0/z_index = 5
+5:8/0/occlusion_layer_0/polygon = SubResource("OccluderPolygon2D_vuvb1")
 5:8/0/metadata/_better_terrain = {
 0: [3],
 8: [3],
@@ -313,7 +378,8 @@ texture = ExtResource("2_4jgno")
 "type": 5
 }
 3:6/0 = 0
-3:6/0/z_index = 1
+3:6/0/z_index = 5
+3:6/0/occlusion_layer_0/polygon = SubResource("OccluderPolygon2D_7w0ye")
 3:6/0/metadata/_better_terrain = {
 3: [2],
 4: [2],
@@ -325,10 +391,12 @@ texture = ExtResource("2_4jgno")
 
 [resource]
 resource_name = "tileset dungeon cinza"
+occlusion_layer_0/light_mask = 1
 physics_layer_0/collision_layer = 1
-physics_layer_0/collision_mask = 2
+physics_layer_0/collision_mask = 6
 terrain_set_0/mode = 0
 sources/2 = SubResource("TileSetAtlasSource_htkan")
+sources/0 = SubResource("TileSetAtlasSource_hyltm")
 metadata/_better_terrain = {
 "decoration": ["Decoration", Color(0.411765, 0.411765, 0.411765, 1), 3, [], {
 "path": "res://addons/better-terrain/icons/Decoration.svg"

@@ -1,4 +1,4 @@
-[gd_scene load_steps=59 format=3 uid="uid://du2nkbrxyw642"]
+[gd_scene load_steps=60 format=3 uid="uid://du2nkbrxyw642"]
 
 [ext_resource type="Script" path="res://scripts/sword/weapon_behavior.gd" id="1_gijjp"]
 [ext_resource type="Texture2D" uid="uid://dtp8ovwjbmvxf" path="res://assets/espada new.png" id="2_0rjf5"]
@@ -949,9 +949,12 @@ height = 62.0
 streams_count = 1
 stream_0/stream = ExtResource("12_kr2ha")
 
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_rl4h8"]
+radius = 2.0
+height = 20.0
+
 [node name="Sword" type="CharacterBody2D"]
-collision_layer = 0
-collision_mask = 0
+collision_layer = 4
 script = ExtResource("1_gijjp")
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="."]
@@ -1063,6 +1066,10 @@ _attack_buffer_timer = 0.125
 stream = SubResource("AudioStreamRandomizer_l1lgt")
 
 [node name="BufferTimer" type="Timer" parent="."]
+
+[node name="Collision" type="CollisionShape2D" parent="."]
+position = Vector2(0, -12)
+shape = SubResource("CapsuleShape2D_rl4h8")
 
 [connection signal="animation_finished" from="AnimationPlayer" to="SwordStateMachine" method="_on_animation_player_animation_finished"]
 [connection signal="state_entered" from="StateChart/Root/Idle" to="SwordStateMachine" method="_on_idle_state_entered"]
