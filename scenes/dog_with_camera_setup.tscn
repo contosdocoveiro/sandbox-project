@@ -1,0 +1,35 @@
+[gd_scene load_steps=6 format=3 uid="uid://cb45780p6hfc1"]
+
+[ext_resource type="PackedScene" uid="uid://cq1sue73qtdx6" path="res://scenes/dog.tscn" id="1_inybv"]
+[ext_resource type="Script" path="res://addons/phantom_camera/scripts/phantom_camera_host/phantom_camera_host.gd" id="2_dc342"]
+[ext_resource type="Script" path="res://addons/phantom_camera/scripts/phantom_camera/phantom_camera_2d.gd" id="3_kb5em"]
+[ext_resource type="Script" path="res://addons/phantom_camera/scripts/resources/tween_resource.gd" id="4_tsoc5"]
+
+[sub_resource type="Resource" id="Resource_nsi1y"]
+script = ExtResource("4_tsoc5")
+duration = 1.0
+transition = 0
+ease = 2
+
+[node name="Node2D" type="Node2D"]
+
+[node name="Dog" parent="." instance=ExtResource("1_inybv")]
+
+[node name="Camera2D" type="Camera2D" parent="."]
+physics_interpolation_mode = 1
+position = Vector2(-1.4013e-45, 1.4013e-45)
+zoom = Vector2(2, 2)
+
+[node name="PhantomCameraHost" type="Node" parent="Camera2D"]
+script = ExtResource("2_dc342")
+
+[node name="PhantomCamera2D" type="Node2D" parent="." node_paths=PackedStringArray("follow_target")]
+position = Vector2(-1.4013e-45, 1.4013e-45)
+script = ExtResource("3_kb5em")
+follow_mode = 5
+follow_target = NodePath("../Dog")
+zoom = Vector2(2, 2)
+tween_resource = SubResource("Resource_nsi1y")
+follow_damping = true
+dead_zone_width = 0.075
+dead_zone_height = 0.151

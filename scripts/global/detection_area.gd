@@ -1,6 +1,7 @@
 extends Area2D
 class_name DetectionArea
 var _player_ref = null
+@export var can_lose_target : bool
 
 func _ready() -> void:
 	connect("area_entered", self._on_area_entered)
@@ -13,6 +14,7 @@ func _on_area_entered(_body) -> void: #Detect player entering area
 		
 		
 func _on_area_exited(_body) -> void: #Detects if player exited the area
-	if _body.is_in_group("player"):
-		_player_ref = null
+	if can_lose_target:
+		if _body.is_in_group("player"):
+			_player_ref = null
 	

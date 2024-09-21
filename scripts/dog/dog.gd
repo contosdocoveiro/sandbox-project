@@ -1,4 +1,5 @@
 extends CharacterBody2D
+class_name PlayableCharacter
 
 
 @export_category("Variables")
@@ -6,13 +7,11 @@ extends CharacterBody2D
 @export var life = 100
 @export var dash_speed = 250
 @export var dash_duration = 0.2
+@export var _state_machine : PlayerStateMachine
+@export var dash : Dash
+@export var _sprite : Node2D
 
-
-@onready var _state_machine := $DogStateMachine
-@onready var dash := $Dash
-@onready var _damage_number_position := $DamageNumberPosition
-@onready var _sprite = $Body
-
+var knockback_vector := Vector2.ZERO
 var _direction := Vector2.ZERO
 var _last_faced_direction := Vector2.RIGHT
 
@@ -23,12 +22,10 @@ func send_attack_signal() -> void:
 func _physics_process(delta: float) -> void:
 	
 	if Input.is_action_just_pressed("dash") and dash.can_dash and !dash.is_dashing():
-		dash.start_dash(_sprite, dash_duration)
+		dash.start_dash(dash_duration)
 	
 	_move()
 	move_and_slide()
-	
-	
 
 func _move() -> void:
 	
@@ -47,10 +44,3 @@ func _move() -> void:
 	else:
 		velocity = _direction * _move_speed
 	
-func take_damage(damage) -> void:
-	
-	if(dash.is_dashing()):
-		return
-	
-	life -= damage
-	DamageNumbers.display_number(damage, _damage_number_position.global_position)

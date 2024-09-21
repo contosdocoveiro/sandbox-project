@@ -1,11 +1,11 @@
 extends Node
-class_name DogStateMachine
+class_name PlayerStateMachine
 
-@onready var _state_chart = $"../StateChart"
-@onready var _animation_player = $"../AnimationPlayer"
-@onready var _sprite = $"../Body"
-@onready var _sword = $"../Sword"
-@onready var _dash = $"../Dash"
+@export var _state_chart : StateChart
+@export  var _animation_player : AnimationPlayer
+@export  var _sprite : Node2D
+@export  var _sword : Weapon
+@export  var _dash : Dash
 var _last_pressed
 var _is_attacking := false
 var mouse_dir := Vector2(0,0)
@@ -21,7 +21,7 @@ func _physics_process(delta: float) -> void:
 
 func _detect_states() -> void:
 	
-	var mouse_pos = $"..".get_global_mouse_position()
+	var mouse_pos = owner.get_global_mouse_position()
 	var player_pos = owner.global_transform.origin 
 	mouse_dir = (mouse_pos-player_pos).normalized()
 	
@@ -35,9 +35,9 @@ func _detect_states() -> void:
 		_last_pressed = "up"
 	
 	
-	if($"..".velocity != Vector2(0,0) and _is_attacking == false and _dash.is_dashing() == false):
+	if(owner.velocity != Vector2(0,0) and _is_attacking == false and _dash.is_dashing() == false):
 		_state_chart.send_event("running")
-	elif(_is_attacking == false and $"..".velocity == Vector2(0,0) and _dash.is_dashing() == false):
+	elif(_is_attacking == false and owner.velocity == Vector2(0,0) and _dash.is_dashing() == false):
 		_state_chart.send_event("idle")
 	
 

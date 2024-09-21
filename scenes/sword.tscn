@@ -953,9 +953,14 @@ stream_0/stream = ExtResource("12_kr2ha")
 radius = 2.0
 height = 20.0
 
-[node name="Sword" type="CharacterBody2D"]
-collision_layer = 4
+[node name="Sword" type="CharacterBody2D" node_paths=PackedStringArray("_animation_player", "_attack_sprite")]
+collision_layer = 0
 script = ExtResource("1_gijjp")
+_animation_player = NodePath("AnimationPlayer")
+_attack_sprite = NodePath("AnimatedSprite2D")
+attack1_attack_damage = 10.0
+attack2_attack_damage = 10.0
+attack3_attack_damage = 20.0
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="."]
 libraries = {
@@ -1028,10 +1033,12 @@ delay_in_seconds = "0.0"
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
 visible = false
 sprite_frames = SubResource("SpriteFrames_qs03q")
-animation = &"combo 3"
+animation = &"combo 1"
 offset = Vector2(0.5, -15)
 
 [node name="combo 1 hitbox" type="Area2D" parent="AnimatedSprite2D"]
+collision_layer = 0
+collision_mask = 4
 script = ExtResource("9_rjo8c")
 
 [node name="combo 1 hitbox shape" type="CollisionShape2D" parent="AnimatedSprite2D/combo 1 hitbox"]
@@ -1041,6 +1048,8 @@ shape = SubResource("CapsuleShape2D_fvodr")
 disabled = true
 
 [node name="combo 2 hitbox" type="Area2D" parent="AnimatedSprite2D"]
+collision_layer = 0
+collision_mask = 4
 script = ExtResource("9_rjo8c")
 
 [node name="combo 2 hitbox shape" type="CollisionShape2D" parent="AnimatedSprite2D/combo 2 hitbox"]
@@ -1050,6 +1059,8 @@ disabled = true
 
 [node name="combo 3 hitbox" type="Area2D" parent="AnimatedSprite2D"]
 visible = false
+collision_layer = 0
+collision_mask = 4
 script = ExtResource("9_rjo8c")
 
 [node name="combo 3 hitbox shape" type="CollisionShape2D" parent="AnimatedSprite2D/combo 3 hitbox"]
@@ -1078,3 +1089,6 @@ shape = SubResource("CapsuleShape2D_rl4h8")
 [connection signal="state_entered" from="StateChart/Root/Attack/Combo 2" to="SwordStateMachine" method="_on_combo_2_state_entered"]
 [connection signal="state_physics_processing" from="StateChart/Root/Attack/Combo 2" to="SwordStateMachine" method="_on_combo_2_state_physics_processing"]
 [connection signal="state_entered" from="StateChart/Root/Attack/Combo 3" to="SwordStateMachine" method="_on_combo_3_state_entered"]
+[connection signal="area_entered" from="AnimatedSprite2D/combo 1 hitbox" to="." method="_on_combo_1_hitbox_area_entered"]
+[connection signal="area_entered" from="AnimatedSprite2D/combo 2 hitbox" to="." method="_on_combo_2_hitbox_area_entered"]
+[connection signal="area_entered" from="AnimatedSprite2D/combo 3 hitbox" to="." method="_on_combo_3_hitbox_area_entered"]

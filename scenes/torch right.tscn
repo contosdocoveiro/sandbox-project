@@ -1,0 +1,84 @@
+[gd_scene load_steps=12 format=3 uid="uid://dhs251n227wg2"]
+
+[ext_resource type="Texture2D" uid="uid://bfdepimv6j67y" path="res://assets/tocha.png" id="1_8uuxc"]
+[ext_resource type="Texture2D" uid="uid://bb85el6ta5jw2" path="res://assets/light texture.png" id="2_hudhw"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_hrq88"]
+atlas = ExtResource("1_8uuxc")
+region = Rect2(0, 32, 16, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_nrhxq"]
+atlas = ExtResource("1_8uuxc")
+region = Rect2(16, 32, 16, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_a3p8i"]
+atlas = ExtResource("1_8uuxc")
+region = Rect2(32, 32, 16, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_snour"]
+atlas = ExtResource("1_8uuxc")
+region = Rect2(48, 32, 16, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_ggptu"]
+atlas = ExtResource("1_8uuxc")
+region = Rect2(64, 32, 16, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_vvseh"]
+atlas = ExtResource("1_8uuxc")
+region = Rect2(80, 32, 16, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_e2fcy"]
+atlas = ExtResource("1_8uuxc")
+region = Rect2(96, 32, 16, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_vo5tq"]
+atlas = ExtResource("1_8uuxc")
+region = Rect2(112, 32, 16, 32)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_4fkjc"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_hrq88")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_nrhxq")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_a3p8i")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_snour")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_ggptu")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_vvseh")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_e2fcy")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_vo5tq")
+}],
+"loop": true,
+"name": &"side",
+"speed": 8.0
+}]
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D"]
+sprite_frames = SubResource("SpriteFrames_4fkjc")
+animation = &"side"
+autoplay = "side"
+frame_progress = 0.00363006
+offset = Vector2(0, -15)
+flip_h = true
+
+[node name="PointLight2D" type="PointLight2D" parent="."]
+color = Color(0.741176, 0.890196, 0.388235, 1)
+energy = 0.6
+range_z_min = 0
+range_z_max = 4
+texture = ExtResource("2_hudhw")
+texture_scale = 0.3

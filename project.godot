@@ -24,6 +24,7 @@ buses/default_bus_layout=""
 PhantomCameraManager="*res://addons/phantom_camera/scripts/managers/phantom_camera_manager.gd"
 DamageNumbers="*res://scripts/global/damage_numbers.gd"
 BetterTerrain="*res://addons/better-terrain/BetterTerrain.gd"
+PlayerStats="*res://scripts/global/playerstats.gd"
 
 [display]
 
@@ -38,6 +39,10 @@ window/dpi/allow_hidpi=false
 [editor_plugins]
 
 enabled=PackedStringArray("res://addons/AS2P/plugin.cfg", "res://addons/better-terrain/plugin.cfg", "res://addons/godot_state_charts/plugin.cfg", "res://addons/phantom_camera/plugin.cfg")
+
+[global_group]
+
+player=""
 
 [input]
 
@@ -82,11 +87,11 @@ dash={
 2d_render/layer_2="player"
 2d_render/layer_3="entities"
 2d_render/layer_4="hitboxes"
-2d_render/layer_10="chão (light logic)"
 2d_physics/layer_1="environment"
 2d_physics/layer_2="player"
 2d_physics/layer_3="entities"
 2d_physics/layer_4="hitboxes"
+2d_physics/layer_5="detection_areas"
 
 [rendering]
 

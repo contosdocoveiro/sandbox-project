@@ -1,7 +1,13 @@
-[gd_resource type="TileSet" load_steps=9 format=3 uid="uid://d3i8x7h6osvuv"]
+[gd_resource type="TileSet" load_steps=26 format=3 uid="uid://d3i8x7h6osvuv"]
 
 [ext_resource type="Texture2D" uid="uid://bfdepimv6j67y" path="res://assets/tocha.png" id="1_lmjhc"]
 [ext_resource type="Texture2D" uid="uid://del2p3eddgr3h" path="res://assets/tilesheet dungeon better terrain.png" id="2_4jgno"]
+[ext_resource type="PackedScene" uid="uid://b30beeu1l6y5p" path="res://scenes/torch front.tscn" id="2_kwyrx"]
+[ext_resource type="PackedScene" uid="uid://dpptblnbrcels" path="res://scenes/torch left.tscn" id="3_ev3di"]
+[ext_resource type="PackedScene" uid="uid://dhs251n227wg2" path="res://scenes/torch right.tscn" id="4_exmaf"]
+[ext_resource type="PackedScene" uid="uid://dmor5x3f2oilx" path="res://scenes/sword_skeleton_regular.tscn" id="6_1te8g"]
+[ext_resource type="PackedScene" uid="uid://bon2fod45s0lt" path="res://scenes/spear_skeleton_regular.tscn" id="7_pw5x1"]
+[ext_resource type="PackedScene" uid="uid://diyiqf6t5d2j" path="res://scenes/test_dummy.tscn" id="8_8hjic"]
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_hyltm"]
 texture = ExtResource("1_lmjhc")
@@ -17,7 +23,7 @@ texture = ExtResource("1_lmjhc")
 0:0/animation_frame_6/duration = 1.0
 0:0/animation_frame_7/duration = 1.0
 0:0/0 = 0
-0:0/0/texture_origin = Vector2i(10, 14)
+0:0/0/texture_origin = Vector2i(7, 14)
 0:0/0/y_sort_origin = 25
 0:2/size_in_atlas = Vector2i(1, 2)
 0:2/animation_columns = 8
@@ -34,6 +40,12 @@ texture = ExtResource("1_lmjhc")
 0:2/0/z_index = 1
 0:2/0/y_sort_origin = 11
 
+[sub_resource type="TileSetScenesCollectionSource" id="TileSetScenesCollectionSource_vge28"]
+resource_name = "Objects"
+scenes/1/scene = ExtResource("2_kwyrx")
+scenes/2/scene = ExtResource("3_ev3di")
+scenes/3/scene = ExtResource("4_exmaf")
+
 [sub_resource type="OccluderPolygon2D" id="OccluderPolygon2D_7w0ye"]
 polygon = PackedVector2Array(-8, -8, 8, -8, 8, 8, -8, 8)
 
@@ -43,8 +55,62 @@ polygon = PackedVector2Array(-8, -8, 8, -8, 8, 8, -8, 8)
 [sub_resource type="OccluderPolygon2D" id="OccluderPolygon2D_7vlmu"]
 polygon = PackedVector2Array(-8, -8, 8, -8, 8, 8, -8, 8)
 
+[sub_resource type="NavigationPolygon" id="NavigationPolygon_lppse"]
+vertices = PackedVector2Array(8, 0, 8, 8, -4, 8, -4, 4, -8, 0, -8, 4)
+polygons = Array[PackedInt32Array]([PackedInt32Array(0, 1, 2, 3), PackedInt32Array(4, 0, 3, 5)])
+outlines = Array[PackedVector2Array]([PackedVector2Array(-8, 0, 8, 0, 8, 8, -4, 8, -4, 4, -8, 4)])
+agent_radius = 0.0
+
+[sub_resource type="NavigationPolygon" id="NavigationPolygon_p1cj3"]
+vertices = PackedVector2Array(8, 8, -4, 8, -4, 4, 0, 4, 8, -8, -4, -8, -8, 0, -8, -8)
+polygons = Array[PackedInt32Array]([PackedInt32Array(0, 1, 2, 3), PackedInt32Array(4, 0, 3, 5), PackedInt32Array(5, 3, 6, 7)])
+outlines = Array[PackedVector2Array]([PackedVector2Array(-8, -8, -4, -8, 8, -8, 8, 8, -4, 8, -4, 4, 0, 4, -8, 0)])
+agent_radius = 0.0
+
+[sub_resource type="NavigationPolygon" id="NavigationPolygon_jwt51"]
+vertices = PackedVector2Array(8, -4, 8, 4, 4, 4, -4, -4, -4, 8, 0, 8, 4, 8)
+polygons = Array[PackedInt32Array]([PackedInt32Array(0, 1, 2, 3), PackedInt32Array(4, 3, 2, 5), PackedInt32Array(5, 2, 6)])
+outlines = Array[PackedVector2Array]([PackedVector2Array(-4, -4, 8, -4, 8, 4, 4, 4, 4, 8, 0, 8, -8, 8, -4, 8, -4, 8)])
+agent_radius = 0.0
+
+[sub_resource type="NavigationPolygon" id="NavigationPolygon_3o3xq"]
+vertices = PackedVector2Array(8, 4, -8, 4, -8, -4, 8, -4)
+polygons = Array[PackedInt32Array]([PackedInt32Array(0, 1, 2, 3)])
+outlines = Array[PackedVector2Array]([PackedVector2Array(-8, -4, 8, -4, 8, 4, -8, 4)])
+agent_radius = 0.0
+
+[sub_resource type="NavigationPolygon" id="NavigationPolygon_0e6bw"]
+vertices = PackedVector2Array(4, 8, -4, 8, -4, -4, 4, -4)
+polygons = Array[PackedInt32Array]([PackedInt32Array(0, 1, 2, 3)])
+outlines = Array[PackedVector2Array]([PackedVector2Array(-4, -4, 4, -4, 4, 8, -4, 8)])
+agent_radius = 0.0
+
 [sub_resource type="OccluderPolygon2D" id="OccluderPolygon2D_p5hvm"]
 polygon = PackedVector2Array(-8, -8, 8, -8, 8, 8, -8, 8)
+
+[sub_resource type="NavigationPolygon" id="NavigationPolygon_lph8m"]
+vertices = PackedVector2Array(8, 8, -8, 8, -8, 0, 8, 0)
+polygons = Array[PackedInt32Array]([PackedInt32Array(0, 1, 2, 3)])
+outlines = Array[PackedVector2Array]([PackedVector2Array(-8, 0, 8, 0, 8, 8, -8, 8)])
+agent_radius = 0.0
+
+[sub_resource type="NavigationPolygon" id="NavigationPolygon_n33lf"]
+vertices = PackedVector2Array(8, 8, -8, 8, -8, -8, 8, -8)
+polygons = Array[PackedInt32Array]([PackedInt32Array(0, 1, 2, 3)])
+outlines = Array[PackedVector2Array]([PackedVector2Array(-8, -8, 8, -8, 8, 8, -8, 8)])
+agent_radius = 0.0
+
+[sub_resource type="NavigationPolygon" id="NavigationPolygon_ypf5c"]
+vertices = PackedVector2Array(0, 8, -8, 8, -8, 0, 0, 0)
+polygons = Array[PackedInt32Array]([PackedInt32Array(0, 1, 2, 3)])
+outlines = Array[PackedVector2Array]([PackedVector2Array(-8, 0, 0, 0, 0, 8, -8, 8)])
+agent_radius = 0.0
+
+[sub_resource type="NavigationPolygon" id="NavigationPolygon_awjcp"]
+vertices = PackedVector2Array(8, -8, 8, 8, -4, 8, -4, 4, -8, 4, -8, -4, -4, -4, -4, -8)
+polygons = Array[PackedInt32Array]([PackedInt32Array(0, 1, 2, 3), PackedInt32Array(3, 4, 5, 6), PackedInt32Array(0, 3, 6), PackedInt32Array(0, 6, 7)])
+outlines = Array[PackedVector2Array]([PackedVector2Array(-8, -4, -4, -4, -4, -8, 8, -8, 8, 8, -4, 8, -4, 4, -8, 4)])
+agent_radius = 0.0
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_htkan"]
 texture = ExtResource("2_4jgno")
@@ -151,7 +217,7 @@ texture = ExtResource("2_4jgno")
 "symmetry": 2,
 "type": 3
 }
-5:7/next_alternative_id = 3
+5:7/next_alternative_id = 4
 5:7/0 = 0
 5:7/0/z_index = 5
 5:7/0/occlusion_layer_0/polygon = SubResource("OccluderPolygon2D_vuvb1")
@@ -171,7 +237,7 @@ texture = ExtResource("2_4jgno")
 4: [3],
 12: [3, 1],
 15: [3, 1],
-"symmetry": 1,
+"symmetry": 3,
 "type": 3
 }
 5:7/2 = 2
@@ -182,6 +248,14 @@ texture = ExtResource("2_4jgno")
 4: [3],
 12: [3, 1],
 15: [2],
+"symmetry": 3,
+"type": 3
+}
+5:7/3 = 3
+5:7/3/z_index = 5
+5:7/3/metadata/_better_terrain = {
+4: [1],
+12: [3],
 "symmetry": 1,
 "type": 3
 }
@@ -266,6 +340,7 @@ texture = ExtResource("2_4jgno")
 "type": 3
 }
 0:9/0 = 0
+0:9/0/navigation_layer_0/polygon = SubResource("NavigationPolygon_lppse")
 0:9/0/metadata/_better_terrain = {
 0: [0],
 3: [0],
@@ -275,6 +350,7 @@ texture = ExtResource("2_4jgno")
 "type": 0
 }
 1:9/0 = 0
+1:9/0/navigation_layer_0/polygon = SubResource("NavigationPolygon_p1cj3")
 1:9/0/metadata/_better_terrain = {
 0: [0],
 3: [0],
@@ -287,6 +363,7 @@ texture = ExtResource("2_4jgno")
 "type": 0
 }
 2:9/0 = 0
+2:9/0/navigation_layer_0/polygon = SubResource("NavigationPolygon_jwt51")
 2:9/0/metadata/_better_terrain = {
 0: [0],
 4: [0],
@@ -294,6 +371,7 @@ texture = ExtResource("2_4jgno")
 "type": 0
 }
 3:9/0 = 0
+3:9/0/navigation_layer_0/polygon = SubResource("NavigationPolygon_3o3xq")
 3:9/0/metadata/_better_terrain = {
 0: [0],
 8: [0],
@@ -301,12 +379,14 @@ texture = ExtResource("2_4jgno")
 "type": 0
 }
 4:9/0 = 0
+4:9/0/navigation_layer_0/polygon = SubResource("NavigationPolygon_0e6bw")
 4:9/0/metadata/_better_terrain = {
 4: [0],
 "symmetry": 7,
 "type": 0
 }
 5:9/0 = 0
+5:9/0/navigation_layer_0/polygon = SubResource("NavigationPolygon_lph8m")
 5:9/0/metadata/_better_terrain = {
 0: [0],
 3: [0],
@@ -317,6 +397,7 @@ texture = ExtResource("2_4jgno")
 "type": 0
 }
 6:9/0 = 0
+6:9/0/navigation_layer_0/polygon = SubResource("NavigationPolygon_n33lf")
 6:9/0/metadata/_better_terrain = {
 0: [0],
 3: [0],
@@ -329,6 +410,7 @@ texture = ExtResource("2_4jgno")
 "type": 0
 }
 7:9/0 = 0
+7:9/0/navigation_layer_0/polygon = SubResource("NavigationPolygon_ypf5c")
 7:9/0/metadata/_better_terrain = {
 4: [0],
 7: [0],
@@ -337,6 +419,7 @@ texture = ExtResource("2_4jgno")
 "type": 0
 }
 8:9/0 = 0
+8:9/0/navigation_layer_0/polygon = SubResource("NavigationPolygon_awjcp")
 8:9/0/metadata/_better_terrain = {
 0: [0],
 3: [0],
@@ -389,14 +472,23 @@ texture = ExtResource("2_4jgno")
 "type": 1
 }
 
+[sub_resource type="TileSetScenesCollectionSource" id="TileSetScenesCollectionSource_iy2dn"]
+resource_name = "Enemies"
+scenes/1/scene = ExtResource("6_1te8g")
+scenes/2/scene = ExtResource("7_pw5x1")
+scenes/3/scene = ExtResource("8_8hjic")
+
 [resource]
 resource_name = "tileset dungeon cinza"
 occlusion_layer_0/light_mask = 1
 physics_layer_0/collision_layer = 1
 physics_layer_0/collision_mask = 6
 terrain_set_0/mode = 0
+navigation_layer_0/layers = 1
 sources/2 = SubResource("TileSetAtlasSource_htkan")
 sources/0 = SubResource("TileSetAtlasSource_hyltm")
+sources/1 = SubResource("TileSetScenesCollectionSource_vge28")
+sources/3 = SubResource("TileSetScenesCollectionSource_iy2dn")
 metadata/_better_terrain = {
 "decoration": ["Decoration", Color(0.411765, 0.411765, 0.411765, 1), 3, [], {
 "path": "res://addons/better-terrain/icons/Decoration.svg"
