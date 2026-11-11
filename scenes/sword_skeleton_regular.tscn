@@ -1,20 +1,23 @@
-[gd_scene load_steps=71 format=3 uid="uid://dmor5x3f2oilx"]
+[gd_scene load_steps=79 format=3 uid="uid://dmor5x3f2oilx"]
 
 [ext_resource type="Script" path="res://scenes/sword_skeleton_regular.gd" id="1_puc5f"]
 [ext_resource type="Texture2D" uid="uid://cpdry23gvyih3" path="res://assets/enemies/skeleton/sword/regular/attack.png" id="2_25wby"]
+[ext_resource type="Texture2D" uid="uid://dfrt5a2uoafu8" path="res://assets/enemies/skeleton/sword/regular/hurt.png" id="3_ckuku"]
 [ext_resource type="Texture2D" uid="uid://cw2xm0t8ff1ho" path="res://assets/enemies/skeleton/sword/regular/idle.png" id="3_lddf5"]
 [ext_resource type="Texture2D" uid="uid://b5e43e8jgudf3" path="res://assets/enemies/skeleton/sword/regular/walk.png" id="4_6l3np"]
-[ext_resource type="Script" path="res://scripts/global/hitbox.gd" id="5_td1wi"]
+[ext_resource type="PackedScene" uid="uid://crvcpbc56v03n" path="res://scenes/hitbox_component.tscn" id="5_4d2ua"]
 [ext_resource type="Texture2D" uid="uid://dyvf0j64agp3s" path="res://assets/enemies/skeleton/sword/regular/vfx attack.png" id="6_mapa5"]
-[ext_resource type="Script" path="res://SkeletonStateMachine.gd" id="7_mddtn"]
-[ext_resource type="Script" path="res://addons/godot_state_charts/state_chart.gd" id="8_x8pp1"]
-[ext_resource type="Script" path="res://addons/godot_state_charts/compound_state.gd" id="9_h7w6a"]
-[ext_resource type="Script" path="res://addons/godot_state_charts/atomic_state.gd" id="10_8lbob"]
-[ext_resource type="Script" path="res://addons/godot_state_charts/transition.gd" id="11_i5uw7"]
+[ext_resource type="PackedScene" uid="uid://dd8fpuyp3cejs" path="res://components/state/enemy/enemy_state_manager_component.tscn" id="11_0cuv4"]
+[ext_resource type="PackedScene" uid="uid://c70ow424f0vy4" path="res://components/input/enemy/enemy_input_component.tscn" id="12_w7ag7"]
+[ext_resource type="PackedScene" uid="uid://bbtrbbgp12oo" path="res://components/physics/physics_component.tscn" id="13_2cdsb"]
 [ext_resource type="PackedScene" uid="uid://bqkto0cybvu8k" path="res://scenes/damage_numbers_component.tscn" id="13_26x5g"]
 [ext_resource type="Script" path="res://scripts/global/detection_area.gd" id="14_clb27"]
-[ext_resource type="PackedScene" uid="uid://dssvcet43gv7o" path="res://scenes/navigation_component.tscn" id="15_1uog5"]
+[ext_resource type="PackedScene" uid="uid://5qp87qh6vy7g" path="res://attack_range_component.tscn" id="14_y4qk8"]
+[ext_resource type="PackedScene" uid="uid://dssvcet43gv7o" path="res://components/navigation/navigation_component.tscn" id="15_1uog5"]
+[ext_resource type="PackedScene" uid="uid://b6pdu3u42npfd" path="res://components/enemy behavior/enemy_behavior_component.tscn" id="15_bspxw"]
 [ext_resource type="PackedScene" uid="uid://c3n4e6ptpinp2" path="res://scenes/health_component.tscn" id="15_qi1qp"]
+[ext_resource type="PackedScene" uid="uid://c41v5nytvgb45" path="res://scenes/dash_component.tscn" id="16_morue"]
+[ext_resource type="PackedScene" uid="uid://chfbsum7ddgp1" path="res://components/animation/enemy/enemy_animation_component.tscn" id="17_7unll"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_jk516"]
 atlas = ExtResource("2_25wby")
@@ -111,6 +114,22 @@ region = Rect2(1760, 0, 80, 64)
 [sub_resource type="AtlasTexture" id="AtlasTexture_o8fk8"]
 atlas = ExtResource("2_25wby")
 region = Rect2(1840, 0, 80, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_3xgvy"]
+atlas = ExtResource("3_ckuku")
+region = Rect2(0, 0, 80, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_eqlam"]
+atlas = ExtResource("3_ckuku")
+region = Rect2(80, 0, 80, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_2lq40"]
+atlas = ExtResource("3_ckuku")
+region = Rect2(160, 0, 80, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_5qshi"]
+atlas = ExtResource("3_ckuku")
+region = Rect2(240, 0, 80, 64)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_0jbua"]
 atlas = ExtResource("3_lddf5")
@@ -257,6 +276,23 @@ animations = [{
 }, {
 "frames": [{
 "duration": 1.0,
+"texture": SubResource("AtlasTexture_3xgvy")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_eqlam")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_2lq40")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_5qshi")
+}],
+"loop": false,
+"name": &"hurt",
+"speed": 8.0
+}, {
+"frames": [{
+"duration": 1.0,
 "texture": SubResource("AtlasTexture_0jbua")
 }, {
 "duration": 1.0,
@@ -355,50 +391,26 @@ length = 0.001
 tracks/0/type = "value"
 tracks/0/imported = false
 tracks/0/enabled = true
-tracks/0/path = NodePath("SwordSkeletonStateMachine:is_attacking")
+tracks/0/path = NodePath("Body:frame")
 tracks/0/interp = 1
 tracks/0/loop_wrap = true
 tracks/0/keys = {
 "times": PackedFloat32Array(0),
 "transitions": PackedFloat32Array(1),
 "update": 1,
-"values": [false]
+"values": [16]
 }
 tracks/1/type = "value"
 tracks/1/imported = false
 tracks/1/enabled = true
-tracks/1/path = NodePath("AttackVFX:visible")
+tracks/1/path = NodePath("Body:animation")
 tracks/1/interp = 1
 tracks/1/loop_wrap = true
 tracks/1/keys = {
 "times": PackedFloat32Array(0),
 "transitions": PackedFloat32Array(1),
 "update": 1,
-"values": [false]
-}
-tracks/2/type = "value"
-tracks/2/imported = false
-tracks/2/enabled = true
-tracks/2/path = NodePath("AttackVFX/HitboxComponent/CollisionShape2D:disabled")
-tracks/2/interp = 1
-tracks/2/loop_wrap = true
-tracks/2/keys = {
-"times": PackedFloat32Array(0),
-"transitions": PackedFloat32Array(1),
-"update": 1,
-"values": [true]
-}
-tracks/3/type = "value"
-tracks/3/imported = false
-tracks/3/enabled = true
-tracks/3/path = NodePath("Body:frame")
-tracks/3/interp = 1
-tracks/3/loop_wrap = true
-tracks/3/keys = {
-"times": PackedFloat32Array(0),
-"transitions": PackedFloat32Array(1),
-"update": 1,
-"values": [16]
+"values": [&"attack"]
 }
 
 [sub_resource type="Animation" id="Animation_dtdiv"]
@@ -427,132 +439,50 @@ tracks/1/keys = {
 "update": 1,
 "values": ["attack"]
 }
-tracks/2/type = "value"
+tracks/2/type = "method"
 tracks/2/imported = false
 tracks/2/enabled = true
-tracks/2/path = NodePath("SwordSkeletonStateMachine:is_attacking")
+tracks/2/path = NodePath("EnemyBehaviorComponent")
 tracks/2/interp = 1
 tracks/2/loop_wrap = true
 tracks/2/keys = {
-"times": PackedFloat32Array(0, 2.96667),
+"times": PackedFloat32Array(1, 1.625),
 "transitions": PackedFloat32Array(1, 1),
+"values": [{
+"args": [0.375],
+"method": &"dash_attack"
+}, {
+"args": [0.375],
+"method": &"dash_attack"
+}]
+}
+
+[sub_resource type="Animation" id="Animation_8xxrn"]
+resource_name = "hurt"
+length = 0.5
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Body:animation")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
 "update": 1,
-"values": [true, false]
+"values": [&"hurt"]
 }
-tracks/3/type = "value"
-tracks/3/imported = false
-tracks/3/enabled = true
-tracks/3/path = NodePath("AttackVFX:visible")
-tracks/3/interp = 1
-tracks/3/loop_wrap = true
-tracks/3/keys = {
-"times": PackedFloat32Array(0, 1, 1.375, 1.63333, 2.00833),
-"transitions": PackedFloat32Array(1, 1, 1, 1, 1),
-"update": 1,
-"values": [false, true, false, true, false]
-}
-tracks/4/type = "method"
-tracks/4/imported = false
-tracks/4/enabled = true
-tracks/4/path = NodePath("AttackVFX")
-tracks/4/interp = 1
-tracks/4/loop_wrap = true
-tracks/4/keys = {
-"times": PackedFloat32Array(1, 1.63333),
-"transitions": PackedFloat32Array(1, 1),
-"values": [{
-"args": [&"attack", 1.0, false],
-"method": &"play"
-}, {
-"args": [&"attack", 1.0, false],
-"method": &"play"
-}]
-}
-tracks/5/type = "method"
-tracks/5/imported = false
-tracks/5/enabled = true
-tracks/5/path = NodePath(".")
-tracks/5/interp = 1
-tracks/5/loop_wrap = true
-tracks/5/keys = {
-"times": PackedFloat32Array(1, 1.63333),
-"transitions": PackedFloat32Array(1, 1),
-"values": [{
-"args": [],
-"method": &"rotate_attack_sprite"
-}, {
-"args": [],
-"method": &"rotate_attack_sprite"
-}]
-}
-tracks/6/type = "method"
-tracks/6/imported = false
-tracks/6/enabled = true
-tracks/6/path = NodePath(".")
-tracks/6/interp = 1
-tracks/6/loop_wrap = true
-tracks/6/keys = {
-"times": PackedFloat32Array(0.833333, 1.46667),
-"transitions": PackedFloat32Array(1, 1),
-"values": [{
-"args": [],
-"method": &"set_attack_dash_velocity"
-}, {
-"args": [],
-"method": &"set_attack_dash_velocity"
-}]
-}
-tracks/7/type = "value"
-tracks/7/imported = false
-tracks/7/enabled = true
-tracks/7/path = NodePath("AttackVFX/HitboxComponent/CollisionShape2D:disabled")
-tracks/7/interp = 1
-tracks/7/loop_wrap = true
-tracks/7/keys = {
-"times": PackedFloat32Array(0, 1, 1.4, 1.63333, 2),
-"transitions": PackedFloat32Array(1, 1, 1, 1, 1),
-"update": 1,
-"values": [true, false, true, false, true]
-}
-tracks/8/type = "method"
-tracks/8/imported = false
-tracks/8/enabled = true
-tracks/8/path = NodePath("NavigationComponent")
-tracks/8/interp = 1
-tracks/8/loop_wrap = true
-tracks/8/keys = {
-"times": PackedFloat32Array(0, 3),
-"transitions": PackedFloat32Array(1, 1),
-"values": [{
-"args": [false],
-"method": &"set_physics_process"
-}, {
-"args": [true],
-"method": &"set_physics_process"
-}]
-}
-tracks/9/type = "method"
-tracks/9/imported = false
-tracks/9/enabled = true
-tracks/9/path = NodePath(".")
-tracks/9/interp = 1
-tracks/9/loop_wrap = true
-tracks/9/keys = {
-"times": PackedFloat32Array(1, 1.4, 1.63333, 2),
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("Body:frame")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(-3.72529e-09, 0.125, 0.25, 0.375),
 "transitions": PackedFloat32Array(1, 1, 1, 1),
-"values": [{
-"args": [false],
-"method": &"set_process"
-}, {
-"args": [true],
-"method": &"set_process"
-}, {
-"args": [false],
-"method": &"set_process"
-}, {
-"args": [true],
-"method": &"set_process"
-}]
+"update": 1,
+"values": [0, 1, 2, 3]
 }
 
 [sub_resource type="Animation" id="Animation_dxieg"]
@@ -583,6 +513,7 @@ tracks/1/keys = {
 }
 
 [sub_resource type="Animation" id="Animation_cbsux"]
+resource_name = "run"
 loop_mode = 1
 tracks/0/type = "value"
 tracks/0/imported = false
@@ -613,12 +544,10 @@ tracks/1/keys = {
 _data = {
 "RESET": SubResource("Animation_v4wcf"),
 "attack": SubResource("Animation_dtdiv"),
+"hurt": SubResource("Animation_8xxrn"),
 "idle": SubResource("Animation_dxieg"),
-"walk": SubResource("Animation_cbsux")
+"run": SubResource("Animation_cbsux")
 }
-
-[sub_resource type="CircleShape2D" id="CircleShape2D_hjfd2"]
-radius = 54.037
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_y7n1v"]
 radius = 3.16228
@@ -626,17 +555,23 @@ radius = 3.16228
 [sub_resource type="CircleShape2D" id="CircleShape2D_vdsn2"]
 radius = 130.0
 
-[node name="SwordSkeletonRegular" type="CharacterBody2D" node_paths=PackedStringArray("sprite", "attack_sprite", "state_machine", "detection_area", "navigation_component")]
+[sub_resource type="CircleShape2D" id="CircleShape2D_7isb5"]
+radius = 41.0122
+
+[node name="SwordSkeletonRegular" type="CharacterBody2D" node_paths=PackedStringArray("sprite", "attack_vfx", "state_manager", "dash", "detection_area", "navigation_component", "input_component", "physics_component", "attack_range", "enemy_behavior", "health_component")]
 collision_layer = 4
 script = ExtResource("1_puc5f")
-speed = 80.0
 sprite = NodePath("Body")
-attack_sprite = NodePath("AttackVFX")
-state_machine = NodePath("SwordSkeletonStateMachine")
-dash_speed = 150.0
+attack_vfx = NodePath("AttackVFX")
+state_manager = NodePath("EnemyStateManagerComponent")
+dash = NodePath("DashComponent")
 detection_area = NodePath("DetectionArea")
 navigation_component = NodePath("NavigationComponent")
-damage = 5.0
+input_component = NodePath("EnemyInputComponent")
+physics_component = NodePath("PhysicsComponent")
+attack_range = NodePath("AttackRange")
+enemy_behavior = NodePath("EnemyBehaviorComponent")
+health_component = NodePath("HealthComponent")
 
 [node name="Body" type="AnimatedSprite2D" parent="."]
 sprite_frames = SubResource("SpriteFrames_l6bx2")
@@ -644,10 +579,10 @@ animation = &"attack"
 frame = 16
 offset = Vector2(0, -16)
 
-[node name="HitboxComponent" type="Area2D" parent="Body"]
+[node name="HitboxComponent" parent="Body" node_paths=PackedStringArray("health_component") instance=ExtResource("5_4d2ua")]
 collision_layer = 4
 collision_mask = 2
-script = ExtResource("5_td1wi")
+health_component = NodePath("../../HealthComponent")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Body/HitboxComponent"]
 position = Vector2(0, -2)
@@ -658,12 +593,20 @@ visible = false
 position = Vector2(0, -9)
 sprite_frames = SubResource("SpriteFrames_5umcr")
 animation = &"attack"
+frame = 2
+frame_progress = 1.0
 offset = Vector2(3, -4)
 
-[node name="HitboxComponent" type="Area2D" parent="AttackVFX"]
-collision_layer = 4
+[node name="HitboxComponent" parent="AttackVFX" instance=ExtResource("5_4d2ua")]
+collision_layer = 0
 collision_mask = 2
-script = ExtResource("5_td1wi")
+can_deal_damage = true
+frame_freeze = true
+camera_shake = true
+attack_damage = 10.0
+knockback = 50.0
+frame_freeze_time_scale = 0.05
+frame_freeze_duration = 0.5
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="AttackVFX/HitboxComponent"]
 position = Vector2(14, 0)
@@ -676,105 +619,67 @@ libraries = {
 "": SubResource("AnimationLibrary_c1jkj")
 }
 
-[node name="SwordSkeletonStateMachine" type="Node" parent="." node_paths=PackedStringArray("attack_cooldown")]
-script = ExtResource("7_mddtn")
-attack_cooldown = NodePath("../AttackCooldown")
-
-[node name="StateChart" type="Node" parent="."]
-script = ExtResource("8_x8pp1")
-
-[node name="Root" type="Node" parent="StateChart"]
-script = ExtResource("9_h7w6a")
-initial_state = NodePath("Idle")
-
-[node name="Idle" type="Node" parent="StateChart/Root"]
-script = ExtResource("10_8lbob")
-
-[node name="To Walking" type="Node" parent="StateChart/Root/Idle"]
-script = ExtResource("11_i5uw7")
-to = NodePath("../../Walking")
-event = &"walking"
-delay_in_seconds = "0.0"
-
-[node name="To Attacking" type="Node" parent="StateChart/Root/Idle"]
-script = ExtResource("11_i5uw7")
-to = NodePath("../../Attacking")
-event = &"attacking"
-delay_in_seconds = "0.0"
-
-[node name="Walking" type="Node" parent="StateChart/Root"]
-script = ExtResource("10_8lbob")
-
-[node name="To Attacking" type="Node" parent="StateChart/Root/Walking"]
-script = ExtResource("11_i5uw7")
-to = NodePath("../../Attacking")
-event = &"attacking"
-delay_in_seconds = "0.0"
-
-[node name="To Idle" type="Node" parent="StateChart/Root/Walking"]
-script = ExtResource("11_i5uw7")
-to = NodePath("../../Idle")
-event = &"idle"
-delay_in_seconds = "0.0"
-
-[node name="Attacking" type="Node" parent="StateChart/Root"]
-script = ExtResource("10_8lbob")
-
-[node name="To Idle" type="Node" parent="StateChart/Root/Attacking"]
-script = ExtResource("11_i5uw7")
-to = NodePath("../../Idle")
-event = &"idle"
-delay_in_seconds = "0.0"
-
-[node name="To Walking" type="Node" parent="StateChart/Root/Attacking"]
-script = ExtResource("11_i5uw7")
-to = NodePath("../../Walking")
-event = &"walking"
-delay_in_seconds = "0.0"
-
-[node name="AttackRange" type="Area2D" parent="."]
-collision_layer = 16
-collision_mask = 2
-
-[node name="CollisionShape2D" type="CollisionShape2D" parent="AttackRange"]
-visible = false
-position = Vector2(0, -8)
-shape = SubResource("CircleShape2D_hjfd2")
-
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+visible = false
 position = Vector2(0, -1)
 shape = SubResource("CircleShape2D_y7n1v")
-
-[node name="AttackCooldown" type="Timer" parent="."]
-wait_time = 4.0
-one_shot = true
 
 [node name="DamageNumbersComponent" parent="." instance=ExtResource("13_26x5g")]
 position = Vector2(0, -27)
 
 [node name="DetectionArea" type="Area2D" parent="."]
-collision_layer = 4
+visible = false
+collision_layer = 0
 collision_mask = 2
 script = ExtResource("14_clb27")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="DetectionArea"]
 shape = SubResource("CircleShape2D_vdsn2")
 
-[node name="NavigationComponent" parent="." instance=ExtResource("15_1uog5")]
-max_speed = 60.0
-steer_force = 1.2
+[node name="NavigationComponent" parent="." node_paths=PackedStringArray("actor") instance=ExtResource("15_1uog5")]
 look_ahead = 25.0
+actor = NodePath("..")
 
-[node name="HealthComponent" parent="." instance=ExtResource("15_qi1qp")]
+[node name="HealthComponent" parent="." node_paths=PackedStringArray("damage_numbers_component") instance=ExtResource("15_qi1qp")]
+damage_numbers_component = NodePath("../DamageNumbersComponent")
 MAX_HEALTH = 100.0
 
-[connection signal="area_entered" from="AttackVFX/HitboxComponent" to="." method="_on_hitbox_component_area_entered"]
-[connection signal="animation_finished" from="AnimationPlayer" to="SwordSkeletonStateMachine" method="_on_animation_player_animation_finished"]
-[connection signal="state_entered" from="StateChart/Root/Idle" to="SwordSkeletonStateMachine" method="_on_idle_state_entered"]
-[connection signal="state_physics_processing" from="StateChart/Root/Idle" to="SwordSkeletonStateMachine" method="_on_idle_state_physics_processing"]
-[connection signal="state_entered" from="StateChart/Root/Walking" to="SwordSkeletonStateMachine" method="_on_walking_state_entered"]
-[connection signal="state_physics_processing" from="StateChart/Root/Walking" to="SwordSkeletonStateMachine" method="_on_walking_state_physics_processing"]
-[connection signal="state_entered" from="StateChart/Root/Attacking" to="SwordSkeletonStateMachine" method="_on_attacking_state_entered"]
-[connection signal="area_entered" from="AttackRange" to="." method="_on_attack_range_area_entered"]
-[connection signal="area_exited" from="AttackRange" to="." method="_on_attack_range_area_exited"]
-[connection signal="timeout" from="AttackCooldown" to="SwordSkeletonStateMachine" method="_on_attack_cooldown_timeout"]
+[node name="EnemyInputComponent" parent="." node_paths=PackedStringArray("navigation_component") instance=ExtResource("12_w7ag7")]
+navigation_component = NodePath("../NavigationComponent")
+
+[node name="PhysicsComponent" parent="." node_paths=PackedStringArray("actor", "dash_component", "input_component") instance=ExtResource("13_2cdsb")]
+move_speed = 50.0
+dash_speed = 175.0
+actor = NodePath("..")
+steer_force = 0.5
+dash_component = NodePath("../DashComponent")
+input_component = NodePath("../EnemyInputComponent")
+knockback_resistance = 10.0
+
+[node name="AttackRange" parent="." instance=ExtResource("14_y4qk8")]
+visible = true
+collision_layer = 0
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="AttackRange"]
+shape = SubResource("CircleShape2D_7isb5")
+
+[node name="EnemyBehaviorComponent" parent="." node_paths=PackedStringArray("actor", "physics_component", "state_manager", "input_component", "attack_hitbox", "attack_range", "attack_vfx") instance=ExtResource("15_bspxw")]
+actor = NodePath("..")
+physics_component = NodePath("../PhysicsComponent")
+state_manager = NodePath("../EnemyStateManagerComponent")
+input_component = NodePath("../EnemyInputComponent")
+attack_hitbox = NodePath("../AttackVFX/HitboxComponent")
+attack_range = NodePath("../AttackRange")
+attack_vfx = NodePath("../AttackVFX")
+
+[node name="DashComponent" parent="." instance=ExtResource("16_morue")]
+
+[node name="EnemyAnimationComponent" parent="." node_paths=PackedStringArray("actor", "animation_player", "sprite") instance=ExtResource("17_7unll")]
+actor = NodePath("..")
+animation_player = NodePath("../AnimationPlayer")
+sprite = NodePath("../Body")
+
+[node name="EnemyStateManagerComponent" parent="." node_paths=PackedStringArray("actor", "animation_component") instance=ExtResource("11_0cuv4")]
+attack_cooldown = 3.0
+actor = NodePath("..")
+animation_component = NodePath("../EnemyAnimationComponent")

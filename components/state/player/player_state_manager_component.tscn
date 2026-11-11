@@ -1,0 +1,85 @@
+[gd_scene load_steps=7 format=3 uid="uid://cltn1q0lij7k2"]
+
+[ext_resource type="Script" path="res://components/state/player/player_state_manager_component.gd" id="1_vnjwk"]
+[ext_resource type="Script" path="res://addons/godot_state_charts/state_chart.gd" id="2_w246x"]
+[ext_resource type="Script" path="res://addons/godot_state_charts/compound_state.gd" id="3_tpa5y"]
+[ext_resource type="Script" path="res://addons/godot_state_charts/atomic_state.gd" id="4_r67gf"]
+[ext_resource type="Script" path="res://addons/godot_state_charts/transition.gd" id="5_16wq8"]
+[ext_resource type="PackedScene" uid="uid://bcwkugn6v3oy7" path="res://addons/godot_state_charts/utilities/state_chart_debugger.tscn" id="6_im0qd"]
+
+[node name="PlayerStateManagerComponent" type="Node2D"]
+script = ExtResource("1_vnjwk")
+
+[node name="StateChart" type="Node" parent="."]
+script = ExtResource("2_w246x")
+
+[node name="Root" type="Node" parent="StateChart"]
+script = ExtResource("3_tpa5y")
+initial_state = NodePath("Idle")
+
+[node name="Idle" type="Node" parent="StateChart/Root"]
+script = ExtResource("4_r67gf")
+
+[node name="To Attacking" type="Node" parent="StateChart/Root/Idle"]
+script = ExtResource("5_16wq8")
+to = NodePath("../../Attacking")
+event = &"attacking"
+delay_in_seconds = "0.0"
+
+[node name="To Running" type="Node" parent="StateChart/Root/Idle"]
+script = ExtResource("5_16wq8")
+to = NodePath("../../Running")
+event = &"running"
+delay_in_seconds = "0.0"
+
+[node name="Attacking" type="Node" parent="StateChart/Root"]
+script = ExtResource("4_r67gf")
+
+[node name="To Idle" type="Node" parent="StateChart/Root/Attacking"]
+script = ExtResource("5_16wq8")
+to = NodePath("../../Idle")
+event = &"idle"
+delay_in_seconds = "0.0"
+
+[node name="To Running" type="Node" parent="StateChart/Root/Attacking"]
+script = ExtResource("5_16wq8")
+to = NodePath("../../Running")
+event = &"running"
+delay_in_seconds = "0.0
+"
+
+[node name="Running" type="Node" parent="StateChart/Root"]
+script = ExtResource("4_r67gf")
+
+[node name="To Idle" type="Node" parent="StateChart/Root/Running"]
+script = ExtResource("5_16wq8")
+to = NodePath("../../Idle")
+event = &"idle"
+delay_in_seconds = "0.0"
+
+[node name="To Attacking" type="Node" parent="StateChart/Root/Running"]
+script = ExtResource("5_16wq8")
+to = NodePath("../../Attacking")
+event = &"attacking"
+delay_in_seconds = "0.0"
+
+[node name="StateChartDebugger" parent="." instance=ExtResource("6_im0qd")]
+offset_left = -185.0
+offset_top = -80.0
+offset_right = 318.0
+offset_bottom = 427.0
+scale = Vector2(0.3, 0.3)
+enabled = false
+initial_node_to_watch = NodePath("../StateChart")
+
+[node name="AnimationDurationTimer" type="Timer" parent="."]
+one_shot = true
+
+[connection signal="state_entered" from="StateChart/Root/Idle" to="." method="_on_idle_state_entered"]
+[connection signal="state_physics_processing" from="StateChart/Root/Idle" to="." method="_on_idle_state_physics_processing"]
+[connection signal="state_entered" from="StateChart/Root/Attacking" to="." method="_on_attacking_state_entered"]
+[connection signal="state_exited" from="StateChart/Root/Attacking" to="." method="_on_attacking_state_exited"]
+[connection signal="state_physics_processing" from="StateChart/Root/Attacking" to="." method="_on_attacking_state_physics_processing"]
+[connection signal="state_entered" from="StateChart/Root/Running" to="." method="_on_running_state_entered"]
+[connection signal="state_physics_processing" from="StateChart/Root/Running" to="." method="_on_running_state_physics_processing"]
+[connection signal="timeout" from="AnimationDurationTimer" to="." method="_on_animation_duration_timer_timeout"]

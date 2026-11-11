@@ -1,11 +1,9 @@
-[gd_scene load_steps=3 format=3 uid="uid://c3n4e6ptpinp2"]
+[gd_scene load_steps=2 format=3 uid="uid://c3n4e6ptpinp2"]
 
 [ext_resource type="Script" path="res://scenes/HealthComponent.gd" id="1_eqig5"]
-[ext_resource type="Material" uid="uid://b3h3k3qltqtvb" path="res://shaders/outline_marrom.tres" id="2_my3ne"]
 
 [node name="HealthComponent" type="Node"]
 script = ExtResource("1_eqig5")
-outline_shader_material = ExtResource("2_my3ne")
 
 [node name="InvincibilityTime" type="Timer" parent="."]
 one_shot = true

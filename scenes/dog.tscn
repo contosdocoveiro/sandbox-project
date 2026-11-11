@@ -1,4 +1,4 @@
-[gd_scene load_steps=80 format=3 uid="uid://cq1sue73qtdx6"]
+[gd_scene load_steps=78 format=3 uid="uid://cq1sue73qtdx6"]
 
 [ext_resource type="Shader" path="res://shaders/damage_flash.gdshader" id="1_0uj78"]
 [ext_resource type="Script" path="res://scripts/dog/dog.gd" id="1_wcb0j"]
@@ -6,15 +6,13 @@
 [ext_resource type="Texture2D" uid="uid://cbsfr7rifa06p" path="res://assets/cachorro idle e andando.png" id="2_tlfsv"]
 [ext_resource type="Script" path="res://scripts/global/hitbox.gd" id="4_ee4hl"]
 [ext_resource type="PackedScene" uid="uid://du2nkbrxyw642" path="res://scenes/sword.tscn" id="5_g1hmt"]
-[ext_resource type="Script" path="res://addons/godot_state_charts/state_chart.gd" id="6_8muun"]
-[ext_resource type="Script" path="res://addons/godot_state_charts/compound_state.gd" id="7_ng7lq"]
-[ext_resource type="Script" path="res://scripts/dog/dog_state_machine.gd" id="8_kyyyl"]
-[ext_resource type="Script" path="res://addons/godot_state_charts/atomic_state.gd" id="8_vljn6"]
-[ext_resource type="Script" path="res://addons/godot_state_charts/transition.gd" id="9_jfl2k"]
-[ext_resource type="PackedScene" uid="uid://c41v5nytvgb45" path="res://scenes/dash.tscn" id="12_dqava"]
-[ext_resource type="PackedScene" uid="uid://bcwkugn6v3oy7" path="res://addons/godot_state_charts/utilities/state_chart_debugger.tscn" id="12_irfq6"]
+[ext_resource type="PackedScene" uid="uid://c41v5nytvgb45" path="res://scenes/dash_component.tscn" id="12_dqava"]
+[ext_resource type="PackedScene" uid="uid://cltn1q0lij7k2" path="res://components/state/player/player_state_manager_component.tscn" id="13_lxbtq"]
 [ext_resource type="PackedScene" uid="uid://c3n4e6ptpinp2" path="res://scenes/health_component.tscn" id="13_whrp2"]
+[ext_resource type="PackedScene" uid="uid://d03sqsfjcl40x" path="res://components/animation/player/player_animation_component.tscn" id="14_cvovx"]
 [ext_resource type="PackedScene" uid="uid://bqkto0cybvu8k" path="res://scenes/damage_numbers_component.tscn" id="14_foayq"]
+[ext_resource type="PackedScene" uid="uid://btkncolcy7off" path="res://components/input/player/player_input_component.tscn" id="16_iy211"]
+[ext_resource type="PackedScene" uid="uid://bbtrbbgp12oo" path="res://components/physics/physics_component.tscn" id="17_wtar8"]
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_wwewa"]
 shader = ExtResource("1_0uj78")
@@ -807,20 +805,26 @@ _data = {
 [sub_resource type="CircleShape2D" id="CircleShape2D_krfs2"]
 radius = 2.0
 
-[node name="Dog" type="CharacterBody2D" node_paths=PackedStringArray("_state_machine", "dash", "_sprite") groups=["player"]]
+[node name="Dog" type="CharacterBody2D" node_paths=PackedStringArray("state_manager", "dash", "_sprite", "physics_component", "input_component", "animation_component", "health_component") groups=["player"]]
 material = SubResource("ShaderMaterial_wwewa")
+position = Vector2(298, 154)
 collision_layer = 2
+motion_mode = 1
 script = ExtResource("1_wcb0j")
 _move_speed = 100
-_state_machine = NodePath("DogStateMachine")
-dash = NodePath("Dash")
+state_manager = NodePath("PlayerStateManagerComponent")
+dash = NodePath("DashComponent")
 _sprite = NodePath("Body")
+physics_component = NodePath("PhysicsComponent")
+input_component = NodePath("PlayerInputComponent")
+animation_component = NodePath("PlayerAnimationComponent")
+health_component = NodePath("HealthComponent")
 
 [node name="Body" type="AnimatedSprite2D" parent="."]
 material = ExtResource("2_fnxcf")
+position = Vector2(0, -5)
 sprite_frames = SubResource("SpriteFrames_hfqqu")
-animation = &"idle sideways"
-frame = 2
+animation = &"dash down"
 offset = Vector2(0, -6)
 
 [node name="Area2D" type="Area2D" parent="Body" groups=["player"]]
@@ -836,95 +840,22 @@ collision_layer = 2
 collision_mask = 5
 script = ExtResource("4_ee4hl")
 health_component = NodePath("../../HealthComponent")
-dash_component = NodePath("../../Dash")
+dash_component = NodePath("../../DashComponent")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Body/HitboxComponent"]
 position = Vector2(0, -2.50001)
 scale = Vector2(0.166667, 0.166667)
 shape = SubResource("CircleShape2D_1aob0")
 
-[node name="Sword" parent="." instance=ExtResource("5_g1hmt")]
+[node name="Weapon" parent="." instance=ExtResource("5_g1hmt")]
 position = Vector2(12, 1)
-attack1_knockback_force = 5.0
-attack2_knockback_force = 5.0
-attack3_knockback_force = 10.0
-
-[node name="StateChart" type="Node" parent="."]
-script = ExtResource("6_8muun")
-
-[node name="Root" type="Node" parent="StateChart"]
-script = ExtResource("7_ng7lq")
-initial_state = NodePath("Idle")
-
-[node name="Idle" type="Node" parent="StateChart/Root"]
-script = ExtResource("8_vljn6")
-
-[node name="To Attack" type="Node" parent="StateChart/Root/Idle"]
-script = ExtResource("9_jfl2k")
-to = NodePath("../../Attack")
-event = &"attacking"
-delay_in_seconds = "0.0"
-
-[node name="To Running" type="Node" parent="StateChart/Root/Idle"]
-script = ExtResource("9_jfl2k")
-to = NodePath("../../Running")
-event = &"running"
-delay_in_seconds = "0.0"
-
-[node name="Attack" type="Node" parent="StateChart/Root"]
-script = ExtResource("8_vljn6")
-
-[node name="To Idle" type="Node" parent="StateChart/Root/Attack"]
-script = ExtResource("9_jfl2k")
-to = NodePath("../../Idle")
-event = &"idle"
-delay_in_seconds = "0.0"
-
-[node name="To Running" type="Node" parent="StateChart/Root/Attack"]
-script = ExtResource("9_jfl2k")
-to = NodePath("../../Running")
-event = &"running"
-delay_in_seconds = "0.0"
-
-[node name="Running" type="Node" parent="StateChart/Root"]
-script = ExtResource("8_vljn6")
-
-[node name="To Idle" type="Node" parent="StateChart/Root/Running"]
-script = ExtResource("9_jfl2k")
-to = NodePath("../../Idle")
-event = &"idle"
-delay_in_seconds = "0.0"
-
-[node name="To Attack" type="Node" parent="StateChart/Root/Running"]
-script = ExtResource("9_jfl2k")
-to = NodePath("../../Attack")
-event = &"attacking"
-delay_in_seconds = "0.0"
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="."]
 libraries = {
 "": SubResource("AnimationLibrary_o7bou")
 }
 
-[node name="DogStateMachine" type="Node" parent="." node_paths=PackedStringArray("_state_chart", "_animation_player", "_sprite", "_sword", "_dash")]
-script = ExtResource("8_kyyyl")
-_state_chart = NodePath("../StateChart")
-_animation_player = NodePath("../AnimationPlayer")
-_sprite = NodePath("../Body")
-_sword = NodePath("../Sword")
-_dash = NodePath("../Dash")
-
-[node name="Dash" parent="." instance=ExtResource("12_dqava")]
-
-[node name="StateChartDebugger" parent="." instance=ExtResource("12_irfq6")]
-visible = false
-offset_left = -69.0
-offset_top = -42.0
-offset_right = 221.0
-offset_bottom = 258.0
-scale = Vector2(0.2, 0.2)
-enabled = false
-initial_node_to_watch = NodePath("../StateChart")
+[node name="DashComponent" parent="." instance=ExtResource("12_dqava")]
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 visible = false
@@ -934,11 +865,28 @@ shape = SubResource("CircleShape2D_krfs2")
 [node name="HealthComponent" parent="." node_paths=PackedStringArray("damage_numbers_component") instance=ExtResource("13_whrp2")]
 damage_numbers_component = NodePath("../DamageNumbersComponent")
 MAX_HEALTH = 100.0
+outline_shader_material = ExtResource("2_fnxcf")
 
 [node name="DamageNumbersComponent" parent="." instance=ExtResource("14_foayq")]
 position = Vector2(0, -17)
 
-[connection signal="state_entered" from="StateChart/Root/Idle" to="DogStateMachine" method="_on_idle_state_entered"]
-[connection signal="state_entered" from="StateChart/Root/Attack" to="DogStateMachine" method="_on_attack_state_entered"]
-[connection signal="state_processing" from="StateChart/Root/Running" to="DogStateMachine" method="_on_running_state_processing"]
-[connection signal="animation_finished" from="AnimationPlayer" to="DogStateMachine" method="_on_animation_player_animation_finished"]
+[node name="PlayerInputComponent" parent="." instance=ExtResource("16_iy211")]
+
+[node name="PhysicsComponent" parent="." node_paths=PackedStringArray("actor", "dash_component", "input_component") instance=ExtResource("17_wtar8")]
+move_speed = 120.0
+dash_speed = 250.0
+dash_duration = 0.2
+actor = NodePath("..")
+dash_component = NodePath("../DashComponent")
+input_component = NodePath("../PlayerInputComponent")
+knockback_resistance = 10.0
+
+[node name="PlayerStateManagerComponent" parent="." node_paths=PackedStringArray("animation_player", "actor", "animation_component") instance=ExtResource("13_lxbtq")]
+animation_player = NodePath("../AnimationPlayer")
+actor = NodePath("..")
+animation_component = NodePath("../PlayerAnimationComponent")
+
+[node name="PlayerAnimationComponent" parent="." node_paths=PackedStringArray("actor", "animation_player", "sprite") instance=ExtResource("14_cvovx")]
+actor = NodePath("..")
+animation_player = NodePath("../AnimationPlayer")
+sprite = NodePath("../Body")

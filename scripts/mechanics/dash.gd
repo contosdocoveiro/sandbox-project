@@ -13,11 +13,12 @@ func _ready() -> void:
 		sprite = get_parent().find_child("Body")
 
 func start_dash(duration):
-	_duration_timer.wait_time = duration
-	_duration_timer.start()
+	if(can_dash):
+		_duration_timer.wait_time = duration
+		_duration_timer.start()
 	
-	_ghost_timer.start()
-	instance_ghost()
+		_ghost_timer.start()
+		instance_ghost()
 	
 	
 func instance_ghost():
@@ -36,6 +37,7 @@ func is_dashing():
 	return !_duration_timer.is_stopped()
 
 func end_dash():
+	_duration_timer.stop()
 	_ghost_timer.stop()
 	can_dash = false
 	await get_tree().create_timer(dash_cooldown).timeout

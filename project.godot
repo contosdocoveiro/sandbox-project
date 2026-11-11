@@ -8,11 +8,15 @@
 
 config_version=5
 
+[animation]
+
+compatibility/default_parent_skeleton_in_mesh_instance_3d=true
+
 [application]
 
 config/name="teste"
-run/main_scene="res://scenes/jogo.tscn"
-config/features=PackedStringArray("4.3", "GL Compatibility")
+run/main_scene="uid://c618wm6ydtha8"
+config/features=PackedStringArray("4.7", "GL Compatibility")
 config/icon="res://icon.svg"
 
 [audio]
@@ -21,28 +25,28 @@ buses/default_bus_layout=""
 
 [autoload]
 
-PhantomCameraManager="*res://addons/phantom_camera/scripts/managers/phantom_camera_manager.gd"
+PhantomCameraManager="*uid://cw5q835t18j6y"
 DamageNumbers="*res://scripts/global/damage_numbers.gd"
 BetterTerrain="*res://addons/better-terrain/BetterTerrain.gd"
 PlayerStats="*res://scripts/global/playerstats.gd"
+FrameFreeze="*res://scripts/global/frame_freeze.gd"
 
 [display]
 
 window/size/viewport_width=1280
 window/size/viewport_height=720
-window/size/resizable=false
-window/stretch/mode="canvas_items"
-window/stretch/scale=2.0
+window/stretch/mode="viewport"
 window/stretch/scale_mode="integer"
 window/dpi/allow_hidpi=false
 
 [editor_plugins]
 
-enabled=PackedStringArray("res://addons/AS2P/plugin.cfg", "res://addons/better-terrain/plugin.cfg", "res://addons/godot_state_charts/plugin.cfg", "res://addons/phantom_camera/plugin.cfg")
+enabled=PackedStringArray("res://addons/AS2P/plugin.cfg", "res://addons/better-terrain/plugin.cfg", "res://addons/godot_mcp/plugin.cfg", "res://addons/godot_state_charts/plugin.cfg", "res://addons/phantom_camera/plugin.cfg")
 
 [global_group]
 
 player=""
+camera=""
 
 [input]
 

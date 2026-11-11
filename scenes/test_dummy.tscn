@@ -6,7 +6,7 @@
 [ext_resource type="Script" path="res://scripts/global/detection_area.gd" id="4_m1f0g"]
 [ext_resource type="PackedScene" uid="uid://c3n4e6ptpinp2" path="res://scenes/health_component.tscn" id="5_k1fot"]
 [ext_resource type="PackedScene" uid="uid://bqkto0cybvu8k" path="res://scenes/damage_numbers_component.tscn" id="6_fevrs"]
-[ext_resource type="PackedScene" uid="uid://dssvcet43gv7o" path="res://scenes/navigation_component.tscn" id="7_iea3v"]
+[ext_resource type="PackedScene" uid="uid://dssvcet43gv7o" path="res://components/navigation/navigation_component.tscn" id="7_iea3v"]
 
 [sub_resource type="CapsuleShape2D" id="CapsuleShape2D_gbvdr"]
 radius = 6.74999

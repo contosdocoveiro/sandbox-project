@@ -1,8 +1,6 @@
 extends Node2D
 class_name NavigationComponent
 
-@export var max_speed : float
-@export var steer_force: float
 @export var look_ahead : float
 
 
@@ -11,6 +9,7 @@ var num_rays = 8
 var ray_directions = []
 var interest = []
 var danger = []
+@export var actor : CharacterBody2D
 @onready var raycasts = get_node("ContextMap").get_children()
 
 @onready var navigation_agent = $NavigationAgent2D
@@ -19,32 +18,21 @@ var chosen_dir = Vector2.ZERO
 var velocity = Vector2.ZERO
 var acceleration = Vector2.ZERO
 
-func _ready() -> void:
-	for raycast in raycasts:
-		raycast.target_position.x = look_ahead
-	if(owner.detection_area):
-		target = owner.detection_area._player_ref
-	interest.resize(num_rays)
-	danger.resize(num_rays)
-	ray_directions.resize(num_rays)
-	for i in num_rays:
-		var angle = i * 2 * PI / num_rays
-		ray_directions[i] = Vector2.RIGHT.rotated(angle)
 
-func _physics_process(delta: float) -> void:
+
+func get_direction() -> Vector2:
 	if(is_instance_valid(target)):
 		navigation_agent.target_position = target.global_position
-	if(owner.detection_area):
-		target = owner.detection_area._player_ref
+	if(actor.detection_area):
+		target = actor.detection_area._player_ref
 	set_interest()
 	set_danger()
 	choose_direction()
-	var desired_velocity = chosen_dir.rotated(rotation) * max_speed
-	owner.velocity = owner.velocity.lerp(desired_velocity, steer_force)
+	return chosen_dir.rotated(rotation)
 	
 func set_interest():
-	if owner:
-		var path_direction = owner.global_position.direction_to(navigation_agent.get_next_path_position()).normalized()
+	if actor:
+		var path_direction = actor.global_position.direction_to(navigation_agent.get_next_path_position()).normalized()
 		for i in num_rays:
 			var d = ray_directions[i].rotated(rotation).dot(path_direction)
 			interest[i] = max(0,d)

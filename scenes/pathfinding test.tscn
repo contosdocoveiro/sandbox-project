@@ -22,10 +22,10 @@ tile_set = ExtResource("1_fsimj")
 collision_enabled = false
 
 [node name="TileMapLayer4" type="TileMapLayer" parent="."]
-tile_map_data = PackedByteArray("AAAFAAoAAwAAAAAAAgA=")
+tile_map_data = PackedByteArray("AAAFAAQAAwAAAAAAAQA=")
 tile_set = ExtResource("1_fsimj")
 
 [node name="Player" parent="." groups=["player"] instance=ExtResource("2_fxpsc")]
-position = Vector2(220, 130)
+position = Vector2(219, 185)
 
 [node name="CanvasModulate" parent="." instance=ExtResource("4_l4ovr")]

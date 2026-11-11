@@ -1,9 +1,9 @@
 [gd_scene load_steps=2 format=3 uid="uid://c41v5nytvgb45"]
 
-[ext_resource type="Script" path="res://scripts/mechanics/dash.gd" id="1_sc3c4"]
+[ext_resource type="Script" path="res://scripts/mechanics/dash.gd" id="1_wdmri"]
 
-[node name="Dash" type="Node2D"]
-script = ExtResource("1_sc3c4")
+[node name="DashComponent" type="Node2D"]
+script = ExtResource("1_wdmri")
 
 [node name="DurationTimer" type="Timer" parent="."]
 one_shot = true

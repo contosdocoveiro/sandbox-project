@@ -1,50 +1,22 @@
 [gd_resource type="TileSet" load_steps=26 format=3 uid="uid://d3i8x7h6osvuv"]
 
-[ext_resource type="Texture2D" uid="uid://bfdepimv6j67y" path="res://assets/tocha.png" id="1_lmjhc"]
 [ext_resource type="Texture2D" uid="uid://del2p3eddgr3h" path="res://assets/tilesheet dungeon better terrain.png" id="2_4jgno"]
 [ext_resource type="PackedScene" uid="uid://b30beeu1l6y5p" path="res://scenes/torch front.tscn" id="2_kwyrx"]
 [ext_resource type="PackedScene" uid="uid://dpptblnbrcels" path="res://scenes/torch left.tscn" id="3_ev3di"]
+[ext_resource type="PackedScene" uid="uid://cnq2ymdtn8d0h" path="res://scenes/door front.tscn" id="4_06yub"]
 [ext_resource type="PackedScene" uid="uid://dhs251n227wg2" path="res://scenes/torch right.tscn" id="4_exmaf"]
+[ext_resource type="PackedScene" uid="uid://ctd44vwrp6rbd" path="res://scenes/door side.tscn" id="5_7tuk0"]
 [ext_resource type="PackedScene" uid="uid://dmor5x3f2oilx" path="res://scenes/sword_skeleton_regular.tscn" id="6_1te8g"]
 [ext_resource type="PackedScene" uid="uid://bon2fod45s0lt" path="res://scenes/spear_skeleton_regular.tscn" id="7_pw5x1"]
 [ext_resource type="PackedScene" uid="uid://diyiqf6t5d2j" path="res://scenes/test_dummy.tscn" id="8_8hjic"]
-
-[sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_hyltm"]
-texture = ExtResource("1_lmjhc")
-0:0/size_in_atlas = Vector2i(1, 2)
-0:0/animation_columns = 8
-0:0/animation_speed = 8.0
-0:0/animation_frame_0/duration = 1.0
-0:0/animation_frame_1/duration = 1.0
-0:0/animation_frame_2/duration = 1.0
-0:0/animation_frame_3/duration = 1.0
-0:0/animation_frame_4/duration = 1.0
-0:0/animation_frame_5/duration = 1.0
-0:0/animation_frame_6/duration = 1.0
-0:0/animation_frame_7/duration = 1.0
-0:0/0 = 0
-0:0/0/texture_origin = Vector2i(7, 14)
-0:0/0/y_sort_origin = 25
-0:2/size_in_atlas = Vector2i(1, 2)
-0:2/animation_columns = 8
-0:2/animation_speed = 8.0
-0:2/animation_frame_0/duration = 1.0
-0:2/animation_frame_1/duration = 1.0
-0:2/animation_frame_2/duration = 1.0
-0:2/animation_frame_3/duration = 1.0
-0:2/animation_frame_4/duration = 1.0
-0:2/animation_frame_5/duration = 1.0
-0:2/animation_frame_6/duration = 1.0
-0:2/animation_frame_7/duration = 1.0
-0:2/0 = 0
-0:2/0/z_index = 1
-0:2/0/y_sort_origin = 11
 
 [sub_resource type="TileSetScenesCollectionSource" id="TileSetScenesCollectionSource_vge28"]
 resource_name = "Objects"
 scenes/1/scene = ExtResource("2_kwyrx")
 scenes/2/scene = ExtResource("3_ev3di")
 scenes/3/scene = ExtResource("4_exmaf")
+scenes/4/scene = ExtResource("4_06yub")
+scenes/5/scene = ExtResource("5_7tuk0")
 
 [sub_resource type="OccluderPolygon2D" id="OccluderPolygon2D_7w0ye"]
 polygon = PackedVector2Array(-8, -8, 8, -8, 8, 8, -8, 8)
@@ -486,7 +458,6 @@ physics_layer_0/collision_mask = 6
 terrain_set_0/mode = 0
 navigation_layer_0/layers = 1
 sources/2 = SubResource("TileSetAtlasSource_htkan")
-sources/0 = SubResource("TileSetAtlasSource_hyltm")
 sources/1 = SubResource("TileSetScenesCollectionSource_vge28")
 sources/3 = SubResource("TileSetScenesCollectionSource_iy2dn")
 metadata/_better_terrain = {

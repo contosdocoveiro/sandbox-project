@@ -28,13 +28,11 @@ func _on_walking_state_physics_processing(delta: float) -> void:
 
 
 func _on_attacking_state_entered() -> void:
-	animation_player.play("spear lunge start")
 	attack_ready = false
 
 
 func _on_attack_cooldown_timeout() -> void:
 	attack_ready = true
-	owner.navigation_component.set_physics_process(true)
 	
 	
 
@@ -44,27 +42,13 @@ func _on_animation_player_animation_finished(anim_name: StringName) -> void:
 		state_chart.send_event("idle")
 	if(anim_name == "hurt"):
 		state_chart.send_event("history")
-func _on_attack_end_state_entered() -> void:
-	animation_player.play("spear lunge end")
-
-
 
 func _on_attack_wall_collision_body_entered(body: Node2D) -> void:
 	if(is_attacking):
 		attack_cooldown.start()
 		state_chart.send_event("attack end")
-		owner.apply_knockback_on_wall_hit(body)
-
-	
-
 
 func _on_health_component_damage_taken(attack : Attack) -> void:
 	if(attack_cooldown.is_stopped()):
 		attack_ready = true
-	if(is_attacking):
-		return
-	animation_player.play("RESET")
-	if(animation_player.is_playing()):
-		animation_player.stop(true)
-	animation_player.play("hurt")
 	state_chart.send_event("hurt")

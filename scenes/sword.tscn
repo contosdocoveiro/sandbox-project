@@ -9,7 +9,7 @@
 [ext_resource type="Texture2D" uid="uid://cwb8mtprnpdsm" path="res://assets/ataque alternativo espada com transicao.png" id="7_alr62"]
 [ext_resource type="Texture2D" uid="uid://dlqt3sl2gs0u7" path="res://assets/espada idle entered animation.png" id="8_la174"]
 [ext_resource type="Script" path="res://scripts/sword/sword_state_machine.gd" id="9_dgymn"]
-[ext_resource type="Script" path="res://scripts/global/hitbox.gd" id="9_rjo8c"]
+[ext_resource type="PackedScene" uid="uid://crvcpbc56v03n" path="res://scenes/hitbox_component.tscn" id="10_nk3iu"]
 [ext_resource type="AudioStream" uid="uid://fjntuhggrrnh" path="res://assets/audio/combo 1 com latido.wav" id="12_kr2ha"]
 
 [sub_resource type="Animation" id="Animation_m281q"]
@@ -475,7 +475,7 @@ tracks/4/keys = {
 }
 
 [sub_resource type="Animation" id="Animation_3c1dx"]
-length = 0.9
+length = 1.2
 tracks/0/type = "value"
 tracks/0/imported = false
 tracks/0/enabled = true
@@ -483,7 +483,7 @@ tracks/0/path = NodePath("AnimatedSprite2D:frame")
 tracks/0/interp = 1
 tracks/0/loop_wrap = true
 tracks/0/keys = {
-"times": PackedFloat32Array(0, 0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 0.8),
+"times": PackedFloat32Array(0, 0.1, 0.2, 0.3, 0.4, 0.5, 1, 1.1, 1.2),
 "transitions": PackedFloat32Array(1, 1, 1, 1, 1, 1, 1, 1, 1),
 "update": 1,
 "values": [0, 1, 2, 3, 4, 5, 6, 7, 8]
@@ -569,7 +569,7 @@ tracks/7/path = NodePath(".:combo_finished")
 tracks/7/interp = 1
 tracks/7/loop_wrap = true
 tracks/7/keys = {
-"times": PackedFloat32Array(0, 0.9),
+"times": PackedFloat32Array(0, 1.2),
 "transitions": PackedFloat32Array(1, 1),
 "update": 1,
 "values": [false, true]
@@ -956,13 +956,10 @@ height = 20.0
 [node name="Sword" type="CharacterBody2D" node_paths=PackedStringArray("_animation_player", "_attack_sprite")]
 collision_layer = 0
 script = ExtResource("1_gijjp")
-_animation_player = NodePath("AnimationPlayer")
+_animation_player = NodePath("WeaponAnimationPlayer")
 _attack_sprite = NodePath("AnimatedSprite2D")
-attack1_attack_damage = 10.0
-attack2_attack_damage = 10.0
-attack3_attack_damage = 20.0
 
-[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+[node name="WeaponAnimationPlayer" type="AnimationPlayer" parent="."]
 libraries = {
 "": SubResource("AnimationLibrary_srk60")
 }
@@ -1033,35 +1030,63 @@ delay_in_seconds = "0.0"
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
 visible = false
 sprite_frames = SubResource("SpriteFrames_qs03q")
-animation = &"combo 1"
+animation = &"combo 3"
 offset = Vector2(0.5, -15)
 
-[node name="combo 1 hitbox" type="Area2D" parent="AnimatedSprite2D"]
+[node name="combo 1 hitbox" parent="AnimatedSprite2D" instance=ExtResource("10_nk3iu")]
 collision_layer = 0
 collision_mask = 4
-script = ExtResource("9_rjo8c")
+can_deal_damage = true
+knockback_owner_upon_hit = true
+frame_freeze = true
+camera_shake = true
+knockback_owner_amount = 30.0
+attack_damage = 10.0
+knockback = 5.0
+frame_freeze_time_scale = 0.1
+frame_freeze_duration = 0.1
+shake_intensity = 1.0
+shake_duration = 0.2
 
 [node name="combo 1 hitbox shape" type="CollisionShape2D" parent="AnimatedSprite2D/combo 1 hitbox"]
-visible = false
 position = Vector2(15, -4)
 shape = SubResource("CapsuleShape2D_fvodr")
 disabled = true
 
-[node name="combo 2 hitbox" type="Area2D" parent="AnimatedSprite2D"]
+[node name="combo 2 hitbox" parent="AnimatedSprite2D" instance=ExtResource("10_nk3iu")]
 collision_layer = 0
 collision_mask = 4
-script = ExtResource("9_rjo8c")
+can_deal_damage = true
+knockback_owner_upon_hit = true
+frame_freeze = true
+camera_shake = true
+knockback_owner_amount = 30.0
+attack_damage = 10.0
+knockback = 5.0
+frame_freeze_time_scale = 0.1
+frame_freeze_duration = 0.1
+shake_intensity = 1.0
+shake_duration = 0.2
 
 [node name="combo 2 hitbox shape" type="CollisionShape2D" parent="AnimatedSprite2D/combo 2 hitbox"]
 position = Vector2(18, 0)
 shape = SubResource("CapsuleShape2D_lnjr7")
 disabled = true
 
-[node name="combo 3 hitbox" type="Area2D" parent="AnimatedSprite2D"]
-visible = false
+[node name="combo 3 hitbox" parent="AnimatedSprite2D" instance=ExtResource("10_nk3iu")]
 collision_layer = 0
 collision_mask = 4
-script = ExtResource("9_rjo8c")
+can_deal_damage = true
+knockback_owner_upon_hit = true
+frame_freeze = true
+camera_shake = true
+knockback_owner_amount = 30.0
+attack_damage = 20.0
+knockback = 10.0
+frame_freeze_time_scale = 0.1
+frame_freeze_duration = 0.25
+shake_intensity = 1.0
+shake_duration = 0.2
 
 [node name="combo 3 hitbox shape" type="CollisionShape2D" parent="AnimatedSprite2D/combo 3 hitbox"]
 position = Vector2(30, 2)
@@ -1082,13 +1107,10 @@ stream = SubResource("AudioStreamRandomizer_l1lgt")
 position = Vector2(0, -12)
 shape = SubResource("CapsuleShape2D_rl4h8")
 
-[connection signal="animation_finished" from="AnimationPlayer" to="SwordStateMachine" method="_on_animation_player_animation_finished"]
+[connection signal="animation_finished" from="WeaponAnimationPlayer" to="SwordStateMachine" method="_on_animation_player_animation_finished"]
 [connection signal="state_entered" from="StateChart/Root/Idle" to="SwordStateMachine" method="_on_idle_state_entered"]
 [connection signal="state_entered" from="StateChart/Root/Attack/Combo 1" to="SwordStateMachine" method="_on_combo_1_state_entered"]
 [connection signal="state_physics_processing" from="StateChart/Root/Attack/Combo 1" to="SwordStateMachine" method="_on_combo_1_state_physics_processing"]
 [connection signal="state_entered" from="StateChart/Root/Attack/Combo 2" to="SwordStateMachine" method="_on_combo_2_state_entered"]
 [connection signal="state_physics_processing" from="StateChart/Root/Attack/Combo 2" to="SwordStateMachine" method="_on_combo_2_state_physics_processing"]
 [connection signal="state_entered" from="StateChart/Root/Attack/Combo 3" to="SwordStateMachine" method="_on_combo_3_state_entered"]
-[connection signal="area_entered" from="AnimatedSprite2D/combo 1 hitbox" to="." method="_on_combo_1_hitbox_area_entered"]
-[connection signal="area_entered" from="AnimatedSprite2D/combo 2 hitbox" to="." method="_on_combo_2_hitbox_area_entered"]
-[connection signal="area_entered" from="AnimatedSprite2D/combo 3 hitbox" to="." method="_on_combo_3_hitbox_area_entered"]
