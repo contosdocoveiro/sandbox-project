@@ -1,0 +1,11 @@
+[gd_scene load_steps=3 format=3 uid="uid://dssvcet43gv7o"]
+
+[ext_resource type="Script" path="res://components/navigation/navigation_component.gd" id="1_cr7jq"]
+[ext_resource type="PackedScene" uid="uid://cwelbbawi3esy" path="res://scenes/context_map.tscn" id="2_6i426"]
+
+[node name="NavigationComponent" type="Node2D"]
+script = ExtResource("1_cr7jq")
+
+[node name="NavigationAgent2D" type="NavigationAgent2D" parent="."]
+
+[node name="ContextMap" parent="." instance=ExtResource("2_6i426")]

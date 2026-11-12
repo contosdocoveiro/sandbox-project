@@ -1,0 +1,2 @@
+class_name ChaserEnemy
+extends CharacterBody2D

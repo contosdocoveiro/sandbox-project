@@ -1,0 +1,166 @@
+[gd_scene load_steps=8 format=3 uid="uid://dd8fpuyp3cejs"]
+
+[ext_resource type="Script" path="res://enemy_state_manager_component.gd" id="1_eg5p5"]
+[ext_resource type="Script" path="res://addons/godot_state_charts/state_chart.gd" id="2_46h33"]
+[ext_resource type="Script" path="res://addons/godot_state_charts/compound_state.gd" id="3_f77cf"]
+[ext_resource type="Script" path="res://addons/godot_state_charts/atomic_state.gd" id="4_mjicc"]
+[ext_resource type="Script" path="res://addons/godot_state_charts/transition.gd" id="5_qnio0"]
+[ext_resource type="Script" path="res://addons/godot_state_charts/history_state.gd" id="7_3hnlt"]
+[ext_resource type="PackedScene" uid="uid://bcwkugn6v3oy7" path="res://addons/godot_state_charts/utilities/state_chart_debugger.tscn" id="8_jx78c"]
+
+[node name="EnemyStateManagerComponent" type="Node2D"]
+script = ExtResource("1_eg5p5")
+
+[node name="StateChart" type="Node" parent="."]
+script = ExtResource("2_46h33")
+
+[node name="Root" type="Node" parent="StateChart"]
+script = ExtResource("3_f77cf")
+initial_state = NodePath("Idle")
+
+[node name="Idle" type="Node" parent="StateChart/Root"]
+script = ExtResource("4_mjicc")
+
+[node name="To Attacking" type="Node" parent="StateChart/Root/Idle"]
+script = ExtResource("5_qnio0")
+to = NodePath("../../Attacking")
+event = &"attacking"
+delay_in_seconds = "0.0"
+
+[node name="To Running" type="Node" parent="StateChart/Root/Idle"]
+script = ExtResource("5_qnio0")
+to = NodePath("../../Running")
+event = &"running"
+delay_in_seconds = "0.0"
+
+[node name="To Hurt" type="Node" parent="StateChart/Root/Idle"]
+script = ExtResource("5_qnio0")
+to = NodePath("../../Hurt")
+event = &"hurt"
+delay_in_seconds = "0.0"
+
+[node name="To Charging" type="Node" parent="StateChart/Root/Idle"]
+script = ExtResource("5_qnio0")
+to = NodePath("../../Charging")
+event = &"charging"
+delay_in_seconds = "0.0"
+
+[node name="Attacking" type="Node" parent="StateChart/Root"]
+script = ExtResource("4_mjicc")
+
+[node name="To Charging" type="Node" parent="StateChart/Root/Attacking"]
+script = ExtResource("5_qnio0")
+to = NodePath("../../Charging")
+event = &"charging"
+delay_in_seconds = "0.0"
+
+[node name="To Attack Phase End" type="Node" parent="StateChart/Root/Attacking"]
+script = ExtResource("5_qnio0")
+to = NodePath("../../Attack Phase End")
+event = &"attack end"
+delay_in_seconds = "0.0"
+
+[node name="Running" type="Node" parent="StateChart/Root"]
+script = ExtResource("4_mjicc")
+
+[node name="To Attacking" type="Node" parent="StateChart/Root/Running"]
+script = ExtResource("5_qnio0")
+to = NodePath("../../Attacking")
+event = &"attacking"
+delay_in_seconds = "0.0"
+
+[node name="To Idle" type="Node" parent="StateChart/Root/Running"]
+script = ExtResource("5_qnio0")
+to = NodePath("../../Idle")
+event = &"idle"
+delay_in_seconds = "0.0"
+
+[node name="To Hurt" type="Node" parent="StateChart/Root/Running"]
+script = ExtResource("5_qnio0")
+to = NodePath("../../Hurt")
+event = &"hurt"
+delay_in_seconds = "0.0"
+
+[node name="To Charging" type="Node" parent="StateChart/Root/Running"]
+script = ExtResource("5_qnio0")
+to = NodePath("../../Charging")
+event = &"charging"
+delay_in_seconds = "0.0"
+
+[node name="Charging" type="Node" parent="StateChart/Root"]
+script = ExtResource("3_f77cf")
+initial_state = NodePath("Charging")
+
+[node name="Charging" type="Node" parent="StateChart/Root/Charging"]
+script = ExtResource("4_mjicc")
+
+[node name="To Charge End" type="Node" parent="StateChart/Root/Charging/Charging"]
+script = ExtResource("5_qnio0")
+to = NodePath("../../Charge End")
+event = &"charge end"
+delay_in_seconds = "0.0"
+
+[node name="Charge End" type="Node" parent="StateChart/Root/Charging"]
+script = ExtResource("4_mjicc")
+
+[node name="To Hurt" type="Node" parent="StateChart/Root/Charging/Charge End"]
+script = ExtResource("5_qnio0")
+to = NodePath("../../../Hurt")
+event = &"hurt"
+delay_in_seconds = "0.0"
+
+[node name="To Attack Phase End" type="Node" parent="StateChart/Root/Charging/Charge End"]
+script = ExtResource("5_qnio0")
+to = NodePath("../../../Attack Phase End")
+event = &"attack end"
+delay_in_seconds = "0.0"
+
+[node name="Hurt" type="Node" parent="StateChart/Root"]
+script = ExtResource("4_mjicc")
+
+[node name="To HistoryState" type="Node" parent="StateChart/Root/Hurt"]
+script = ExtResource("5_qnio0")
+to = NodePath("../../Idle")
+event = &"history"
+delay_in_seconds = "0.0"
+
+[node name="Attack Phase End" type="Node" parent="StateChart/Root"]
+script = ExtResource("4_mjicc")
+
+[node name="To Idle" type="Node" parent="StateChart/Root/Attack Phase End"]
+script = ExtResource("5_qnio0")
+to = NodePath("../../Idle")
+event = &"idle"
+delay_in_seconds = "0.0"
+
+[node name="HistoryState" type="Node" parent="StateChart/Root"]
+script = ExtResource("7_3hnlt")
+default_state = NodePath("../Idle")
+
+[node name="Timer" type="Timer" parent="."]
+one_shot = true
+
+[node name="StunTimer" type="Timer" parent="."]
+one_shot = true
+
+[node name="StateChartDebugger" parent="." instance=ExtResource("8_jx78c")]
+offset_left = -87.0
+offset_top = -36.0
+offset_right = 288.0
+offset_bottom = 339.0
+scale = Vector2(0.2, 0.2)
+enabled = false
+initial_node_to_watch = NodePath("../StateChart")
+
+[connection signal="state_entered" from="StateChart/Root/Idle" to="." method="_on_idle_state_entered"]
+[connection signal="state_physics_processing" from="StateChart/Root/Idle" to="." method="_on_idle_state_physics_processing"]
+[connection signal="state_entered" from="StateChart/Root/Attacking" to="." method="_on_attacking_state_entered"]
+[connection signal="state_physics_processing" from="StateChart/Root/Attacking" to="." method="_on_attacking_state_physics_processing"]
+[connection signal="state_entered" from="StateChart/Root/Running" to="." method="_on_running_state_entered"]
+[connection signal="state_physics_processing" from="StateChart/Root/Running" to="." method="_on_running_state_physics_processing"]
+[connection signal="state_entered" from="StateChart/Root/Charging/Charging" to="." method="_on_charging_state_entered"]
+[connection signal="event_received" from="StateChart/Root/Charging/Charge End" to="." method="_on_charge_end_event_received"]
+[connection signal="state_entered" from="StateChart/Root/Charging/Charge End" to="." method="_on_charge_end_state_entered"]
+[connection signal="state_entered" from="StateChart/Root/Hurt" to="." method="_on_hurt_state_entered"]
+[connection signal="state_entered" from="StateChart/Root/Attack Phase End" to="." method="_on_attack_phase_end_state_entered"]
+[connection signal="timeout" from="StunTimer" to="." method="_on_stun_timer_timeout"]

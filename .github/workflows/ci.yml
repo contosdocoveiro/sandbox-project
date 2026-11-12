@@ -1,0 +1,91 @@
+name: PR Build
+
+on:
+  pull_request:
+    branches: [main]
+    types: [opened, synchronize, reopened]
+
+permissions:
+  contents: read
+
+concurrency:
+  group: pr-${{ github.event.pull_request.number }}
+  cancel-in-progress: true
+
+jobs:
+  build:
+    name: Validate and package (Windows)
+    runs-on: windows-latest
+    env:
+      GODOT_VERSION: 4.7.2-stable
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Set up Godot
+        uses: ./.github/actions/setup-godot
+        with:
+          version: ${{ env.GODOT_VERSION }}
+
+      - name: Check version files agree
+        shell: pwsh
+        run: |
+          $ErrorActionPreference = 'Stop'
+          $fileVersion = (Get-Content -Raw version.txt).Trim()
+          if ($fileVersion -notmatch '^\d+\.\d+\.\d+$') {
+            throw "version.txt must be MAJOR.MINOR.PATCH (got '$fileVersion')"
+          }
+          $line = Select-String -Path project.godot -Pattern '^config/version="([^"]+)"$'
+          if (-not $line) { throw 'project.godot is missing config/version' }
+          $projectVersion = $line.Matches[0].Groups[1].Value
+          if ($projectVersion -ne $fileVersion) {
+            throw "Version mismatch: version.txt=$fileVersion project.godot=$projectVersion"
+          }
+          "**Version:** $fileVersion" | Out-File -FilePath $env:GITHUB_STEP_SUMMARY -Append
+
+      - name: Import project
+        shell: pwsh
+        run: |
+          $ErrorActionPreference = 'Continue'
+          & $env:GODOT_BIN --headless --path . --import *> import.log
+          $code = $LASTEXITCODE
+          $ErrorActionPreference = 'Stop'
+          Get-Content import.log
+          if ($code -ne 0) { throw "Godot import failed with exit code $code" }
+          $scriptErrors = Select-String -Path import.log -Pattern 'SCRIPT ERROR: Parse Error|Failed to load script'
+          if ($scriptErrors) { throw "Script errors during import:`n$($scriptErrors | Out-String)" }
+
+      - name: Export Windows build
+        shell: pwsh
+        run: |
+          $ErrorActionPreference = 'Continue'
+          New-Item -ItemType Directory -Force -Path build/windows | Out-Null
+          & $env:GODOT_BIN --headless --path . --export-release "Windows Desktop" "build/windows/teste.exe" *> export.log
+          $code = $LASTEXITCODE
+          $ErrorActionPreference = 'Stop'
+          Get-Content export.log
+          if ($code -ne 0) { throw "Godot export failed with exit code $code" }
+          if (-not (Test-Path build/windows/teste.exe)) { throw 'Export did not produce build/windows/teste.exe' }
+          $scriptErrors = Select-String -Path export.log -Pattern 'SCRIPT ERROR: Parse Error|Failed to load script'
+          if ($scriptErrors) { throw "Script errors during export:`n$($scriptErrors | Out-String)" }
+
+      - name: Package build
+        id: package
+        shell: pwsh
+        run: |
+          $ErrorActionPreference = 'Stop'
+          $version = (Get-Content -Raw version.txt).Trim()
+          $sha = '${{ github.event.pull_request.head.sha }}'.Substring(0, 7)
+          $name = "sandbox-project-$version-pr${{ github.event.pull_request.number }}-$sha-windows-x86_64"
+          $stage = "dist/$name"
+          New-Item -ItemType Directory -Force -Path $stage | Out-Null
+          Copy-Item build/windows/* $stage -Recurse
+          Compress-Archive -Path $stage -DestinationPath "dist/$name.zip"
+          "name=$name" | Out-File -FilePath $env:GITHUB_OUTPUT -Append
+
+      - name: Upload build
+        uses: actions/upload-artifact@v4
+        with:
+          name: ${{ steps.package.outputs.name }}
+          path: dist/${{ steps.package.outputs.name }}.zip
+          retention-days: 14

@@ -1,0 +1,203 @@
+[gd_resource type="TileSet" format=3 uid="uid://crnaya8eab2jd"]
+
+[ext_resource type="Texture2D" uid="uid://ddb62tilvmftq" path="res://assets/tilesheets/tilesheet dungeon paredes menores.png" id="1_2wvf2"]
+
+[sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_hpo1e"]
+texture = ExtResource("1_2wvf2")
+0:6/0 = 0
+0:6/0/metadata/_better_terrain = {
+0: [2],
+12: [2],
+15: [3],
+"symmetry": 3,
+"type": 2
+}
+1:6/0 = 0
+1:6/0/metadata/_better_terrain = {
+0: [2],
+8: [2],
+11: [3],
+12: [3],
+15: [3],
+"symmetry": 2,
+"type": 2
+}
+2:6/0 = 0
+2:6/0/metadata/_better_terrain = {
+"type": 3
+}
+3:6/0 = 0
+0:7/0 = 0
+0:7/0/z_index = 1
+0:7/0/metadata/_better_terrain = {
+4: [2],
+7: [3],
+8: [3],
+11: [3],
+12: [2],
+"symmetry": 1,
+"type": 2
+}
+1:7/0 = 0
+2:7/0 = 0
+3:7/0 = 0
+4:7/0 = 0
+5:7/0 = 0
+0:8/0 = 0
+0:8/0/z_index = 1
+0:8/0/metadata/_better_terrain = {
+0: [2],
+3: [3],
+4: [3],
+7: [3],
+8: [3],
+11: [3],
+12: [2],
+15: [1],
+"symmetry": 3,
+"type": 2
+}
+1:8/0 = 0
+2:8/0 = 0
+3:8/0 = 0
+4:8/0 = 0
+5:8/0 = 0
+0:9/0 = 0
+0:9/0/z_index = -1
+0:9/0/metadata/_better_terrain = {
+0: [0],
+3: [0],
+4: [0],
+8: [0],
+"type": 0
+}
+1:9/0 = 0
+1:9/0/z_index = -1
+1:9/0/metadata/_better_terrain = {
+0: [0],
+3: [0],
+4: [0],
+8: [0],
+11: [0],
+12: [0],
+15: [0],
+"symmetry": 7,
+"type": 0
+}
+2:9/0 = 0
+2:9/0/z_index = -1
+2:9/0/metadata/_better_terrain = {
+0: [0],
+4: [0],
+"symmetry": 3,
+"type": 0
+}
+3:9/0 = 0
+3:9/0/z_index = -1
+3:9/0/metadata/_better_terrain = {
+0: [0],
+8: [0],
+"symmetry": 7,
+"type": 0
+}
+4:9/0 = 0
+4:9/0/z_index = -1
+4:9/0/metadata/_better_terrain = {
+4: [0],
+"symmetry": 7,
+"type": 0
+}
+5:9/0 = 0
+5:9/0/z_index = -1
+5:9/0/metadata/_better_terrain = {
+0: [0],
+3: [0],
+4: [0],
+7: [0],
+8: [0],
+"symmetry": 7,
+"type": 0
+}
+6:9/0 = 0
+6:9/0/z_index = -1
+6:9/0/metadata/_better_terrain = {
+0: [0],
+3: [0],
+4: [0],
+7: [0],
+8: [0],
+11: [0],
+12: [0],
+15: [0],
+"type": 0
+}
+7:9/0 = 0
+7:9/0/z_index = -1
+7:9/0/metadata/_better_terrain = {
+4: [0],
+7: [0],
+8: [0],
+"symmetry": 3,
+"type": 0
+}
+8:9/0 = 0
+8:9/0/z_index = -1
+8:9/0/metadata/_better_terrain = {
+0: [0],
+3: [0],
+4: [0],
+8: [0],
+12: [0],
+15: [0],
+"symmetry": 7,
+"type": 0
+}
+6:6/size_in_atlas = Vector2i(1, 3)
+6:6/next_alternative_id = 2
+6:6/0 = 0
+6:6/0/y_sort_origin = 23
+6:6/0/metadata/_better_terrain = {
+12: [3],
+"type": 1
+}
+7:6/size_in_atlas = Vector2i(1, 3)
+7:6/0 = 0
+7:6/0/y_sort_origin = 23
+7:6/0/metadata/_better_terrain = {
+0: [1],
+12: [2],
+"symmetry": 1,
+"type": 1
+}
+8:6/size_in_atlas = Vector2i(1, 3)
+8:6/0 = 0
+8:6/0/y_sort_origin = 23
+8:6/0/metadata/_better_terrain = {
+"type": 1
+}
+6:5/0 = 0
+6:5/0/physics_layer_0/polygon_0/points = PackedVector2Array(-8, -8, 8, -8, 8, 8, -8, 8)
+6:5/0/metadata/_better_terrain = {
+"type": 4
+}
+
+[resource]
+physics_layer_0/collision_layer = 1
+sources/0 = SubResource("TileSetAtlasSource_hpo1e")
+metadata/_better_terrain = {
+"decoration": ["Decoration", Color(0.411765, 0.411765, 0.411765, 1), 3, [], {
+"path": "res://addons/better-terrain/icons/Decoration.svg"
+}],
+"terrains": [["chão", Color(0.475758, 0.877796, 0.430122, 1), 0, [], {
+"path": ""
+}], ["paredes", Color(0.00233931, 0.333945, 0.83838, 1), 0, [], {
+"path": ""
+}], ["topo", Color(0.32665, 0.259692, 0.746391, 1), 0, [], {
+"path": ""
+}], ["black fade", Color(0.734722, 0.439827, 0.816646, 1), 0, [], {
+"path": ""
+}], ["parede collision", Color(0.51735, 0.148153, 0.80901, 1), 0, [], {
+"path": ""
+}]],
+"version": "0.2"
+}

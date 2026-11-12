@@ -6,12 +6,13 @@ extends Node
 
 
 @onready var _attack_sprite = $"../AnimatedSprite2D"
-@onready var _animation_player = $"../AnimationPlayer"
+@onready var _animation_player = $"../WeaponAnimationPlayer"
 @onready var _state_chart = $"../StateChart"
 @onready var _sword = $".."
 @onready var _sword_attack_sprite = $"../AnimatedSprite2D"
 
 var _attack_buffer := false
+var can_transition := true
 
 func _store_attack_buffer() -> void:
 	_attack_buffer = true
@@ -31,8 +32,9 @@ func _detect_states() -> void:
 func _on_combo_1_state_entered() -> void:
 	_sword_attack_sprite.rotation = _sword.angle_to_mouse
 	_sword.global_transform.origin = _sword.mouse_pos
-	_sword.owner.send_attack_signal()
 	_animation_player.play("combo 1")
+	_sword.owner.send_attack_signal()
+	
 
 
 func _on_combo_1_state_physics_processing(delta: float) -> void:
@@ -60,8 +62,8 @@ func _on_combo_2_state_physics_processing(delta: float) -> void:
 func _on_combo_2_state_entered() -> void:
 	_sword_attack_sprite.rotation = _sword.angle_to_mouse
 	_sword.global_transform.origin = _sword.mouse_pos
-	_sword.owner.send_attack_signal()
 	_animation_player.play("combo 2")
+	_sword.owner.send_attack_signal()
 	
 	
 
@@ -82,5 +84,5 @@ func _on_animation_player_animation_finished(anim_name: StringName) -> void:
 func _on_combo_3_state_entered() -> void:
 	_sword_attack_sprite.rotation = _sword.angle_to_mouse
 	_sword.global_transform.origin = _sword.mouse_pos #mouse piece of shit
-	_sword.owner.send_attack_signal()
 	_animation_player.play("combo 3")
+	_sword.owner.send_attack_signal()
