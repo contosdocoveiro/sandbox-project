@@ -3,5 +3,12 @@
 /android/
 
 # Exported builds
-build/
-dist/
+/build/
+/dist/
+.fennara/
+
+# GDExtension temporary copies created by Godot / antivirus
+~*.dll
+~*.so
+~*.dylib
+~*.TMP

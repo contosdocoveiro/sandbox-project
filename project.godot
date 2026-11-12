@@ -15,10 +15,10 @@ compatibility/default_parent_skeleton_in_mesh_instance_3d=true
 [application]
 
 config/name="teste"
+config/version="0.1.0"
 run/main_scene="uid://c618wm6ydtha8"
 config/features=PackedStringArray("4.7", "GL Compatibility")
 config/icon="res://icon.svg"
-config/version="0.1.0"
 
 [audio]
 
@@ -31,6 +31,7 @@ DamageNumbers="*res://scripts/global/damage_numbers.gd"
 BetterTerrain="*res://addons/better-terrain/BetterTerrain.gd"
 PlayerStats="*res://scripts/global/playerstats.gd"
 FrameFreeze="*res://scripts/global/frame_freeze.gd"
+_fennara_game_capture="*res://addons/fennara/runtime/game_capture_helper.gd"
 
 [display]
 
@@ -42,7 +43,7 @@ window/dpi/allow_hidpi=false
 
 [editor_plugins]
 
-enabled=PackedStringArray("res://addons/AS2P/plugin.cfg", "res://addons/better-terrain/plugin.cfg", "res://addons/godot_mcp/plugin.cfg", "res://addons/godot_state_charts/plugin.cfg", "res://addons/phantom_camera/plugin.cfg")
+enabled=PackedStringArray("res://addons/AS2P/plugin.cfg", "res://addons/better-terrain/plugin.cfg", "res://addons/godot_state_charts/plugin.cfg", "res://addons/phantom_camera/plugin.cfg")
 
 [global_group]
 
