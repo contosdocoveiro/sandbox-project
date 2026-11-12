@@ -1,0 +1,52 @@
+name: Setup Godot
+description: Downloads Godot and installs the export templates on a Windows runner.
+
+inputs:
+  version:
+    description: Godot version tag, for example 4.7.2-stable.
+    required: false
+    default: 4.7.2-stable
+
+runs:
+  using: composite
+  steps:
+    - name: Download Godot and export templates
+      shell: pwsh
+      run: |
+        $ErrorActionPreference = 'Stop'
+        $version = '${{ inputs.version }}'
+        $templatesVersion = $version.Replace('-', '.')
+        $baseUrl = "https://github.com/godotengine/godot/releases/download/$version"
+
+        $godotDir = Join-Path $env:RUNNER_TEMP 'godot'
+        New-Item -ItemType Directory -Force -Path $godotDir | Out-Null
+
+        $godotZip = Join-Path $env:RUNNER_TEMP 'godot.zip'
+        curl.exe -sSL --fail -o $godotZip "$baseUrl/Godot_v${version}_win64.exe.zip"
+        if ($LASTEXITCODE -ne 0) { throw "Failed to download Godot $version" }
+        Expand-Archive -Path $godotZip -DestinationPath $godotDir -Force
+
+        $exe = Get-ChildItem $godotDir -Filter '*_console.exe' | Select-Object -First 1
+        if (-not $exe) { $exe = Get-ChildItem $godotDir -Filter '*.exe' | Select-Object -First 1 }
+        if (-not $exe) { throw 'Godot executable not found after extracting the archive' }
+
+        $templatesZip = Join-Path $env:RUNNER_TEMP 'templates.zip'
+        curl.exe -sSL --fail -o $templatesZip "$baseUrl/Godot_v${version}_export_templates.tpz"
+        if ($LASTEXITCODE -ne 0) { throw "Failed to download export templates $version" }
+
+        $templatesExtract = Join-Path $env:RUNNER_TEMP 'godot-templates'
+        Expand-Archive -Path $templatesZip -DestinationPath $templatesExtract -Force
+
+        $templatesDest = Join-Path $env:APPDATA "Godot\export_templates\$templatesVersion"
+        New-Item -ItemType Directory -Force -Path $templatesDest | Out-Null
+        Copy-Item -Path (Join-Path $templatesExtract 'templates\*') -Destination $templatesDest -Recurse -Force
+
+        "GODOT_BIN=$($exe.FullName)" | Out-File -FilePath $env:GITHUB_ENV -Append
+        "GODOT_VERSION=$version" | Out-File -FilePath $env:GITHUB_ENV -Append
+
+    - name: Verify installation
+      shell: pwsh
+      run: |
+        $ErrorActionPreference = 'Stop'
+        & $env:GODOT_BIN --headless --version
+        if ($LASTEXITCODE -ne 0) { throw 'Godot failed to start' }
