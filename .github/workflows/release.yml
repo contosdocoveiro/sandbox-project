@@ -84,6 +84,9 @@ jobs:
             next="$major.$minor.$patch"
           fi
 
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+
           if [[ "$next" != "$current" ]]; then
             printf '%s\n' "$next" > version.txt
             if grep -q '^config/version=' project.godot; then
@@ -92,8 +95,6 @@ jobs:
               sed -i "/^config\/name=/a config/version=\"$next\"" project.godot
             fi
 
-            git config user.name 'github-actions[bot]'
-            git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
             git add version.txt project.godot
             git commit -m "chore(release): v$next [skip ci]"
           fi
