@@ -1,6 +1,6 @@
-[gd_scene load_steps=79 format=3 uid="uid://dmor5x3f2oilx"]
+[gd_scene format=3 uid="uid://dmor5x3f2oilx"]
 
-[ext_resource type="Script" path="res://actors/enemies/sword_skeleton_regular.gd" id="1_puc5f"]
+[ext_resource type="Script" uid="uid://wimdj5v5rrp3" path="res://actors/enemies/sword_skeleton_regular.gd" id="1_puc5f"]
 [ext_resource type="Texture2D" uid="uid://cpdry23gvyih3" path="res://assets/enemies/skeleton/sword/regular/attack.png" id="2_25wby"]
 [ext_resource type="Texture2D" uid="uid://dfrt5a2uoafu8" path="res://assets/enemies/skeleton/sword/regular/hurt.png" id="3_ckuku"]
 [ext_resource type="Texture2D" uid="uid://cw2xm0t8ff1ho" path="res://assets/enemies/skeleton/sword/regular/idle.png" id="3_lddf5"]
@@ -11,7 +11,7 @@
 [ext_resource type="PackedScene" uid="uid://c70ow424f0vy4" path="res://components/input/enemy/enemy_input_component.tscn" id="12_w7ag7"]
 [ext_resource type="PackedScene" uid="uid://bbtrbbgp12oo" path="res://components/movement/physics_component.tscn" id="13_2cdsb"]
 [ext_resource type="PackedScene" uid="uid://bqkto0cybvu8k" path="res://components/combat/damage_numbers_component.tscn" id="13_26x5g"]
-[ext_resource type="Script" path="res://components/area/detection_area.gd" id="14_clb27"]
+[ext_resource type="Script" uid="uid://c2ucqsr1d5i51" path="res://components/area/detection_area.gd" id="14_clb27"]
 [ext_resource type="PackedScene" uid="uid://5qp87qh6vy7g" path="res://components/area/attack_range_component.tscn" id="14_y4qk8"]
 [ext_resource type="PackedScene" uid="uid://dssvcet43gv7o" path="res://components/navigation/navigation_component.tscn" id="15_1uog5"]
 [ext_resource type="PackedScene" uid="uid://b6pdu3u42npfd" path="res://components/behavior/enemy_behavior_component.tscn" id="15_bspxw"]
@@ -270,7 +270,7 @@ animations = [{
 "duration": 1.0,
 "texture": SubResource("AtlasTexture_o8fk8")
 }],
-"loop": false,
+"loop": 0,
 "name": &"attack",
 "speed": 8.0
 }, {
@@ -287,7 +287,7 @@ animations = [{
 "duration": 1.0,
 "texture": SubResource("AtlasTexture_5qshi")
 }],
-"loop": false,
+"loop": 0,
 "name": &"hurt",
 "speed": 8.0
 }, {
@@ -316,7 +316,7 @@ animations = [{
 "duration": 1.0,
 "texture": SubResource("AtlasTexture_jeevk")
 }],
-"loop": true,
+"loop": 1,
 "name": &"idle",
 "speed": 8.0
 }, {
@@ -345,7 +345,7 @@ animations = [{
 "duration": 1.0,
 "texture": SubResource("AtlasTexture_k6x7c")
 }],
-"loop": true,
+"loop": 1,
 "name": &"walk",
 "speed": 8.0
 }]
@@ -377,7 +377,7 @@ animations = [{
 "duration": 1.0,
 "texture": SubResource("AtlasTexture_esung")
 }],
-"loop": false,
+"loop": 0,
 "name": &"attack",
 "speed": 8.0
 }]
@@ -542,11 +542,11 @@ tracks/1/keys = {
 
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_c1jkj"]
 _data = {
-"RESET": SubResource("Animation_v4wcf"),
-"attack": SubResource("Animation_dtdiv"),
-"hurt": SubResource("Animation_8xxrn"),
-"idle": SubResource("Animation_dxieg"),
-"run": SubResource("Animation_cbsux")
+&"RESET": SubResource("Animation_v4wcf"),
+&"attack": SubResource("Animation_dtdiv"),
+&"hurt": SubResource("Animation_8xxrn"),
+&"idle": SubResource("Animation_dxieg"),
+&"run": SubResource("Animation_cbsux")
 }
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_y7n1v"]
@@ -558,7 +558,7 @@ radius = 130.0
 [sub_resource type="CircleShape2D" id="CircleShape2D_7isb5"]
 radius = 41.0122
 
-[node name="SwordSkeletonRegular" type="CharacterBody2D" node_paths=PackedStringArray("sprite", "attack_vfx", "state_manager", "dash", "detection_area", "navigation_component", "input_component", "physics_component", "attack_range", "enemy_behavior", "health_component")]
+[node name="SwordSkeletonRegular" type="CharacterBody2D" unique_id=1141830009 node_paths=PackedStringArray("sprite", "attack_vfx", "state_manager", "dash", "detection_area", "navigation_component", "input_component", "physics_component", "attack_range", "enemy_behavior", "health_component")]
 collision_layer = 4
 script = ExtResource("1_puc5f")
 sprite = NodePath("Body")
@@ -573,22 +573,20 @@ attack_range = NodePath("AttackRange")
 enemy_behavior = NodePath("EnemyBehaviorComponent")
 health_component = NodePath("HealthComponent")
 
-[node name="Body" type="AnimatedSprite2D" parent="."]
+[node name="Body" type="AnimatedSprite2D" parent="." unique_id=588682112]
 sprite_frames = SubResource("SpriteFrames_l6bx2")
 animation = &"attack"
 frame = 16
 offset = Vector2(0, -16)
 
-[node name="HitboxComponent" parent="Body" node_paths=PackedStringArray("health_component") instance=ExtResource("5_4d2ua")]
-collision_layer = 4
-collision_mask = 2
+[node name="HitboxComponent" parent="Body" unique_id=429704035 node_paths=PackedStringArray("health_component") instance=ExtResource("5_4d2ua")]
 health_component = NodePath("../../HealthComponent")
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="Body/HitboxComponent"]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Body/HitboxComponent" unique_id=277304791]
 position = Vector2(0, -2)
 shape = SubResource("CircleShape2D_xwqpy")
 
-[node name="AttackVFX" type="AnimatedSprite2D" parent="."]
+[node name="AttackVFX" type="AnimatedSprite2D" parent="." unique_id=1249499053]
 visible = false
 position = Vector2(0, -9)
 sprite_frames = SubResource("SpriteFrames_5umcr")
@@ -597,9 +595,8 @@ frame = 2
 frame_progress = 1.0
 offset = Vector2(3, -4)
 
-[node name="HitboxComponent" parent="AttackVFX" instance=ExtResource("5_4d2ua")]
+[node name="HitboxComponent" parent="AttackVFX" unique_id=1089842867 instance=ExtResource("5_4d2ua")]
 collision_layer = 0
-collision_mask = 2
 can_deal_damage = true
 frame_freeze = true
 camera_shake = true
@@ -608,46 +605,44 @@ knockback = 50.0
 frame_freeze_time_scale = 0.05
 frame_freeze_duration = 0.5
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="AttackVFX/HitboxComponent"]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="AttackVFX/HitboxComponent" unique_id=233832841]
 position = Vector2(14, 0)
 rotation = 1.5708
 shape = SubResource("CapsuleShape2D_ufrkd")
 disabled = true
 
-[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
-libraries = {
-"": SubResource("AnimationLibrary_c1jkj")
-}
+[node name="AnimationPlayer" type="AnimationPlayer" parent="." unique_id=443097827]
+libraries/ = SubResource("AnimationLibrary_c1jkj")
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=2080796981]
 visible = false
 position = Vector2(0, -1)
 shape = SubResource("CircleShape2D_y7n1v")
 
-[node name="DamageNumbersComponent" parent="." instance=ExtResource("13_26x5g")]
+[node name="DamageNumbersComponent" parent="." unique_id=626630786 instance=ExtResource("13_26x5g")]
 position = Vector2(0, -27)
 
-[node name="DetectionArea" type="Area2D" parent="."]
+[node name="DetectionArea" type="Area2D" parent="." unique_id=1192935623]
 visible = false
 collision_layer = 0
 collision_mask = 2
 script = ExtResource("14_clb27")
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="DetectionArea"]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="DetectionArea" unique_id=370011615]
 shape = SubResource("CircleShape2D_vdsn2")
 
-[node name="NavigationComponent" parent="." node_paths=PackedStringArray("actor") instance=ExtResource("15_1uog5")]
+[node name="NavigationComponent" parent="." unique_id=1562573338 node_paths=PackedStringArray("actor") instance=ExtResource("15_1uog5")]
 look_ahead = 25.0
 actor = NodePath("..")
 
-[node name="HealthComponent" parent="." node_paths=PackedStringArray("damage_numbers_component") instance=ExtResource("15_qi1qp")]
+[node name="HealthComponent" parent="." unique_id=641194289 node_paths=PackedStringArray("damage_numbers_component") instance=ExtResource("15_qi1qp")]
 damage_numbers_component = NodePath("../DamageNumbersComponent")
 MAX_HEALTH = 100.0
 
-[node name="EnemyInputComponent" parent="." node_paths=PackedStringArray("navigation_component") instance=ExtResource("12_w7ag7")]
+[node name="EnemyInputComponent" parent="." unique_id=497413708 node_paths=PackedStringArray("navigation_component") instance=ExtResource("12_w7ag7")]
 navigation_component = NodePath("../NavigationComponent")
 
-[node name="PhysicsComponent" parent="." node_paths=PackedStringArray("actor", "dash_component", "input_component") instance=ExtResource("13_2cdsb")]
+[node name="PhysicsComponent" parent="." unique_id=644964570 node_paths=PackedStringArray("actor", "dash_component", "input_component") instance=ExtResource("13_2cdsb")]
 move_speed = 50.0
 dash_speed = 175.0
 actor = NodePath("..")
@@ -656,14 +651,14 @@ dash_component = NodePath("../DashComponent")
 input_component = NodePath("../EnemyInputComponent")
 knockback_resistance = 10.0
 
-[node name="AttackRange" parent="." instance=ExtResource("14_y4qk8")]
+[node name="AttackRange" parent="." unique_id=374986824 instance=ExtResource("14_y4qk8")]
 visible = true
 collision_layer = 0
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="AttackRange"]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="AttackRange" unique_id=372207355]
 shape = SubResource("CircleShape2D_7isb5")
 
-[node name="EnemyBehaviorComponent" parent="." node_paths=PackedStringArray("actor", "physics_component", "state_manager", "input_component", "attack_hitbox", "attack_range", "attack_vfx") instance=ExtResource("15_bspxw")]
+[node name="EnemyBehaviorComponent" parent="." unique_id=930343553 node_paths=PackedStringArray("actor", "physics_component", "state_manager", "input_component", "attack_hitbox", "attack_range", "attack_vfx") instance=ExtResource("15_bspxw")]
 actor = NodePath("..")
 physics_component = NodePath("../PhysicsComponent")
 state_manager = NodePath("../EnemyStateManagerComponent")
@@ -672,14 +667,14 @@ attack_hitbox = NodePath("../AttackVFX/HitboxComponent")
 attack_range = NodePath("../AttackRange")
 attack_vfx = NodePath("../AttackVFX")
 
-[node name="DashComponent" parent="." instance=ExtResource("16_morue")]
+[node name="DashComponent" parent="." unique_id=1282561148 instance=ExtResource("16_morue")]
 
-[node name="EnemyAnimationComponent" parent="." node_paths=PackedStringArray("actor", "animation_player", "sprite") instance=ExtResource("17_7unll")]
+[node name="EnemyAnimationComponent" parent="." unique_id=47243595 node_paths=PackedStringArray("actor", "animation_player", "sprite") instance=ExtResource("17_7unll")]
 actor = NodePath("..")
 animation_player = NodePath("../AnimationPlayer")
 sprite = NodePath("../Body")
 
-[node name="EnemyStateManagerComponent" parent="." node_paths=PackedStringArray("actor", "animation_component") instance=ExtResource("11_0cuv4")]
+[node name="EnemyStateManagerComponent" parent="." unique_id=619350534 node_paths=PackedStringArray("actor", "animation_component") instance=ExtResource("11_0cuv4")]
 attack_cooldown = 3.0
 actor = NodePath("..")
 animation_component = NodePath("../EnemyAnimationComponent")

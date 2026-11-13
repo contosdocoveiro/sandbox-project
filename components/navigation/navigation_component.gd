@@ -20,11 +20,33 @@ var acceleration = Vector2.ZERO
 
 
 
+func _ready() -> void:
+	num_rays = raycasts.size()
+	ray_directions.resize(num_rays)
+	interest.resize(num_rays)
+	danger.resize(num_rays)
+	
+	for i in num_rays:
+		var ray := raycasts[i] as RayCast2D
+		if ray == null:
+			ray_directions[i] = Vector2.ZERO
+			interest[i] = 0.0
+			danger[i] = 0.0
+			continue
+		ray_directions[i] = ray.target_position.normalized().rotated(ray.rotation)
+		interest[i] = 0.0
+		danger[i] = 0.0
+
 func get_direction() -> Vector2:
+	if actor == null or navigation_agent == null or raycasts.is_empty():
+		return chosen_dir
+	
+	if actor.detection_area:
+		target = actor.detection_area._player_ref
+	
 	if(is_instance_valid(target)):
 		navigation_agent.target_position = target.global_position
-	if(actor.detection_area):
-		target = actor.detection_area._player_ref
+		
 	set_interest()
 	set_danger()
 	choose_direction()

@@ -12,3 +12,5 @@
 ~*.so
 ~*.dylib
 ~*.TMP
+
+AGENTS.md
