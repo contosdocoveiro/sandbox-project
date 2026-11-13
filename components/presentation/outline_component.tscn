@@ -1,0 +1,6 @@
+[gd_scene format=3 uid="uid://87eyytqhj2f3"]
+
+[ext_resource type="Script" uid="uid://bi7bgpwuvc7p" path="res://components/presentation/outline_component.gd" id="1_m2606"]
+
+[node name="OutlineComponent" type="Node" unique_id=336770202]
+script = ExtResource("1_m2606")
