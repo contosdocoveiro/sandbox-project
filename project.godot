@@ -27,10 +27,9 @@ buses/default_bus_layout=""
 [autoload]
 
 PhantomCameraManager="*uid://cw5q835t18j6y"
-DamageNumbers="*res://scripts/global/damage_numbers.gd"
+DamageNumbers="*res://services/damage_numbers.gd"
 BetterTerrain="*res://addons/better-terrain/BetterTerrain.gd"
-PlayerStats="*res://scripts/global/playerstats.gd"
-FrameFreeze="*res://scripts/global/frame_freeze.gd"
+FrameFreeze="*res://services/frame_freeze.gd"
 _fennara_game_capture="*res://addons/fennara/runtime/game_capture_helper.gd"
 
 [display]

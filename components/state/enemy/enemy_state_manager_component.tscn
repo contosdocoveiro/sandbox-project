@@ -1,6 +1,6 @@
 [gd_scene load_steps=8 format=3 uid="uid://dd8fpuyp3cejs"]
 
-[ext_resource type="Script" path="res://enemy_state_manager_component.gd" id="1_eg5p5"]
+[ext_resource type="Script" path="res://components/state/enemy/enemy_state_manager_component.gd" id="1_eg5p5"]
 [ext_resource type="Script" path="res://addons/godot_state_charts/state_chart.gd" id="2_46h33"]
 [ext_resource type="Script" path="res://addons/godot_state_charts/compound_state.gd" id="3_f77cf"]
 [ext_resource type="Script" path="res://addons/godot_state_charts/atomic_state.gd" id="4_mjicc"]

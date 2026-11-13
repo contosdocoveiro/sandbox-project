@@ -1,0 +1,15 @@
+[gd_scene load_steps=2 format=3 uid="uid://c41v5nytvgb45"]
+
+[ext_resource type="Script" path="res://components/movement/dash.gd" id="1_wdmri"]
+
+[node name="DashComponent" type="Node2D"]
+script = ExtResource("1_wdmri")
+
+[node name="DurationTimer" type="Timer" parent="."]
+one_shot = true
+
+[node name="GhostTimer" type="Timer" parent="."]
+wait_time = 0.03
+
+[connection signal="timeout" from="DurationTimer" to="." method="_on_duration_timer_timeout"]
+[connection signal="timeout" from="GhostTimer" to="." method="_on_ghost_timer_timeout"]

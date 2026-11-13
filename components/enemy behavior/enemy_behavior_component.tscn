@@ -1,9 +1,0 @@
-[gd_scene load_steps=2 format=3 uid="uid://b6pdu3u42npfd"]
-
-[ext_resource type="Script" path="res://components/enemy behavior/enemy_behavior_component.gd" id="1_c4bb7"]
-
-[node name="EnemyBehaviorComponent" type="Node2D"]
-script = ExtResource("1_c4bb7")
-
-[node name="Timer" type="Timer" parent="."]
-one_shot = true

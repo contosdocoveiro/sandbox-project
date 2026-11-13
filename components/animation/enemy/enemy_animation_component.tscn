@@ -1,6 +1,6 @@
 [gd_scene load_steps=2 format=3 uid="uid://chfbsum7ddgp1"]
 
-[ext_resource type="Script" path="res://enemy_animation_component.gd" id="1_336h3"]
+[ext_resource type="Script" path="res://components/animation/enemy/enemy_animation_component.gd" id="1_336h3"]
 
 [node name="EnemyAnimationComponent" type="Node2D"]
 script = ExtResource("1_336h3")
