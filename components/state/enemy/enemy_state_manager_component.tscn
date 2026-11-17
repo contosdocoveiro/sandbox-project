@@ -1,149 +1,156 @@
-[gd_scene load_steps=8 format=3 uid="uid://dd8fpuyp3cejs"]
+[gd_scene format=3 uid="uid://dd8fpuyp3cejs"]
 
-[ext_resource type="Script" path="res://components/state/enemy/enemy_state_manager_component.gd" id="1_eg5p5"]
-[ext_resource type="Script" path="res://addons/godot_state_charts/state_chart.gd" id="2_46h33"]
-[ext_resource type="Script" path="res://addons/godot_state_charts/compound_state.gd" id="3_f77cf"]
-[ext_resource type="Script" path="res://addons/godot_state_charts/atomic_state.gd" id="4_mjicc"]
-[ext_resource type="Script" path="res://addons/godot_state_charts/transition.gd" id="5_qnio0"]
-[ext_resource type="Script" path="res://addons/godot_state_charts/history_state.gd" id="7_3hnlt"]
+[ext_resource type="Script" uid="uid://dgru453r3chvr" path="res://components/state/enemy/enemy_state_manager_component.gd" id="1_eg5p5"]
+[ext_resource type="Script" uid="uid://couw105c3bde4" path="res://addons/godot_state_charts/state_chart.gd" id="2_46h33"]
+[ext_resource type="Script" uid="uid://jk2jm1g6q853" path="res://addons/godot_state_charts/compound_state.gd" id="3_f77cf"]
+[ext_resource type="Script" uid="uid://cytafq8i1y8qm" path="res://addons/godot_state_charts/atomic_state.gd" id="4_mjicc"]
+[ext_resource type="Script" uid="uid://cf1nsco3w0mf6" path="res://addons/godot_state_charts/transition.gd" id="5_qnio0"]
+[ext_resource type="Script" uid="uid://b4dwolbvt8our" path="res://addons/godot_state_charts/history_state.gd" id="7_3hnlt"]
 [ext_resource type="PackedScene" uid="uid://bcwkugn6v3oy7" path="res://addons/godot_state_charts/utilities/state_chart_debugger.tscn" id="8_jx78c"]
 
-[node name="EnemyStateManagerComponent" type="Node2D"]
+[node name="EnemyStateManagerComponent" type="Node2D" unique_id=1424210010]
 script = ExtResource("1_eg5p5")
+attack_cooldown = null
 
-[node name="StateChart" type="Node" parent="."]
+[node name="StateChart" type="Node" parent="." unique_id=1220091086]
 script = ExtResource("2_46h33")
+initial_expression_properties = {
+"attack_ready": true,
+"can_be_staggered": true,
+"has_target": false,
+"in_attack_range": false
+}
 
-[node name="Root" type="Node" parent="StateChart"]
+[node name="Root" type="Node" parent="StateChart" unique_id=1426874865]
 script = ExtResource("3_f77cf")
 initial_state = NodePath("Idle")
 
-[node name="Idle" type="Node" parent="StateChart/Root"]
+[node name="Idle" type="Node" parent="StateChart/Root" unique_id=1043136127]
 script = ExtResource("4_mjicc")
 
-[node name="To Attacking" type="Node" parent="StateChart/Root/Idle"]
+[node name="To Attacking" type="Node" parent="StateChart/Root/Idle" unique_id=2020013445]
 script = ExtResource("5_qnio0")
 to = NodePath("../../Attacking")
 event = &"attacking"
 delay_in_seconds = "0.0"
 
-[node name="To Running" type="Node" parent="StateChart/Root/Idle"]
+[node name="To Running" type="Node" parent="StateChart/Root/Idle" unique_id=675368196]
 script = ExtResource("5_qnio0")
 to = NodePath("../../Running")
 event = &"running"
 delay_in_seconds = "0.0"
 
-[node name="To Hurt" type="Node" parent="StateChart/Root/Idle"]
+[node name="To Hurt" type="Node" parent="StateChart/Root/Idle" unique_id=1938484005]
 script = ExtResource("5_qnio0")
 to = NodePath("../../Hurt")
 event = &"hurt"
 delay_in_seconds = "0.0"
 
-[node name="To Charging" type="Node" parent="StateChart/Root/Idle"]
+[node name="To Charging" type="Node" parent="StateChart/Root/Idle" unique_id=866250099]
 script = ExtResource("5_qnio0")
 to = NodePath("../../Charging")
 event = &"charging"
 delay_in_seconds = "0.0"
 
-[node name="Attacking" type="Node" parent="StateChart/Root"]
+[node name="Attacking" type="Node" parent="StateChart/Root" unique_id=2145762072]
 script = ExtResource("4_mjicc")
 
-[node name="To Charging" type="Node" parent="StateChart/Root/Attacking"]
+[node name="To Charging" type="Node" parent="StateChart/Root/Attacking" unique_id=1893539987]
 script = ExtResource("5_qnio0")
 to = NodePath("../../Charging")
 event = &"charging"
 delay_in_seconds = "0.0"
 
-[node name="To Attack Phase End" type="Node" parent="StateChart/Root/Attacking"]
+[node name="To Attack Phase End" type="Node" parent="StateChart/Root/Attacking" unique_id=1761763816]
 script = ExtResource("5_qnio0")
 to = NodePath("../../Attack Phase End")
 event = &"attack end"
 delay_in_seconds = "0.0"
 
-[node name="Running" type="Node" parent="StateChart/Root"]
+[node name="Running" type="Node" parent="StateChart/Root" unique_id=885632139]
 script = ExtResource("4_mjicc")
 
-[node name="To Attacking" type="Node" parent="StateChart/Root/Running"]
+[node name="To Attacking" type="Node" parent="StateChart/Root/Running" unique_id=904784436]
 script = ExtResource("5_qnio0")
 to = NodePath("../../Attacking")
 event = &"attacking"
 delay_in_seconds = "0.0"
 
-[node name="To Idle" type="Node" parent="StateChart/Root/Running"]
+[node name="To Idle" type="Node" parent="StateChart/Root/Running" unique_id=1803196498]
 script = ExtResource("5_qnio0")
 to = NodePath("../../Idle")
 event = &"idle"
 delay_in_seconds = "0.0"
 
-[node name="To Hurt" type="Node" parent="StateChart/Root/Running"]
+[node name="To Hurt" type="Node" parent="StateChart/Root/Running" unique_id=16974870]
 script = ExtResource("5_qnio0")
 to = NodePath("../../Hurt")
 event = &"hurt"
 delay_in_seconds = "0.0"
 
-[node name="To Charging" type="Node" parent="StateChart/Root/Running"]
+[node name="To Charging" type="Node" parent="StateChart/Root/Running" unique_id=11226002]
 script = ExtResource("5_qnio0")
 to = NodePath("../../Charging")
 event = &"charging"
 delay_in_seconds = "0.0"
 
-[node name="Charging" type="Node" parent="StateChart/Root"]
+[node name="Charging" type="Node" parent="StateChart/Root" unique_id=1878174748]
 script = ExtResource("3_f77cf")
 initial_state = NodePath("Charging")
 
-[node name="Charging" type="Node" parent="StateChart/Root/Charging"]
+[node name="Charging" type="Node" parent="StateChart/Root/Charging" unique_id=321240481]
 script = ExtResource("4_mjicc")
 
-[node name="To Charge End" type="Node" parent="StateChart/Root/Charging/Charging"]
+[node name="To Charge End" type="Node" parent="StateChart/Root/Charging/Charging" unique_id=660118998]
 script = ExtResource("5_qnio0")
 to = NodePath("../../Charge End")
 event = &"charge end"
 delay_in_seconds = "0.0"
 
-[node name="Charge End" type="Node" parent="StateChart/Root/Charging"]
+[node name="Charge End" type="Node" parent="StateChart/Root/Charging" unique_id=960815238]
 script = ExtResource("4_mjicc")
 
-[node name="To Hurt" type="Node" parent="StateChart/Root/Charging/Charge End"]
+[node name="To Hurt" type="Node" parent="StateChart/Root/Charging/Charge End" unique_id=1503504373]
 script = ExtResource("5_qnio0")
 to = NodePath("../../../Hurt")
 event = &"hurt"
 delay_in_seconds = "0.0"
 
-[node name="To Attack Phase End" type="Node" parent="StateChart/Root/Charging/Charge End"]
+[node name="To Attack Phase End" type="Node" parent="StateChart/Root/Charging/Charge End" unique_id=2034974013]
 script = ExtResource("5_qnio0")
 to = NodePath("../../../Attack Phase End")
 event = &"attack end"
 delay_in_seconds = "0.0"
 
-[node name="Hurt" type="Node" parent="StateChart/Root"]
+[node name="Hurt" type="Node" parent="StateChart/Root" unique_id=621323002]
 script = ExtResource("4_mjicc")
 
-[node name="To HistoryState" type="Node" parent="StateChart/Root/Hurt"]
+[node name="To HistoryState" type="Node" parent="StateChart/Root/Hurt" unique_id=731396506]
 script = ExtResource("5_qnio0")
 to = NodePath("../../Idle")
 event = &"history"
 delay_in_seconds = "0.0"
 
-[node name="Attack Phase End" type="Node" parent="StateChart/Root"]
+[node name="Attack Phase End" type="Node" parent="StateChart/Root" unique_id=416175987]
 script = ExtResource("4_mjicc")
 
-[node name="To Idle" type="Node" parent="StateChart/Root/Attack Phase End"]
+[node name="To Idle" type="Node" parent="StateChart/Root/Attack Phase End" unique_id=142896544]
 script = ExtResource("5_qnio0")
 to = NodePath("../../Idle")
 event = &"idle"
 delay_in_seconds = "0.0"
 
-[node name="HistoryState" type="Node" parent="StateChart/Root"]
+[node name="HistoryState" type="Node" parent="StateChart/Root" unique_id=203093534]
 script = ExtResource("7_3hnlt")
 default_state = NodePath("../Idle")
 
-[node name="Timer" type="Timer" parent="."]
+[node name="Timer" type="Timer" parent="." unique_id=786242102]
 one_shot = true
 
-[node name="StunTimer" type="Timer" parent="."]
+[node name="StunTimer" type="Timer" parent="." unique_id=1745081836]
 one_shot = true
 
-[node name="StateChartDebugger" parent="." instance=ExtResource("8_jx78c")]
+[node name="StateChartDebugger" parent="." unique_id=827686925 instance=ExtResource("8_jx78c")]
 offset_left = -87.0
 offset_top = -36.0
 offset_right = 288.0

@@ -14,10 +14,11 @@
 [ext_resource type="Script" uid="uid://c2ucqsr1d5i51" path="res://components/area/detection_area.gd" id="14_clb27"]
 [ext_resource type="PackedScene" uid="uid://5qp87qh6vy7g" path="res://components/area/attack_range_component.tscn" id="14_y4qk8"]
 [ext_resource type="PackedScene" uid="uid://dssvcet43gv7o" path="res://components/navigation/navigation_component.tscn" id="15_1uog5"]
-[ext_resource type="PackedScene" uid="uid://b6pdu3u42npfd" path="res://components/behavior/enemy_behavior_component.tscn" id="15_bspxw"]
+[ext_resource type="PackedScene" uid="uid://b6pdu3u42npfd" path="res://components/enemy/behavior/enemy_behavior_component.tscn" id="15_bspxw"]
 [ext_resource type="PackedScene" uid="uid://c3n4e6ptpinp2" path="res://components/combat/health_component.tscn" id="15_qi1qp"]
 [ext_resource type="PackedScene" uid="uid://c41v5nytvgb45" path="res://components/movement/dash_component.tscn" id="16_morue"]
-[ext_resource type="PackedScene" uid="uid://chfbsum7ddgp1" path="res://components/animation/enemy/enemy_animation_component.tscn" id="17_7unll"]
+[ext_resource type="PackedScene" uid="uid://chfbsum7ddgp1" path="res://components/enemy/animation/enemy_animation_component.tscn" id="17_7unll"]
+[ext_resource type="PackedScene" uid="uid://87eyytqhj2f3" path="res://components/presentation/outline_component.tscn" id="19_f2qqh"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_jk516"]
 atlas = ExtResource("2_25wby")
@@ -559,6 +560,7 @@ radius = 130.0
 radius = 41.0122
 
 [node name="SwordSkeletonRegular" type="CharacterBody2D" unique_id=1141830009 node_paths=PackedStringArray("sprite", "attack_vfx", "state_manager", "dash", "detection_area", "navigation_component", "input_component", "physics_component", "attack_range", "enemy_behavior", "health_component")]
+visible = false
 collision_layer = 4
 script = ExtResource("1_puc5f")
 sprite = NodePath("Body")
@@ -658,16 +660,10 @@ collision_layer = 0
 [node name="CollisionShape2D" type="CollisionShape2D" parent="AttackRange" unique_id=372207355]
 shape = SubResource("CircleShape2D_7isb5")
 
-[node name="EnemyBehaviorComponent" parent="." unique_id=930343553 node_paths=PackedStringArray("actor", "physics_component", "state_manager", "input_component", "attack_hitbox", "attack_range", "attack_vfx") instance=ExtResource("15_bspxw")]
-actor = NodePath("..")
-physics_component = NodePath("../PhysicsComponent")
-state_manager = NodePath("../EnemyStateManagerComponent")
-input_component = NodePath("../EnemyInputComponent")
-attack_hitbox = NodePath("../AttackVFX/HitboxComponent")
-attack_range = NodePath("../AttackRange")
-attack_vfx = NodePath("../AttackVFX")
+[node name="EnemyBehaviorComponent" parent="." unique_id=930343553 instance=ExtResource("15_bspxw")]
 
-[node name="DashComponent" parent="." unique_id=1282561148 instance=ExtResource("16_morue")]
+[node name="DashComponent" parent="." unique_id=1282561148 node_paths=PackedStringArray("actor") instance=ExtResource("16_morue")]
+actor = NodePath("..")
 
 [node name="EnemyAnimationComponent" parent="." unique_id=47243595 node_paths=PackedStringArray("actor", "animation_player", "sprite") instance=ExtResource("17_7unll")]
 actor = NodePath("..")
@@ -675,6 +671,10 @@ animation_player = NodePath("../AnimationPlayer")
 sprite = NodePath("../Body")
 
 [node name="EnemyStateManagerComponent" parent="." unique_id=619350534 node_paths=PackedStringArray("actor", "animation_component") instance=ExtResource("11_0cuv4")]
-attack_cooldown = 3.0
 actor = NodePath("..")
 animation_component = NodePath("../EnemyAnimationComponent")
+
+[node name="OutlineComponent" parent="." unique_id=336770202 node_paths=PackedStringArray("body") instance=ExtResource("19_f2qqh")]
+body = NodePath("../Body")
+outline_color = Color(0.6041202, 0.6628772, 0.4104258, 1)
+outline_width = 0.5

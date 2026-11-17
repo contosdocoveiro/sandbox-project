@@ -38,7 +38,7 @@ var _state_active:bool = false
 ## Whether the current state is active.
 var active:bool:
 	get: return _state_active
-	
+
 ## The currently active pending transition.
 var _pending_transition:Transition = null
 
@@ -47,9 +47,8 @@ var _pending_transition_remaining_delay:float = 0
 ## The initial time of the pending transition.
 var _pending_transition_initial_delay:float = 0
 
-## Transitions in this state that react on events. 
+## Transitions in this state that react on events.
 var _transitions:Array[Transition] = []
-
 
 ## The state chart that owns this state.
 var _chart:StateChart
@@ -58,67 +57,60 @@ func _ready() -> void:
 	# don't run in the editor
 	if Engine.is_editor_hint():
 		return
-		
+
 	_chart = _find_chart(get_parent())
-		
+
 
 ## Finds the owning state chart by moving upwards.
 func _find_chart(parent:Node) -> StateChart:
 	if parent is StateChart:
 		return parent
-	
-	return _find_chart(parent.get_parent())	
 
-## Runs a transition either immediately or delayed depending on the 
+	return _find_chart(parent.get_parent())
+
+
+## Runs a transition either immediately or delayed depending on the
 ## transition settings.
-func _run_transition(transition:Transition):
+func _run_transition(transition:Transition, immediately:bool = false) -> void:
 	var initial_delay := transition.evaluate_delay()
-	if initial_delay > 0:
+	if not immediately and initial_delay > 0:
 		_queue_transition(transition, initial_delay)
 	else:
 		_chart._run_transition(transition, self)
-		
-	
+
+
 
 ## Called when the state chart is built.
-func _state_init():
+func _state_init() -> void:
 	# disable state by default
-	process_mode = Node.PROCESS_MODE_DISABLED
 	_state_active = false
-	_toggle_processing(false)
-	
-	# load transitions 
+	_toggle_processing()
+
+	# load transitions
 	_transitions.clear()
 	for child in get_children():
 		if child is Transition:
 			_transitions.append(child)
-	
-	
-## Called when the state is entered. The parameter indicates whether the state
-## is expected to immediately handle a transition after it has been entered.
-## In this case the state should not automatically activate a default child state.
-## This is to avoid a situation where a state is entered, activates a child then immediately
-## exits and activates another child due to a transition.
-func _state_enter(_expect_transition:bool = false):
-	# print("state_enter: " + name)
+
+
+## Called when the state is entered. The parameter gives the target of the transition
+## that caused the entering of the state. This can be used determine whether an
+## initial child state should be activated. If the state entering was not caused by a transition
+## this can be null.
+func _state_enter(_transition_target:StateChartState) -> void:
 	_state_active = true
-	
-	process_mode = Node.PROCESS_MODE_INHERIT
 
 	# enable processing if someone listens to our signal
-	_toggle_processing(true)
-	
+	_toggle_processing()
+
 	# emit the signal
 	state_entered.emit()
-	# run all automatic transitions
-	for transition in _transitions:
-		if not transition.has_event and transition.evaluate_guard():
-			# first match wins
-			_run_transition(transition)
-			break
+
+	# process transitions that are triggered by entering the state
+	_process_transitions(StateChart.TriggerType.STATE_ENTER)
 
 ## Called when the state is exited.
-func _state_exit():
+func _state_exit() -> void:
 	# print("state_exit: " + name)
 	# cancel any pending transitions
 	_pending_transition = null
@@ -126,16 +118,15 @@ func _state_exit():
 	_pending_transition_initial_delay = 0
 	_state_active = false
 	# stop processing
-	process_mode = Node.PROCESS_MODE_DISABLED
-	_toggle_processing(false)
-	
+	_toggle_processing()
+
 	# emit the signal
 	state_exited.emit()
 
 ## Called when the state should be saved. The parameter is is the SavedState object
 ## of the parent state. The state is expected to add a child to the SavedState object
-## under its own name. 
-## 
+## under its own name.
+##
 ## The child_levels parameter indicates how many levels of children should be saved.
 ## If set to -1 (default), all children should be saved. If set to 0, no children should be saved.
 ##
@@ -145,10 +136,13 @@ func _state_save(saved_state:SavedState, child_levels:int = -1) -> void:
 	if not active:
 		push_error("_state_save should only be called if the state is active.")
 		return
-	
+
 	# create a new SavedState object for this state
 	var our_saved_state := SavedState.new()
-	our_saved_state.pending_transition_name = _pending_transition.name if _pending_transition != null else ""
+	if _pending_transition != null:
+		our_saved_state.pending_transition_name = NodePath(_pending_transition.name)
+	else:
+		our_saved_state.pending_transition_name = ""
 	our_saved_state.pending_transition_remaining_delay = _pending_transition_remaining_delay
 	our_saved_state.pending_transition_initial_delay = _pending_transition_initial_delay
 	# add it to the parent
@@ -168,7 +162,7 @@ func _state_save(saved_state:SavedState, child_levels:int = -1) -> void:
 
 ## Called when the state should be restored. The parameter is the SavedState object
 ## of the parent state. The state is expected to retrieve the SavedState object
-## for itself from the parent and restore its state from it. 
+## for itself from the parent and restore its state from it.
 ##
 ## The child_levels parameter indicates how many levels of children should be restored.
 ## If set to -1 (default), all children should be restored. If set to 0, no children should be restored.
@@ -187,12 +181,12 @@ func _state_restore(saved_state:SavedState, child_levels:int = -1) -> void:
 
 	# otherwise if we are currently inactive, activate the state
 	if not active:
-		_state_enter()
+		_state_enter(null)
 	# and restore any pending transition
 	_pending_transition = get_node_or_null(our_saved_state.pending_transition_name) as Transition
 	_pending_transition_remaining_delay = our_saved_state.pending_transition_remaining_delay
 	_pending_transition_initial_delay = our_saved_state.pending_transition_initial_delay
-	
+
 	# if _pending_transition != null:
 	#	print("restored pending transition " + _pending_transition.name + " with time " + str(_pending_transition_remaining_delay))
 	# else:
@@ -220,10 +214,9 @@ func _process(delta:float) -> void:
 	# check if there is a pending transition
 	if _pending_transition != null:
 		_pending_transition_remaining_delay -= delta
-		
 		# Notify interested parties that currently a transition is pending.
-		transition_pending.emit(_pending_transition.delay_seconds, max(0, _pending_transition_remaining_delay))
-		
+		transition_pending.emit(_pending_transition_initial_delay, max(0, _pending_transition_remaining_delay))
+
 		# if the transition is ready, trigger it
 		# and clear it.
 		if _pending_transition_remaining_delay <= 0:
@@ -235,63 +228,66 @@ func _process(delta:float) -> void:
 
 
 
-func _handle_transition(_transition:Transition, _source:StateChartState):
+func _handle_transition(_transition:Transition, _source:StateChartState) -> void:
 	push_error("State " + name + " cannot handle transitions.")
-	
+
 
 func _physics_process(delta:float) -> void:
 	if Engine.is_editor_hint():
 		return
 	state_physics_processing.emit(delta)
 
+
 ## Called when the state chart step function is called.
-func _state_step():
+func _state_step() -> void:
 	state_stepped.emit()
 
-func _input(event:InputEvent):
+
+func _input(event:InputEvent) -> void:
 	state_input.emit(event)
 
 
-func _unhandled_input(event:InputEvent):
+func _unhandled_input(event:InputEvent) -> void:
 	state_unhandled_input.emit(event)
 
-## Processes all transitions. If the property_change parameter is true
-## then only transitions which have no event are processed (eventless transitions/automatic transitions)
-func _process_transitions(event:StringName, property_change:bool = false) -> bool:
+## Processes all transitions in this state.
+func _process_transitions(trigger_type:StateChart.TriggerType, event:StringName = "") -> bool:
 	if not active:
 		return false
 
-	# emit an event received signal if this is not a property change
-	if not property_change:
+	# emit an event received signal if this is an event trigger
+	if trigger_type == StateChart.TriggerType.EVENT:
 		event_received.emit(event)
 
 	# Walk over all transitions
 	for transition in _transitions:
-		# the currently pending transition is not replaced by itself
-		if transition != _pending_transition \
-			# automatic transitions are always evaluated
-			# non-automatic only if this evaluation was not triggered
-			# by property change AND their event matches their current event
-			and (not transition.has_event or (not property_change and transition.event == event)) \
+		# Check if the transition is triggered by the given trigger type
+		if transition.is_triggered_by(trigger_type) \
+			# if the event is given it needs to match the event of the transition
+			and (event == "" or transition.event == event) \
 			# and in every case the guard needs to match
 			and transition.evaluate_guard():
 				# print(name +  ": consuming event " + event)
 				# first match wins
-				_run_transition(transition)
+				# if the winning transition is the currently pending transition, we do not replace it
+				if transition != _pending_transition:
+					_run_transition(transition)
+
+				# but in any case we return true, because we consumed the event
 				return true
 
 	return false
 
 ## Queues the transition to be triggered after the delay.
-func _queue_transition(transition:Transition, initial_delay:float):
+func _queue_transition(transition:Transition, initial_delay:float) -> void:
 	# print("transitioning from " + name + " to " + transition.to.get_concatenated_names() + " in " + str(transition.delay_seconds) + " seconds" )
 	# queue the transition for the delay time (0 means next frame)
 	_pending_transition = transition
 	_pending_transition_initial_delay = initial_delay
 	_pending_transition_remaining_delay = initial_delay
-	
+
 	# enable processing when we have a transition
-	set_process(true)
+	_toggle_processing()
 
 
 func _get_configuration_warnings() -> PackedStringArray:
@@ -304,19 +300,39 @@ func _get_configuration_warnings() -> PackedStringArray:
 			found = true
 			break
 		parent = parent.get_parent()
-	
+
 	if not found:
 		result.append("State is not a child of a StateChart. This will not work.")
 
-	return result		
+	return result
 
 
-func _toggle_processing(active:bool):
-	set_process(active and _has_connections(state_processing))
-	set_physics_process(active and _has_connections(state_physics_processing))
-	set_process_input(active and _has_connections(state_input))
-	set_process_unhandled_input(active and _has_connections(state_unhandled_input))
+## Toggles processing of this node depending on the node's internal state.
+## The function determines if the internal state and existing signal connections
+## warrant running state processing at this time. This is to avoid running
+## scripts that don't necessarily need to run, improving performance.
+func _toggle_processing(freeze:bool = false) -> void:
+	# Whether processing should be enabled in general. We only process
+	# for active states in the first place.
+	var enable_processing := not freeze and _state_active
 
-## Checks whether the given signal has connections. 
+	if enable_processing:
+		process_mode = PROCESS_MODE_INHERIT
+	else:
+		process_mode = PROCESS_MODE_DISABLED
+
+	# Now depending on who is listening for signals, we don't necessarily need all the
+	# processing active, so this is an optimization to avoid having to burn CPU cycles
+	# for no good reason.
+
+	# for processing we also check if a transition is pending, as in this case we need to
+	# keep processing until the delay has elapsed.
+	set_process(enable_processing and (_has_connections(state_processing) or _pending_transition != null))
+	set_physics_process(enable_processing and _has_connections(state_physics_processing))
+	set_process_input(enable_processing and _has_connections(state_input))
+	set_process_unhandled_input(enable_processing and _has_connections(state_unhandled_input))
+
+
+## Checks whether the given signal has connections.
 func _has_connections(sgnl:Signal) -> bool:
 	return sgnl.get_connections().size() > 0

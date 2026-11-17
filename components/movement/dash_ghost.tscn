@@ -1,6 +1,6 @@
-[gd_scene load_steps=2 format=3 uid="uid://cde3ja0sa85p"]
+[gd_scene format=3 uid="uid://cde3ja0sa85p"]
 
-[ext_resource type="Script" path="res://components/movement/dash_ghost.gd" id="1_jgocd"]
+[ext_resource type="Script" uid="uid://bvji2a2e1qae8" path="res://components/movement/dash_ghost.gd" id="1_jgocd"]
 
-[node name="AnimatedSprite2D" type="AnimatedSprite2D"]
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" unique_id=429823066]
 script = ExtResource("1_jgocd")

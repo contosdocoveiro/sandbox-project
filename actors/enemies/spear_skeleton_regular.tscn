@@ -1,6 +1,6 @@
-[gd_scene load_steps=91 format=3 uid="uid://bon2fod45s0lt"]
+[gd_scene format=3 uid="uid://bon2fod45s0lt"]
 
-[ext_resource type="Script" path="res://actors/enemies/spear_skeleton_regular.gd" id="1_wui1n"]
+[ext_resource type="Script" uid="uid://tk01untjm683" path="res://actors/enemies/spear_skeleton_regular.gd" id="1_wui1n"]
 [ext_resource type="Texture2D" uid="uid://dhn7j5f0urfew" path="res://assets/enemies/skeleton/spear/regular/hurt.png" id="2_tdmo6"]
 [ext_resource type="Texture2D" uid="uid://cokmb0ecv7yih" path="res://assets/enemies/skeleton/spear/regular/idle.png" id="3_1noff"]
 [ext_resource type="Texture2D" uid="uid://b7cw7p6jollw2" path="res://assets/enemies/skeleton/spear/regular/end spear lunge.png" id="4_cwtyx"]
@@ -11,14 +11,14 @@
 [ext_resource type="PackedScene" uid="uid://crvcpbc56v03n" path="res://components/combat/hitbox_component.tscn" id="9_x2m6i"]
 [ext_resource type="PackedScene" uid="uid://c41v5nytvgb45" path="res://components/movement/dash_component.tscn" id="15_5yh27"]
 [ext_resource type="PackedScene" uid="uid://c70ow424f0vy4" path="res://components/input/enemy/enemy_input_component.tscn" id="15_80u7l"]
-[ext_resource type="PackedScene" uid="uid://chfbsum7ddgp1" path="res://components/animation/enemy/enemy_animation_component.tscn" id="15_qiirj"]
-[ext_resource type="Script" path="res://components/area/detection_area.gd" id="15_trv0s"]
+[ext_resource type="PackedScene" uid="uid://chfbsum7ddgp1" path="res://components/enemy/animation/enemy_animation_component.tscn" id="15_qiirj"]
+[ext_resource type="Script" uid="uid://c2ucqsr1d5i51" path="res://components/area/detection_area.gd" id="15_trv0s"]
 [ext_resource type="PackedScene" uid="uid://dd8fpuyp3cejs" path="res://components/state/enemy/enemy_state_manager_component.tscn" id="16_7dde5"]
 [ext_resource type="PackedScene" uid="uid://dssvcet43gv7o" path="res://components/navigation/navigation_component.tscn" id="16_k2d4f"]
 [ext_resource type="PackedScene" uid="uid://c3n4e6ptpinp2" path="res://components/combat/health_component.tscn" id="16_tljgg"]
 [ext_resource type="PackedScene" uid="uid://bbtrbbgp12oo" path="res://components/movement/physics_component.tscn" id="17_i56xa"]
 [ext_resource type="PackedScene" uid="uid://bqkto0cybvu8k" path="res://components/combat/damage_numbers_component.tscn" id="19_d0ebi"]
-[ext_resource type="PackedScene" uid="uid://b6pdu3u42npfd" path="res://components/behavior/enemy_behavior_component.tscn" id="20_smt64"]
+[ext_resource type="PackedScene" uid="uid://b6pdu3u42npfd" path="res://components/enemy/behavior/enemy_behavior_component.tscn" id="20_smt64"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_diyk1"]
 atlas = ExtResource("2_tdmo6")

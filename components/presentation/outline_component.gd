@@ -8,7 +8,7 @@ enum FlashKind { DAMAGE, INVINCIBLE, BUFF }
 @export_range(0.0, 1.0, 0.01) var pulse_low := 0.25
 @export_range(0.0, 1.0, 0.01) var pulse_high := 0.65
 
-@export var body: CanvasItem
+@export var body: AnimatedSprite2D
 @export var outline_color : Color
 @export var outline_width := 1.0
 @export var pattern := 0
@@ -16,11 +16,13 @@ enum FlashKind { DAMAGE, INVINCIBLE, BUFF }
 @export var add_margins := true
 @export var sheet_columns := 1
 @export var sheet_rows := 1
+@export var auto_sheet_grid := true
 
 @export var health_component: HealthComponent
 
 var _material: ShaderMaterial
 var _pulse_tween: Tween
+const SINGLE_FRAME_GRID := Vector2.ONE
 
 # kind -> { "end_time": int, "color": Color, "priority": int }
 # end_time == -1 means indefinite.
@@ -51,6 +53,51 @@ func _ready() -> void:
 	if health_component:
 		health_component.invincibility_started.connect(_on_invincibility_started)
 		health_component.invincibility_ended.connect(_on_invincibility_ended)
+		
+	body.animation_changed.connect(_update_sheet_grid)
+	body.frame_changed.connect(_update_sheet_grid)
+	
+	_update_sheet_grid()
+	
+func _update_sheet_grid() -> void:
+	if _material == null:
+		return
+	
+	if auto_sheet_grid:
+		_set_grid(_detect_sheet_grid())
+		return
+	else:
+		_set_grid(Vector2(sheet_columns, sheet_rows))
+		
+
+func _detect_sheet_grid() -> Vector2:
+	if body == null or body.sprite_frames == null:
+		return SINGLE_FRAME_GRID
+	
+	var frame_texture := body.sprite_frames.get_frame_texture(
+		body.animation,
+		body.frame
+	)
+	var atlas_texture := frame_texture as AtlasTexture
+	if atlas_texture == null or atlas_texture.atlas == null:
+		return SINGLE_FRAME_GRID
+		
+	var region_size := atlas_texture.region.size
+	if region_size.x <= 0.0 or region_size.y <= 0.0:
+		return SINGLE_FRAME_GRID
+	
+	var atlas_size := atlas_texture.atlas.get_size()
+	var columns := maxi(int(round(atlas_size.x / region_size.x)), 1)
+	var rows := maxi(int(round(atlas_size.y / region_size.y)), 1)
+	return Vector2(columns, rows)
+
+func _set_grid(grid: Vector2) -> void:
+	if _material == null:
+		return
+	_material.set_shader_parameter(
+		&"number_of_images",
+		Vector2(maxi(grid.x,1), maxi(grid.y,1))
+	)
 	
 func _process(delta: float) -> void:
 	var now = Time.get_ticks_msec()

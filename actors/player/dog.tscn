@@ -815,7 +815,7 @@ health_component = NodePath("HealthComponent")
 [node name="Body" type="AnimatedSprite2D" parent="." unique_id=2015410582]
 position = Vector2(0, -5)
 sprite_frames = SubResource("SpriteFrames_hfqqu")
-animation = &"dash down"
+animation = &"run down"
 offset = Vector2(0, -6)
 
 [node name="Area2D" type="Area2D" parent="Body" unique_id=1300487640 groups=["player"]]
@@ -844,7 +844,8 @@ position = Vector2(12, 1)
 [node name="AnimationPlayer" type="AnimationPlayer" parent="." unique_id=1670270325]
 libraries/ = SubResource("AnimationLibrary_o7bou")
 
-[node name="DashComponent" parent="." unique_id=1554315231 instance=ExtResource("12_dqava")]
+[node name="DashComponent" parent="." unique_id=1554315231 node_paths=PackedStringArray("actor") instance=ExtResource("12_dqava")]
+actor = NodePath("..")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=815023971]
 visible = false
@@ -882,6 +883,4 @@ sprite = NodePath("../Body")
 [node name="OutlineComponent" parent="." unique_id=336770202 node_paths=PackedStringArray("body", "health_component") instance=ExtResource("13_c8av6")]
 body = NodePath("../Body")
 outline_color = Color(0.3529412, 0.21960784, 0.14509805, 1)
-sheet_columns = 4
-sheet_rows = 12
 health_component = NodePath("../HealthComponent")

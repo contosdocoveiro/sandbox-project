@@ -1,6 +1,8 @@
 extends Node2D
 class_name Dash
 
+@export var actor: Node2D
+
 @onready var _duration_timer = $DurationTimer
 @onready var _dash_ghost = preload("res://components/movement/dash_ghost.tscn")
 @onready var _ghost_timer = $GhostTimer
@@ -18,20 +20,22 @@ func start_dash(duration):
 		_duration_timer.start()
 	
 		_ghost_timer.start()
-		instance_ghost()
 	
 	
 func instance_ghost():
 	var ghost: AnimatedSprite2D = _dash_ghost.instantiate()
-	get_parent().get_parent().add_child(ghost)
+	actor.get_parent().add_child(ghost)
 	
-	ghost.global_position = global_position
+	var origin = actor.global_position if actor else get_parent().global_position as Vector2
+	
 	ghost.sprite_frames = sprite.sprite_frames
 	ghost.animation = sprite.animation
 	ghost.frame = sprite.get_frame()
 	ghost.flip_h = sprite.flip_h
 	ghost.speed_scale = sprite.speed_scale
 	ghost.offset = sprite.offset
+	ghost.global_position = origin
+	ghost.physics_interpolation_mode = Node.PHYSICS_INTERPOLATION_MODE_OFF
 	
 func is_dashing():
 	return !_duration_timer.is_stopped()

@@ -1,0 +1,6 @@
+[gd_scene format=3 uid="uid://cfgid2a57t2s6"]
+
+[ext_resource type="Script" uid="uid://do7uhqda1gore" path="res://components/enemy/behavior/enemy_brain_component.gd" id="1_xrx6l"]
+
+[node name="EnemyBrainComponent" type="Node" unique_id=1644368877]
+script = ExtResource("1_xrx6l")
