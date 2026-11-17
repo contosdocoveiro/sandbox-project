@@ -1,11 +1,11 @@
-[gd_scene load_steps=3 format=3 uid="uid://dssvcet43gv7o"]
+[gd_scene format=3 uid="uid://dssvcet43gv7o"]
 
-[ext_resource type="Script" path="res://components/navigation/navigation_component.gd" id="1_cr7jq"]
+[ext_resource type="Script" uid="uid://ckroev21w6yu7" path="res://components/navigation/navigation_component.gd" id="1_cr7jq"]
 [ext_resource type="PackedScene" uid="uid://cwelbbawi3esy" path="res://components/navigation/context_map.tscn" id="2_6i426"]
 
-[node name="NavigationComponent" type="Node2D"]
+[node name="NavigationComponent" type="Node2D" unique_id=2105639657]
 script = ExtResource("1_cr7jq")
 
-[node name="NavigationAgent2D" type="NavigationAgent2D" parent="."]
+[node name="NavigationAgent2D" type="NavigationAgent2D" parent="." unique_id=1954879474]
 
-[node name="ContextMap" parent="." instance=ExtResource("2_6i426")]
+[node name="ContextMap" parent="." unique_id=1916428977 instance=ExtResource("2_6i426")]

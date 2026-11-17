@@ -15,6 +15,8 @@ var applied_knockback : Vector2
 @export var knockback_resistance : float
 @export var can_be_knocked_back := true
 
+signal facing_changed(direction: Vector2)
+
 func _ready() -> void:
 	if(actor.health_component):
 		var health_component = actor.health_component
@@ -27,14 +29,13 @@ func calculate_velocity() -> Vector2:
 	direction = input_component.input_direction
 	if(direction != Vector2.ZERO):
 		last_faced_direction = direction
-	var speed
-	if(input_component.dash_input):
-		if(!dash_component.is_dashing()):
+		facing_changed.emit(direction)
+	var speed := move_speed
+	if is_instance_valid(dash_component):
+		if input_component.dash_input and not dash_component.is_dashing():
 			dash_component.start_dash(dash_duration)
-	if(dash_component.is_dashing()):
-		speed = dash_speed
-	else:
-		speed = move_speed
+		if dash_component.is_dashing():
+			speed = dash_speed
 	
 	if(steer_force != 0):
 		var final_velocity = direction * speed
@@ -56,5 +57,6 @@ func process_attack_knockback(attack : Attack):
 		calculate_knockback(attack.attack_position, attack.knockback_force)
 	
 func end_dash():
-	dash_component.end_dash()
+	if is_instance_valid(dash_component):
+		dash_component.end_dash()
 	
