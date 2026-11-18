@@ -1,6 +1,6 @@
 class_name PlayerInputComponent extends InputComponent
 
-var attack_input : bool		#attack input
+var attack_input : bool 
 var move_input_key : String
 
 func handle_inputs():

@@ -1,9 +1,7 @@
 class_name EnemyAnimationComponent
-extends Node
+extends AnimationComponent
 
 @export var state_manager: EnemyStateManagerComponent
-@export var animation_player: AnimationPlayer
-@export var sprite: AnimatedSprite2D
 @export var physics_component: PhysicsComponent
 
 @export var animations: Dictionary = {

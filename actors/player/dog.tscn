@@ -803,7 +803,8 @@ radius = 2.0
 collision_layer = 2
 motion_mode = 1
 script = ExtResource("1_wcb0j")
-_move_speed = 100
+_move_speed = 70
+dash_speed = 130
 state_manager = NodePath("PlayerStateManagerComponent")
 dash = NodePath("DashComponent")
 _sprite = NodePath("Body")
@@ -815,7 +816,7 @@ health_component = NodePath("HealthComponent")
 [node name="Body" type="AnimatedSprite2D" parent="." unique_id=2015410582]
 position = Vector2(0, -5)
 sprite_frames = SubResource("SpriteFrames_hfqqu")
-animation = &"run down"
+animation = &"attack sideways"
 offset = Vector2(0, -6)
 
 [node name="Area2D" type="Area2D" parent="Body" unique_id=1300487640 groups=["player"]]
@@ -864,14 +865,13 @@ position = Vector2(0, -17)
 [node name="PhysicsComponent" parent="." unique_id=1117724638 node_paths=PackedStringArray("actor", "dash_component", "input_component") instance=ExtResource("17_wtar8")]
 move_speed = 120.0
 dash_speed = 250.0
-dash_duration = 0.2
+dash_duration = 0.1
 actor = NodePath("..")
 dash_component = NodePath("../DashComponent")
 input_component = NodePath("../PlayerInputComponent")
 knockback_resistance = 10.0
 
-[node name="PlayerStateManagerComponent" parent="." unique_id=1455225692 node_paths=PackedStringArray("animation_player", "actor", "animation_component") instance=ExtResource("13_lxbtq")]
-animation_player = NodePath("../AnimationPlayer")
+[node name="PlayerStateManagerComponent" parent="." unique_id=1455225692 node_paths=PackedStringArray("actor", "animation_component") instance=ExtResource("13_lxbtq")]
 actor = NodePath("..")
 animation_component = NodePath("../PlayerAnimationComponent")
 
