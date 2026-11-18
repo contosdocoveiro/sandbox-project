@@ -799,16 +799,12 @@ _data = {
 [sub_resource type="CircleShape2D" id="CircleShape2D_krfs2"]
 radius = 2.0
 
-[node name="Dog" type="CharacterBody2D" unique_id=207404119 node_paths=PackedStringArray("state_manager", "dash", "_sprite", "physics_component", "input_component", "animation_component", "health_component") groups=["player"]]
+[node name="Dog" type="CharacterBody2D" unique_id=207404119 node_paths=PackedStringArray("physics_component", "input_component", "health_component") groups=["player"]]
 collision_layer = 2
 motion_mode = 1
 script = ExtResource("1_wcb0j")
-state_manager = NodePath("PlayerStateManagerComponent")
-dash = NodePath("DashComponent")
-_sprite = NodePath("Body")
 physics_component = NodePath("PhysicsComponent")
 input_component = NodePath("PlayerInputComponent")
-animation_component = NodePath("PlayerAnimationComponent")
 health_component = NodePath("HealthComponent")
 
 [node name="Body" type="AnimatedSprite2D" parent="." unique_id=2015410582]
