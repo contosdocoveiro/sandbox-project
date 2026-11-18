@@ -1027,7 +1027,8 @@ idle_rest_offset = Vector2(20, 0)
 follow_speed = 3.0
 idle_blade = NodePath("Sprite2D")
 _attack_sprite = NodePath("AnimatedSprite2D")
-idle_bob_frequency = 3.0
+idle_bob_amplitude = 1.5
+idle_bob_frequency = 4.0
 
 [node name="WeaponAnimationPlayer" type="AnimationPlayer" parent="." unique_id=898255230]
 libraries/ = SubResource("AnimationLibrary_srk60")

@@ -2,12 +2,12 @@ extends Node2D
 class_name Dash
 
 @export var actor: Node2D
+@export var dash_cooldown := 0.4
 
 @onready var _duration_timer = $DurationTimer
 @onready var _dash_ghost = preload("res://components/movement/dash_ghost.tscn")
 @onready var _ghost_timer = $GhostTimer
 var can_dash := true
-var dash_cooldown := 0.4
 var sprite
 
 func _ready() -> void:

@@ -1,12 +1,6 @@
 extends CharacterBody2D
 class_name PlayableCharacter
 
-@export_category("Stats")
-@export var _move_speed = 120
-@export var life = 100
-@export var dash_speed = 250
-@export var dash_duration = 0.2
-
 @export_category("Nodes")
 @export var state_manager : PlayerStateManagerComponent
 @export var dash : Dash
