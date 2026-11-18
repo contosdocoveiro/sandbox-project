@@ -1,0 +1,107 @@
+[gd_scene load_steps=14 format=3 uid="uid://diyiqf6t5d2j"]
+
+[ext_resource type="Script" path="res://actors/test_dummy.gd" id="1_bu6ae"]
+[ext_resource type="Texture2D" uid="uid://ci0pldf061fyw" path="res://assets/test dummy.png" id="2_sjfhv"]
+[ext_resource type="PackedScene" uid="uid://crvcpbc56v03n" path="res://components/combat/hitbox_component.tscn" id="3_a0edy"]
+[ext_resource type="Script" path="res://components/area/detection_area.gd" id="4_m1f0g"]
+[ext_resource type="PackedScene" uid="uid://c3n4e6ptpinp2" path="res://components/combat/health_component.tscn" id="5_k1fot"]
+[ext_resource type="PackedScene" uid="uid://bqkto0cybvu8k" path="res://components/combat/damage_numbers_component.tscn" id="6_fevrs"]
+[ext_resource type="PackedScene" uid="uid://dssvcet43gv7o" path="res://components/navigation/navigation_component.tscn" id="7_iea3v"]
+
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_gbvdr"]
+radius = 6.74999
+height = 13.5
+
+[sub_resource type="Animation" id="Animation_fe7ky"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Sprite2D:rotation")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [0.0]
+}
+
+[sub_resource type="Animation" id="Animation_die5b"]
+resource_name = "take damage"
+length = 0.5
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Sprite2D:rotation")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.1, 0.2),
+"transitions": PackedFloat32Array(1, 1, 1),
+"update": 0,
+"values": [0.0, 0.565487, 0.0]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_py75n"]
+_data = {
+"RESET": SubResource("Animation_fe7ky"),
+"take damage": SubResource("Animation_die5b")
+}
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_0b1lr"]
+radius = 83.1505
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_hms38"]
+radius = 3.0
+
+[node name="TestDummy" type="CharacterBody2D" node_paths=PackedStringArray("detection_area")]
+collision_layer = 4
+collision_mask = 5
+script = ExtResource("1_bu6ae")
+detection_area = NodePath("DetectionArea")
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+texture = ExtResource("2_sjfhv")
+offset = Vector2(0, -4)
+
+[node name="HitBox" parent="Sprite2D" node_paths=PackedStringArray("health_component") instance=ExtResource("3_a0edy")]
+visible = false
+collision_layer = 4
+collision_mask = 2
+health_component = NodePath("../../HealthComponent")
+
+[node name="HitboxShape" type="CollisionShape2D" parent="Sprite2D/HitBox"]
+position = Vector2(0, 0.999999)
+scale = Vector2(0.444444, 0.444444)
+shape = SubResource("CapsuleShape2D_gbvdr")
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+libraries = {
+"": SubResource("AnimationLibrary_py75n")
+}
+
+[node name="HealthComponent" parent="." node_paths=PackedStringArray("damage_numbers_component") instance=ExtResource("5_k1fot")]
+damage_numbers_component = NodePath("../DamageNumbersComponent")
+MAX_HEALTH = 40.0
+
+[node name="DamageNumbersComponent" parent="." instance=ExtResource("6_fevrs")]
+position = Vector2(0, -16)
+
+[node name="NavigationComponent" parent="." instance=ExtResource("7_iea3v")]
+max_speed = 70.0
+steer_force = 0.7
+look_ahead = 25.0
+
+[node name="DetectionArea" type="Area2D" parent="."]
+visible = false
+collision_layer = 4
+collision_mask = 2
+script = ExtResource("4_m1f0g")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="DetectionArea"]
+shape = SubResource("CircleShape2D_0b1lr")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+position = Vector2(0, 1)
+shape = SubResource("CircleShape2D_hms38")

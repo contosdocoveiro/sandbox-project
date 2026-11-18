@@ -1,0 +1,139 @@
+[gd_scene format=3 uid="uid://q8k1lind0x5m"]
+
+[ext_resource type="Script" uid="uid://couw105c3bde4" path="res://addons/godot_state_charts/state_chart.gd" id="1_6w7vx"]
+[ext_resource type="Script" uid="uid://jk2jm1g6q853" path="res://addons/godot_state_charts/compound_state.gd" id="2_16hmv"]
+[ext_resource type="Script" uid="uid://cytafq8i1y8qm" path="res://addons/godot_state_charts/atomic_state.gd" id="3_stpoq"]
+[ext_resource type="Script" uid="uid://cf1nsco3w0mf6" path="res://addons/godot_state_charts/transition.gd" id="4_5c7os"]
+[ext_resource type="Script" uid="uid://le5w1cm0ul8p" path="res://addons/godot_state_charts/expression_guard.gd" id="5_7jo6n"]
+
+[sub_resource type="Resource" id="Resource_bw6f2"]
+script = ExtResource("5_7jo6n")
+expression = "has_target"
+metadata/_custom_type_script = "uid://le5w1cm0ul8p"
+
+[sub_resource type="Resource" id="Resource_c5s5o"]
+script = ExtResource("5_7jo6n")
+expression = "not has_target"
+metadata/_custom_type_script = "uid://le5w1cm0ul8p"
+
+[sub_resource type="Resource" id="Resource_3v65h"]
+script = ExtResource("5_7jo6n")
+expression = "has_target and in_attack_range"
+metadata/_custom_type_script = "uid://le5w1cm0ul8p"
+
+[sub_resource type="Resource" id="Resource_wxq3n"]
+script = ExtResource("5_7jo6n")
+expression = "can_be_staggered"
+metadata/_custom_type_script = "uid://le5w1cm0ul8p"
+
+[sub_resource type="Resource" id="Resource_xs22p"]
+script = ExtResource("5_7jo6n")
+expression = "has_target and in_attack_range and attack_ready"
+metadata/_custom_type_script = "uid://le5w1cm0ul8p"
+
+[sub_resource type="Resource" id="Resource_ayxbi"]
+script = ExtResource("5_7jo6n")
+expression = "has_target and not in_attack_range"
+metadata/_custom_type_script = "uid://le5w1cm0ul8p"
+
+[sub_resource type="Resource" id="Resource_22syj"]
+script = ExtResource("5_7jo6n")
+expression = "not has_target"
+metadata/_custom_type_script = "uid://le5w1cm0ul8p"
+
+[node name="MeleeEnemyChart" type="Node" unique_id=241784154]
+script = ExtResource("1_6w7vx")
+initial_expression_properties = {
+"attack_ready": true,
+"can_be_staggered": true,
+"has_target": false,
+"in_attack_range": false
+}
+metadata/_custom_type_script = "uid://couw105c3bde4"
+
+[node name="Root" type="Node" parent="." unique_id=1767289145]
+script = ExtResource("2_16hmv")
+initial_state = NodePath("Idle")
+
+[node name="Idle" type="Node" parent="Root" unique_id=297461822]
+script = ExtResource("3_stpoq")
+
+[node name="ToChase" type="Node" parent="Root/Idle" unique_id=2060528788]
+script = ExtResource("4_5c7os")
+to = NodePath("../../Chase")
+guard = SubResource("Resource_bw6f2")
+delay_in_seconds = "0.0"
+metadata/_custom_type_script = "uid://cf1nsco3w0mf6"
+
+[node name="Chase" type="Node" parent="Root" unique_id=411338495]
+script = ExtResource("3_stpoq")
+metadata/_custom_type_script = "uid://cytafq8i1y8qm"
+
+[node name="ToIdle" type="Node" parent="Root/Chase" unique_id=1267853045]
+script = ExtResource("4_5c7os")
+to = NodePath("../../Idle")
+guard = SubResource("Resource_c5s5o")
+delay_in_seconds = "0.0"
+metadata/_custom_type_script = "uid://cf1nsco3w0mf6"
+
+[node name="ToReady" type="Node" parent="Root/Chase" unique_id=1645016625]
+script = ExtResource("4_5c7os")
+to = NodePath("../../Ready")
+guard = SubResource("Resource_3v65h")
+delay_in_seconds = "0.0"
+metadata/_custom_type_script = "uid://cf1nsco3w0mf6"
+
+[node name="Attack" type="Node" parent="Root" unique_id=1444446249]
+script = ExtResource("3_stpoq")
+metadata/_custom_type_script = "uid://cytafq8i1y8qm"
+
+[node name="ToChase" type="Node" parent="Root/Attack" unique_id=1048995395]
+script = ExtResource("4_5c7os")
+to = NodePath("../../Chase")
+event = &"animation_finished"
+delay_in_seconds = "0.0"
+metadata/_custom_type_script = "uid://cf1nsco3w0mf6"
+
+[node name="Hurt" type="Node" parent="Root" unique_id=490429556]
+script = ExtResource("3_stpoq")
+metadata/_custom_type_script = "uid://cytafq8i1y8qm"
+
+[node name="ToIdle" type="Node" parent="Root/Hurt" unique_id=744751000]
+script = ExtResource("4_5c7os")
+to = NodePath("../../Idle")
+event = &"animation_finished"
+delay_in_seconds = "0.0"
+metadata/_custom_type_script = "uid://cf1nsco3w0mf6"
+
+[node name="ToHurt" type="Node" parent="Root" unique_id=1266515291]
+script = ExtResource("4_5c7os")
+to = NodePath("../Hurt")
+event = &"hurt"
+guard = SubResource("Resource_wxq3n")
+delay_in_seconds = "0.0"
+metadata/_custom_type_script = "uid://cf1nsco3w0mf6"
+
+[node name="Ready" type="Node" parent="Root" unique_id=35863775]
+script = ExtResource("3_stpoq")
+metadata/_custom_type_script = "uid://cytafq8i1y8qm"
+
+[node name="ToAttack" type="Node" parent="Root/Ready" unique_id=594790212]
+script = ExtResource("4_5c7os")
+to = NodePath("../../Attack")
+guard = SubResource("Resource_xs22p")
+delay_in_seconds = "0.0"
+metadata/_custom_type_script = "uid://cf1nsco3w0mf6"
+
+[node name="ToChase" type="Node" parent="Root/Ready" unique_id=1784761071]
+script = ExtResource("4_5c7os")
+to = NodePath("../../Chase")
+guard = SubResource("Resource_ayxbi")
+delay_in_seconds = "0.0"
+metadata/_custom_type_script = "uid://cf1nsco3w0mf6"
+
+[node name="ToIdle" type="Node" parent="Root/Ready" unique_id=1276015314]
+script = ExtResource("4_5c7os")
+to = NodePath("../../Idle")
+guard = SubResource("Resource_22syj")
+delay_in_seconds = "0.0"
+metadata/_custom_type_script = "uid://cf1nsco3w0mf6"

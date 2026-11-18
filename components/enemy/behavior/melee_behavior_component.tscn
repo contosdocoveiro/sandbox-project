@@ -1,0 +1,7 @@
+[gd_scene format=3 uid="uid://cm1mslujuc50w"]
+
+[ext_resource type="Script" uid="uid://ds7jc37c6dayd" path="res://components/enemy/behavior/melee_behavior_component.gd" id="1_bnl4y"]
+
+[node name="MeleeBehaviorComponent" type="Node2D" unique_id=1625629478]
+script = ExtResource("1_bnl4y")
+metadata/_custom_type_script = "uid://pvi3tu8l5wpn"
