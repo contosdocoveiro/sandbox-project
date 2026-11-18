@@ -1,18 +1,20 @@
 class_name PhysicsComponent extends Node2D
 
+@export_category("Stats")
 @export var move_speed : float
 @export var dash_speed : float
 @export var dash_duration : float
-@export var actor : CharacterBody2D
 @export var steer_force : float
+@export var knockback_resistance : float
+
 @export_category("Nodes")
+@export var actor : CharacterBody2D
 @export var dash_component : Dash
 @export var input_component : InputComponent
 
 var direction : Vector2
 var last_faced_direction : Vector2
 var applied_knockback : Vector2
-@export var knockback_resistance : float
 @export var can_be_knocked_back := true
 
 signal facing_changed(direction: Vector2)

@@ -30,10 +30,8 @@ func _detect_states() -> void:
 		_state_chart.send_event("attack_pressed")
 
 func _on_combo_1_state_entered() -> void:
-	_sword_attack_sprite.rotation = _sword.angle_to_mouse
-	_sword.global_transform.origin = _sword.mouse_pos
+	_sword.begin_attack()
 	_animation_player.play("combo 1")
-	_sword.owner.send_attack_signal()
 	
 
 
@@ -48,6 +46,7 @@ func _on_combo_1_state_physics_processing(delta: float) -> void:
 
 
 func _on_idle_state_entered() -> void:
+	_sword.end_attack()
 	_animation_player.play("idle entered")
 
 func _on_combo_2_state_physics_processing(delta: float) -> void:
@@ -60,10 +59,8 @@ func _on_combo_2_state_physics_processing(delta: float) -> void:
 		_state_chart.send_event("attack_pressed_mid_combo")
 	
 func _on_combo_2_state_entered() -> void:
-	_sword_attack_sprite.rotation = _sword.angle_to_mouse
-	_sword.global_transform.origin = _sword.mouse_pos
+	_sword.begin_attack()
 	_animation_player.play("combo 2")
-	_sword.owner.send_attack_signal()
 	
 	
 
@@ -82,7 +79,5 @@ func _on_animation_player_animation_finished(anim_name: StringName) -> void:
 
 
 func _on_combo_3_state_entered() -> void:
-	_sword_attack_sprite.rotation = _sword.angle_to_mouse
-	_sword.global_transform.origin = _sword.mouse_pos #mouse piece of shit
+	_sword.begin_attack()
 	_animation_player.play("combo 3")
-	_sword.owner.send_attack_signal()

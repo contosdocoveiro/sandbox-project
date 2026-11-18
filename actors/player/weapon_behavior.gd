@@ -1,66 +1,88 @@
 extends CharacterBody2D
 class_name Weapon
 
+@export var attack_offset := 16.0
+@export var idle_rest_offset := Vector2.ZERO
+@export var follow_speed := 1.0   
+@export var reference_speed := 120.0  
+@export var min_follow_speed := 0.25   
+@export var idle_blade : Sprite2D
+@export var _attack_sprite: AnimatedSprite2D
+@export var idle_bob_amplitude := 0.5
+@export var idle_bob_frequency := 7.0
+@export var idle_side_distance := 12.0
 
+var attacking := false
+var _idle_time = 0.0
+var _idle_blade_base := Vector2.ZERO
+var _idle_side := 1.0
+var locked_offset := Vector2.ZERO
 
-var _time = 0
-var _default_position = get_position()
-var _owner_position_offset := Vector2.RIGHT
-var mouse_pos = Vector2(0,0)
-var angle_to_mouse
-var attack_position: Vector2
-var move_speed = 500
+func _ready() -> void:
+	top_level = true
+	if is_instance_valid(owner):
+		global_position = owner.global_position + idle_rest_offset
+		
+	if idle_blade:
+		_idle_blade_base = idle_blade.position
 
-@export_category("Animation Parameters")
-@export var _animation_amplitude := 0.5
-@export var _animation_frequency := 7
-@export var _animation_player : AnimationPlayer
-@export var _attack_sprite : AnimatedSprite2D
-@export var attack_playing := false
-@export var radius := 16
-@export var combo_finished := false
-
+func begin_attack() -> void:
+	attacking = true
 	
+	var dir := get_aim_direction()
+	locked_offset = dir * attack_offset
+	
+	#teleport
+	global_position = owner.global_position + locked_offset
+	_attack_sprite.global_rotation = dir.angle()
+
+func lock_aim() -> void:
+	pass
+
+func end_attack() -> void:
+	attacking = false
 
 func _physics_process(delta: float) -> void:
-	
-	_move(delta)
-	_animate(delta)
-	
-
-func _move(delta):
-	
-	
-	mouse_pos = get_global_mouse_position()
-	angle_to_mouse = global_position.direction_to(mouse_pos).angle()
-	var player_pos = owner.global_transform.origin 
-	var distance = player_pos.distance_to(mouse_pos)
-	var mouse_dir = (mouse_pos-player_pos).normalized()
-	mouse_pos = player_pos + (mouse_dir * radius)
-	
-	#if(!_animation_player.is_playing()):
-		#global_transform.origin = lerp(global_transform.origin, mouse_pos, 0.05)
-		
-	if(!_animation_player.is_playing()):
-		global_transform.origin = global_transform.origin.move_toward(mouse_pos, delta*move_speed)
-
-	
-	if(combo_finished):
-		_attack_sprite.rotation = 0
+	if attacking:
+		global_position = owner.global_position + locked_offset
 		return
 	
-	if(distance > radius):
-		return
-	else:
-		mouse_pos = player_pos + (owner._last_faced_direction * radius)
-		angle_to_mouse = owner._last_faced_direction.angle()
-		
-
-func _animate(delta: float) -> void:
+	#idle: lazy position
+	var player_speed: float = maxf(
+	owner.physics_component.move_speed,
+	owner.velocity.length()
+)
+	var speed_ratio := player_speed / maxf(reference_speed, 0.001)
+	var follow_rate := maxf(follow_speed * speed_ratio, min_follow_speed)
 	
-	if(_animation_player.is_playing()):
+	var target = get_idle_target()
+	var t := 1.0 - exp(-follow_speed * delta)
+	global_position = global_position.lerp(target, t)
+	
+	_animate_idle_blade(delta)
+
+func get_idle_target() -> Vector2:
+	var facing_x = owner._last_faced_direction.x
+	
+	if facing_x != 0.0:
+		_idle_side = signf(facing_x)
+	
+	return owner.global_position + Vector2(_idle_side * idle_side_distance, 0.0)
+
+func _animate_idle_blade(delta: float) -> void:
+	if idle_blade == null:
 		return
-	_default_position = get_position()
-	_time += delta * _animation_frequency
-	set_position(_default_position + Vector2(0, sin(_time)*_animation_amplitude))
+	_idle_time += delta * idle_bob_frequency
+	idle_blade.position = _idle_blade_base + Vector2(0.0, sin(_idle_time) * idle_bob_amplitude)
+
+func get_aim_direction() -> Vector2:
+	var to_mouse = get_global_mouse_position() - owner.global_position
+	
+	if to_mouse.length_squared() > 0.001:
+		return to_mouse.normalized()
+	
+	var fallback: Vector2 = owner._last_faced_direction
+	if fallback.length_squared() <= 0.001:
+		fallback = Vector2.RIGHT
+	return fallback.normalized()
 	

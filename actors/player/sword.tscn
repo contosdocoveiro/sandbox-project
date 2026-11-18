@@ -1,14 +1,14 @@
-[gd_scene load_steps=60 format=3 uid="uid://du2nkbrxyw642"]
+[gd_scene format=3 uid="uid://du2nkbrxyw642"]
 
-[ext_resource type="Script" path="res://actors/player/weapon_behavior.gd" id="1_gijjp"]
+[ext_resource type="Script" uid="uid://qice7ymgh7uy" path="res://actors/player/weapon_behavior.gd" id="1_gijjp"]
 [ext_resource type="Texture2D" uid="uid://dtp8ovwjbmvxf" path="res://assets/espada new.png" id="2_0rjf5"]
-[ext_resource type="Script" path="res://addons/godot_state_charts/state_chart.gd" id="4_3gwx7"]
-[ext_resource type="Script" path="res://addons/godot_state_charts/compound_state.gd" id="5_aidmd"]
-[ext_resource type="Script" path="res://addons/godot_state_charts/atomic_state.gd" id="6_ssq3d"]
-[ext_resource type="Script" path="res://addons/godot_state_charts/transition.gd" id="7_132pl"]
+[ext_resource type="Script" uid="uid://couw105c3bde4" path="res://addons/godot_state_charts/state_chart.gd" id="4_3gwx7"]
+[ext_resource type="Script" uid="uid://jk2jm1g6q853" path="res://addons/godot_state_charts/compound_state.gd" id="5_aidmd"]
+[ext_resource type="Script" uid="uid://cytafq8i1y8qm" path="res://addons/godot_state_charts/atomic_state.gd" id="6_ssq3d"]
+[ext_resource type="Script" uid="uid://cf1nsco3w0mf6" path="res://addons/godot_state_charts/transition.gd" id="7_132pl"]
 [ext_resource type="Texture2D" uid="uid://cwb8mtprnpdsm" path="res://assets/ataque alternativo espada com transicao.png" id="7_alr62"]
 [ext_resource type="Texture2D" uid="uid://dlqt3sl2gs0u7" path="res://assets/espada idle entered animation.png" id="8_la174"]
-[ext_resource type="Script" path="res://actors/player/sword_state_machine.gd" id="9_dgymn"]
+[ext_resource type="Script" uid="uid://dxsqgnag68578" path="res://actors/player/sword_state_machine.gd" id="9_dgymn"]
 [ext_resource type="PackedScene" uid="uid://crvcpbc56v03n" path="res://components/combat/hitbox_component.tscn" id="10_nk3iu"]
 [ext_resource type="AudioStream" uid="uid://fjntuhggrrnh" path="res://assets/audio/combo 1 com latido.wav" id="12_kr2ha"]
 
@@ -133,6 +133,18 @@ tracks/9/keys = {
 "transitions": PackedFloat32Array(1),
 "update": 1,
 "values": [false]
+}
+tracks/10/type = "value"
+tracks/10/imported = false
+tracks/10/enabled = true
+tracks/10/path = NodePath("AnimatedSprite2D:rotation")
+tracks/10/interp = 1
+tracks/10/loop_wrap = true
+tracks/10/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [0.0]
 }
 
 [sub_resource type="Animation" id="Animation_rime1"]
@@ -271,6 +283,20 @@ tracks/10/keys = {
 "update": 1,
 "values": [false]
 }
+tracks/11/type = "method"
+tracks/11/imported = false
+tracks/11/enabled = true
+tracks/11/path = NodePath(".")
+tracks/11/interp = 1
+tracks/11/loop_wrap = true
+tracks/11/keys = {
+"times": PackedFloat32Array(0.3),
+"transitions": PackedFloat32Array(1),
+"values": [{
+"args": [],
+"method": &"lock_aim"
+}]
+}
 
 [sub_resource type="Animation" id="Animation_vwphk"]
 length = 0.3
@@ -408,6 +434,20 @@ tracks/6/keys = {
 "values": [{
 "args": [0.0],
 "method": &"play"
+}]
+}
+tracks/7/type = "method"
+tracks/7/imported = false
+tracks/7/enabled = true
+tracks/7/path = NodePath(".")
+tracks/7/interp = 1
+tracks/7/loop_wrap = true
+tracks/7/keys = {
+"times": PackedFloat32Array(0.1),
+"transitions": PackedFloat32Array(1),
+"values": [{
+"args": [],
+"method": &"lock_aim"
 }]
 }
 
@@ -586,6 +626,20 @@ tracks/8/keys = {
 "update": 1,
 "values": [true]
 }
+tracks/9/type = "method"
+tracks/9/imported = false
+tracks/9/enabled = true
+tracks/9/path = NodePath(".")
+tracks/9/interp = 1
+tracks/9/loop_wrap = true
+tracks/9/keys = {
+"times": PackedFloat32Array(0.1),
+"transitions": PackedFloat32Array(1),
+"values": [{
+"args": [],
+"method": &"lock_aim"
+}]
+}
 
 [sub_resource type="Animation" id="Animation_21euv"]
 resource_name = "idle entered"
@@ -650,16 +704,28 @@ tracks/4/keys = {
 "update": 1,
 "values": [true, false]
 }
+tracks/5/type = "value"
+tracks/5/imported = false
+tracks/5/enabled = true
+tracks/5/path = NodePath("AnimatedSprite2D:rotation")
+tracks/5/interp = 1
+tracks/5/loop_wrap = true
+tracks/5/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [0.0]
+}
 
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_srk60"]
 _data = {
-"RESET": SubResource("Animation_m281q"),
-"combo 1": SubResource("Animation_rime1"),
-"combo 1 end": SubResource("Animation_vwphk"),
-"combo 2": SubResource("Animation_ehbk3"),
-"combo 2 end": SubResource("Animation_11cwb"),
-"combo 3": SubResource("Animation_3c1dx"),
-"idle entered": SubResource("Animation_21euv")
+&"RESET": SubResource("Animation_m281q"),
+&"combo 1": SubResource("Animation_rime1"),
+&"combo 1 end": SubResource("Animation_vwphk"),
+&"combo 2": SubResource("Animation_ehbk3"),
+&"combo 2 end": SubResource("Animation_11cwb"),
+&"combo 3": SubResource("Animation_3c1dx"),
+&"idle entered": SubResource("Animation_21euv")
 }
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_wyfth"]
@@ -831,7 +897,7 @@ animations = [{
 "duration": 1.0,
 "texture": SubResource("AtlasTexture_46rbj")
 }],
-"loop": false,
+"loop": 0,
 "name": &"combo 1",
 "speed": 10.0
 }, {
@@ -845,7 +911,7 @@ animations = [{
 "duration": 1.0,
 "texture": SubResource("AtlasTexture_yrhqa")
 }],
-"loop": false,
+"loop": 0,
 "name": &"combo 1 end",
 "speed": 10.0
 }, {
@@ -868,7 +934,7 @@ animations = [{
 "duration": 1.0,
 "texture": SubResource("AtlasTexture_ws7hu")
 }],
-"loop": false,
+"loop": 0,
 "name": &"combo 2",
 "speed": 10.0
 }, {
@@ -882,7 +948,7 @@ animations = [{
 "duration": 1.0,
 "texture": SubResource("AtlasTexture_ysalt")
 }],
-"loop": false,
+"loop": 0,
 "name": &"combo 2 end",
 "speed": 10.0
 }, {
@@ -914,7 +980,7 @@ animations = [{
 "duration": 1.0,
 "texture": SubResource("AtlasTexture_wa3wu")
 }],
-"loop": false,
+"loop": 0,
 "name": &"combo 3",
 "speed": 10.0
 }, {
@@ -928,7 +994,7 @@ animations = [{
 "duration": 1.0,
 "texture": SubResource("AtlasTexture_2yo13")
 }],
-"loop": false,
+"loop": 0,
 "name": &"idle entered",
 "speed": 10.0
 }]
@@ -953,87 +1019,90 @@ stream_0/stream = ExtResource("12_kr2ha")
 radius = 2.0
 height = 20.0
 
-[node name="Sword" type="CharacterBody2D" node_paths=PackedStringArray("_animation_player", "_attack_sprite")]
+[node name="Sword" type="CharacterBody2D" unique_id=851937424 node_paths=PackedStringArray("idle_blade", "_attack_sprite")]
 collision_layer = 0
 script = ExtResource("1_gijjp")
-_animation_player = NodePath("WeaponAnimationPlayer")
+attack_offset = 8.0
+idle_rest_offset = Vector2(20, 0)
+follow_speed = 3.0
+idle_blade = NodePath("Sprite2D")
 _attack_sprite = NodePath("AnimatedSprite2D")
+idle_bob_amplitude = 1.5
+idle_bob_frequency = 4.0
 
-[node name="WeaponAnimationPlayer" type="AnimationPlayer" parent="."]
-libraries = {
-"": SubResource("AnimationLibrary_srk60")
-}
+[node name="WeaponAnimationPlayer" type="AnimationPlayer" parent="." unique_id=898255230]
+libraries/ = SubResource("AnimationLibrary_srk60")
 
-[node name="Sprite2D" type="Sprite2D" parent="."]
+[node name="Sprite2D" type="Sprite2D" parent="." unique_id=1702596549]
 texture = ExtResource("2_0rjf5")
 offset = Vector2(0.5, -15)
 
-[node name="StateChart" type="Node" parent="."]
+[node name="StateChart" type="Node" parent="." unique_id=566806242]
 script = ExtResource("4_3gwx7")
 
-[node name="Root" type="Node" parent="StateChart"]
+[node name="Root" type="Node" parent="StateChart" unique_id=1599417707]
 script = ExtResource("5_aidmd")
 initial_state = NodePath("Idle")
 
-[node name="Idle" type="Node" parent="StateChart/Root"]
+[node name="Idle" type="Node" parent="StateChart/Root" unique_id=1995417188]
 script = ExtResource("6_ssq3d")
 
-[node name="To Attack" type="Node" parent="StateChart/Root/Idle"]
+[node name="To Attack" type="Node" parent="StateChart/Root/Idle" unique_id=1070728533]
 script = ExtResource("7_132pl")
 to = NodePath("../../Attack")
 event = &"attack_pressed"
 delay_in_seconds = "0.0"
 
-[node name="Attack" type="Node" parent="StateChart/Root"]
+[node name="Attack" type="Node" parent="StateChart/Root" unique_id=1661378925]
 script = ExtResource("5_aidmd")
 initial_state = NodePath("Combo 1")
 
-[node name="Combo 1" type="Node" parent="StateChart/Root/Attack"]
+[node name="Combo 1" type="Node" parent="StateChart/Root/Attack" unique_id=1486830927]
 script = ExtResource("6_ssq3d")
 
-[node name="To Idle" type="Node" parent="StateChart/Root/Attack/Combo 1"]
+[node name="To Idle" type="Node" parent="StateChart/Root/Attack/Combo 1" unique_id=739548962]
 script = ExtResource("7_132pl")
 to = NodePath("../../../Idle")
 event = &"combo_finished"
 delay_in_seconds = "0.0"
 
-[node name="To Combo 2" type="Node" parent="StateChart/Root/Attack/Combo 1"]
+[node name="To Combo 2" type="Node" parent="StateChart/Root/Attack/Combo 1" unique_id=633630946]
 script = ExtResource("7_132pl")
 to = NodePath("../../Combo 2")
 event = &"attack_pressed_mid_combo"
 delay_in_seconds = "0.0"
 
-[node name="Combo 2" type="Node" parent="StateChart/Root/Attack"]
+[node name="Combo 2" type="Node" parent="StateChart/Root/Attack" unique_id=373281639]
 script = ExtResource("6_ssq3d")
 
-[node name="To Idle" type="Node" parent="StateChart/Root/Attack/Combo 2"]
+[node name="To Idle" type="Node" parent="StateChart/Root/Attack/Combo 2" unique_id=329010252]
 script = ExtResource("7_132pl")
 to = NodePath("../../../Idle")
 event = &"combo_finished"
 delay_in_seconds = "0.0"
 
-[node name="To Combo 3" type="Node" parent="StateChart/Root/Attack/Combo 2"]
+[node name="To Combo 3" type="Node" parent="StateChart/Root/Attack/Combo 2" unique_id=846363163]
 script = ExtResource("7_132pl")
 to = NodePath("../../Combo 3")
 event = &"attack_pressed_mid_combo"
 delay_in_seconds = "0.0"
 
-[node name="Combo 3" type="Node" parent="StateChart/Root/Attack"]
+[node name="Combo 3" type="Node" parent="StateChart/Root/Attack" unique_id=124135107]
 script = ExtResource("6_ssq3d")
 
-[node name="To Idle" type="Node" parent="StateChart/Root/Attack/Combo 3"]
+[node name="To Idle" type="Node" parent="StateChart/Root/Attack/Combo 3" unique_id=780871964]
 script = ExtResource("7_132pl")
 to = NodePath("../../../Idle")
 event = &"combo_finished"
 delay_in_seconds = "0.0"
 
-[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="." unique_id=527972801]
 visible = false
 sprite_frames = SubResource("SpriteFrames_qs03q")
-animation = &"combo 3"
+animation = &"idle entered"
 offset = Vector2(0.5, -15)
 
-[node name="combo 1 hitbox" parent="AnimatedSprite2D" instance=ExtResource("10_nk3iu")]
+[node name="combo 1 hitbox" parent="AnimatedSprite2D" unique_id=498838043 instance=ExtResource("10_nk3iu")]
 collision_layer = 0
 collision_mask = 4
 can_deal_damage = true
@@ -1048,12 +1117,12 @@ frame_freeze_duration = 0.1
 shake_intensity = 1.0
 shake_duration = 0.2
 
-[node name="combo 1 hitbox shape" type="CollisionShape2D" parent="AnimatedSprite2D/combo 1 hitbox"]
+[node name="combo 1 hitbox shape" type="CollisionShape2D" parent="AnimatedSprite2D/combo 1 hitbox" unique_id=496770203]
 position = Vector2(15, -4)
 shape = SubResource("CapsuleShape2D_fvodr")
 disabled = true
 
-[node name="combo 2 hitbox" parent="AnimatedSprite2D" instance=ExtResource("10_nk3iu")]
+[node name="combo 2 hitbox" parent="AnimatedSprite2D" unique_id=617849462 instance=ExtResource("10_nk3iu")]
 collision_layer = 0
 collision_mask = 4
 can_deal_damage = true
@@ -1068,12 +1137,12 @@ frame_freeze_duration = 0.1
 shake_intensity = 1.0
 shake_duration = 0.2
 
-[node name="combo 2 hitbox shape" type="CollisionShape2D" parent="AnimatedSprite2D/combo 2 hitbox"]
+[node name="combo 2 hitbox shape" type="CollisionShape2D" parent="AnimatedSprite2D/combo 2 hitbox" unique_id=1925419925]
 position = Vector2(18, 0)
 shape = SubResource("CapsuleShape2D_lnjr7")
 disabled = true
 
-[node name="combo 3 hitbox" parent="AnimatedSprite2D" instance=ExtResource("10_nk3iu")]
+[node name="combo 3 hitbox" parent="AnimatedSprite2D" unique_id=1184446359 instance=ExtResource("10_nk3iu")]
 collision_layer = 0
 collision_mask = 4
 can_deal_damage = true
@@ -1088,22 +1157,22 @@ frame_freeze_duration = 0.25
 shake_intensity = 1.0
 shake_duration = 0.2
 
-[node name="combo 3 hitbox shape" type="CollisionShape2D" parent="AnimatedSprite2D/combo 3 hitbox"]
+[node name="combo 3 hitbox shape" type="CollisionShape2D" parent="AnimatedSprite2D/combo 3 hitbox" unique_id=1409486442]
 position = Vector2(30, 2)
 rotation = 1.5708
 shape = SubResource("CapsuleShape2D_yef6w")
 disabled = true
 
-[node name="SwordStateMachine" type="Node" parent="."]
+[node name="SwordStateMachine" type="Node" parent="." unique_id=555017300]
 script = ExtResource("9_dgymn")
 _attack_buffer_timer = 0.125
 
-[node name="sfx_player" type="AudioStreamPlayer2D" parent="."]
+[node name="sfx_player" type="AudioStreamPlayer2D" parent="." unique_id=1240091041]
 stream = SubResource("AudioStreamRandomizer_l1lgt")
 
-[node name="BufferTimer" type="Timer" parent="."]
+[node name="BufferTimer" type="Timer" parent="." unique_id=331623620]
 
-[node name="Collision" type="CollisionShape2D" parent="."]
+[node name="Collision" type="CollisionShape2D" parent="." unique_id=692290593]
 position = Vector2(0, -12)
 shape = SubResource("CapsuleShape2D_rl4h8")
 
