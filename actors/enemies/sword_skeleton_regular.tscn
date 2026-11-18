@@ -7,18 +7,21 @@
 [ext_resource type="Texture2D" uid="uid://b5e43e8jgudf3" path="res://assets/enemies/skeleton/sword/regular/walk.png" id="4_6l3np"]
 [ext_resource type="PackedScene" uid="uid://crvcpbc56v03n" path="res://components/combat/hitbox_component.tscn" id="5_4d2ua"]
 [ext_resource type="Texture2D" uid="uid://dyvf0j64agp3s" path="res://assets/enemies/skeleton/sword/regular/vfx attack.png" id="6_mapa5"]
-[ext_resource type="PackedScene" uid="uid://dd8fpuyp3cejs" path="res://components/state/enemy/enemy_state_manager_component.tscn" id="11_0cuv4"]
+[ext_resource type="PackedScene" uid="uid://cn1e773yia0sn" path="res://components/state/enemy/enemy_state_manager_component.tscn" id="11_0cuv4"]
 [ext_resource type="PackedScene" uid="uid://c70ow424f0vy4" path="res://components/input/enemy/enemy_input_component.tscn" id="12_w7ag7"]
 [ext_resource type="PackedScene" uid="uid://bbtrbbgp12oo" path="res://components/movement/physics_component.tscn" id="13_2cdsb"]
 [ext_resource type="PackedScene" uid="uid://bqkto0cybvu8k" path="res://components/combat/damage_numbers_component.tscn" id="13_26x5g"]
 [ext_resource type="Script" uid="uid://c2ucqsr1d5i51" path="res://components/area/detection_area.gd" id="14_clb27"]
 [ext_resource type="PackedScene" uid="uid://5qp87qh6vy7g" path="res://components/area/attack_range_component.tscn" id="14_y4qk8"]
 [ext_resource type="PackedScene" uid="uid://dssvcet43gv7o" path="res://components/navigation/navigation_component.tscn" id="15_1uog5"]
-[ext_resource type="PackedScene" uid="uid://b6pdu3u42npfd" path="res://components/enemy/behavior/enemy_behavior_component.tscn" id="15_bspxw"]
 [ext_resource type="PackedScene" uid="uid://c3n4e6ptpinp2" path="res://components/combat/health_component.tscn" id="15_qi1qp"]
-[ext_resource type="PackedScene" uid="uid://c41v5nytvgb45" path="res://components/movement/dash_component.tscn" id="16_morue"]
 [ext_resource type="PackedScene" uid="uid://chfbsum7ddgp1" path="res://components/enemy/animation/enemy_animation_component.tscn" id="17_7unll"]
 [ext_resource type="PackedScene" uid="uid://87eyytqhj2f3" path="res://components/presentation/outline_component.tscn" id="19_f2qqh"]
+[ext_resource type="Script" uid="uid://ds7jc37c6dayd" path="res://components/enemy/behavior/melee_behavior_component.gd" id="19_m61ow"]
+[ext_resource type="PackedScene" uid="uid://q8k1lind0x5m" path="res://components/state/enemy/charts/melee_enemy_chart.tscn" id="20_i8uck"]
+[ext_resource type="PackedScene" uid="uid://bcwkugn6v3oy7" path="res://addons/godot_state_charts/utilities/state_chart_debugger.tscn" id="21_i8uck"]
+[ext_resource type="Script" uid="uid://do7uhqda1gore" path="res://components/enemy/behavior/enemy_brain_component.gd" id="21_l1c51"]
+[ext_resource type="Script" uid="uid://bylrsdtb5o3ms" path="res://components/enemy/attack/enemy_attack_controller.gd" id="22_l1c51"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_jk516"]
 atlas = ExtResource("2_25wby")
@@ -443,18 +446,15 @@ tracks/1/keys = {
 tracks/2/type = "method"
 tracks/2/imported = false
 tracks/2/enabled = true
-tracks/2/path = NodePath("EnemyBehaviorComponent")
+tracks/2/path = NodePath("EnemyAttackController")
 tracks/2/interp = 1
 tracks/2/loop_wrap = true
 tracks/2/keys = {
-"times": PackedFloat32Array(1, 1.625),
-"transitions": PackedFloat32Array(1, 1),
+"times": PackedFloat32Array(1),
+"transitions": PackedFloat32Array(1),
 "values": [{
-"args": [0.375],
-"method": &"dash_attack"
-}, {
-"args": [0.375],
-"method": &"dash_attack"
+"args": [],
+"method": &"open_attack_window"
 }]
 }
 
@@ -557,22 +557,19 @@ radius = 3.16228
 radius = 130.0
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_7isb5"]
-radius = 41.0122
+radius = 21.0
 
-[node name="SwordSkeletonRegular" type="CharacterBody2D" unique_id=1141830009 node_paths=PackedStringArray("sprite", "attack_vfx", "state_manager", "dash", "detection_area", "navigation_component", "input_component", "physics_component", "attack_range", "enemy_behavior", "health_component")]
-visible = false
+[node name="SwordSkeletonRegular" type="CharacterBody2D" unique_id=1141830009 node_paths=PackedStringArray("sprite", "attack_vfx", "state_manager", "detection_area", "navigation_component", "input_component", "physics_component", "attack_range", "health_component")]
 collision_layer = 4
 script = ExtResource("1_puc5f")
 sprite = NodePath("Body")
 attack_vfx = NodePath("AttackVFX")
 state_manager = NodePath("EnemyStateManagerComponent")
-dash = NodePath("DashComponent")
 detection_area = NodePath("DetectionArea")
 navigation_component = NodePath("NavigationComponent")
 input_component = NodePath("EnemyInputComponent")
 physics_component = NodePath("PhysicsComponent")
 attack_range = NodePath("AttackRange")
-enemy_behavior = NodePath("EnemyBehaviorComponent")
 health_component = NodePath("HealthComponent")
 
 [node name="Body" type="AnimatedSprite2D" parent="." unique_id=588682112]
@@ -606,6 +603,8 @@ attack_damage = 10.0
 knockback = 50.0
 frame_freeze_time_scale = 0.05
 frame_freeze_duration = 0.5
+shake_intensity = 0.2
+shake_duration = 0.5
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="AttackVFX/HitboxComponent" unique_id=233832841]
 position = Vector2(14, 0)
@@ -644,12 +643,11 @@ MAX_HEALTH = 100.0
 [node name="EnemyInputComponent" parent="." unique_id=497413708 node_paths=PackedStringArray("navigation_component") instance=ExtResource("12_w7ag7")]
 navigation_component = NodePath("../NavigationComponent")
 
-[node name="PhysicsComponent" parent="." unique_id=644964570 node_paths=PackedStringArray("actor", "dash_component", "input_component") instance=ExtResource("13_2cdsb")]
+[node name="PhysicsComponent" parent="." unique_id=644964570 node_paths=PackedStringArray("actor", "input_component") instance=ExtResource("13_2cdsb")]
 move_speed = 50.0
 dash_speed = 175.0
 actor = NodePath("..")
 steer_force = 0.5
-dash_component = NodePath("../DashComponent")
 input_component = NodePath("../EnemyInputComponent")
 knockback_resistance = 10.0
 
@@ -660,17 +658,15 @@ collision_layer = 0
 [node name="CollisionShape2D" type="CollisionShape2D" parent="AttackRange" unique_id=372207355]
 shape = SubResource("CircleShape2D_7isb5")
 
-[node name="EnemyBehaviorComponent" parent="." unique_id=930343553 instance=ExtResource("15_bspxw")]
-
-[node name="DashComponent" parent="." unique_id=1282561148 node_paths=PackedStringArray("actor") instance=ExtResource("16_morue")]
-actor = NodePath("..")
-
-[node name="EnemyAnimationComponent" parent="." unique_id=47243595 node_paths=PackedStringArray("actor", "animation_player", "sprite") instance=ExtResource("17_7unll")]
-actor = NodePath("..")
+[node name="EnemyAnimationComponent" parent="." unique_id=47243595 node_paths=PackedStringArray("state_manager", "animation_player", "sprite", "physics_component") instance=ExtResource("17_7unll")]
+state_manager = NodePath("../EnemyStateManagerComponent")
 animation_player = NodePath("../AnimationPlayer")
 sprite = NodePath("../Body")
+physics_component = NodePath("../PhysicsComponent")
 
-[node name="EnemyStateManagerComponent" parent="." unique_id=619350534 node_paths=PackedStringArray("actor", "animation_component") instance=ExtResource("11_0cuv4")]
+[node name="EnemyStateManagerComponent" parent="." unique_id=619350534 node_paths=PackedStringArray("state_chart", "health_component", "actor", "animation_component") instance=ExtResource("11_0cuv4")]
+state_chart = NodePath("../MeleeEnemyChart")
+health_component = NodePath("../HealthComponent")
 actor = NodePath("..")
 animation_component = NodePath("../EnemyAnimationComponent")
 
@@ -678,3 +674,44 @@ animation_component = NodePath("../EnemyAnimationComponent")
 body = NodePath("../Body")
 outline_color = Color(0.6041202, 0.6628772, 0.4104258, 1)
 outline_width = 0.5
+
+[node name="MeleeBehaviorComponent" type="Node2D" parent="." unique_id=1161922042 node_paths=PackedStringArray("attack_range", "actor", "physics_component", "input_component", "state_manager")]
+script = ExtResource("19_m61ow")
+attack_range = NodePath("../AttackRange")
+actor = NodePath("..")
+physics_component = NodePath("../PhysicsComponent")
+input_component = NodePath("../EnemyInputComponent")
+state_manager = NodePath("../EnemyStateManagerComponent")
+metadata/_custom_type_script = "uid://ds7jc37c6dayd"
+
+[node name="MeleeEnemyChart" parent="." unique_id=241784154 instance=ExtResource("20_i8uck")]
+
+[node name="StateChartDebugger" parent="." unique_id=410287909 instance=ExtResource("21_i8uck")]
+offset_left = -76.0
+offset_top = -39.0
+offset_right = 265.17645
+offset_bottom = 272.7647
+scale = Vector2(0.17, 0.17)
+
+[node name="EnemyBrainComponent" type="Node" parent="." unique_id=1828468283 node_paths=PackedStringArray("state_chart", "behavior", "attack_range", "detection_area", "navigation_component")]
+script = ExtResource("21_l1c51")
+state_chart = NodePath("../MeleeEnemyChart")
+behavior = NodePath("../MeleeBehaviorComponent")
+attack_range = NodePath("../AttackRange")
+detection_area = NodePath("../DetectionArea")
+navigation_component = NodePath("../NavigationComponent")
+metadata/_custom_type_script = "uid://do7uhqda1gore"
+
+[node name="EnemyAttackController" type="Node" parent="." unique_id=57735586 node_paths=PackedStringArray("state_chart", "state_manager", "attack_hitbox", "attack_vfx", "detection_area", "cooldown_timer")]
+script = ExtResource("22_l1c51")
+state_chart = NodePath("../MeleeEnemyChart")
+state_manager = NodePath("../EnemyStateManagerComponent")
+attack_hitbox = NodePath("../AttackVFX/HitboxComponent")
+attack_vfx = NodePath("../AttackVFX")
+detection_area = NodePath("../DetectionArea")
+cooldown_timer = NodePath("AttackCooldown")
+metadata/_custom_type_script = "uid://bylrsdtb5o3ms"
+
+[node name="AttackCooldown" type="Timer" parent="EnemyAttackController" unique_id=1344295891]
+wait_time = 3.0
+one_shot = true

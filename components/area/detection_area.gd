@@ -12,8 +12,11 @@ func _ready() -> void:
 	area_entered.connect(_on_area_entered)
 	area_exited.connect(_on_area_exited)
 
-func has_target() -> Node2D:
+func get_target() -> Node2D:
 	return _player_ref if is_instance_valid(_player_ref) else null
+	
+func has_target() -> bool:
+	return is_instance_valid(_player_ref)
 
 func _on_area_entered(area: Area2D) -> void: #Detect player entering area
 	if area.is_in_group("player") and _player_ref != area:

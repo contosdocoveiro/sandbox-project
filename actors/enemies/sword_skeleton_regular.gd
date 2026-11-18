@@ -13,6 +13,3 @@ class_name SwordSkeleton
 @export var attack_range : AttackRangeComponent
 @export var enemy_behavior : EnemyBehaviorComponent
 @export var health_component : HealthComponent
-
-func _physics_process(delta: float) -> void:
-	enemy_behavior.dash_attacker_behavior()

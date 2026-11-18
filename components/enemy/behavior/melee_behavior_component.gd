@@ -1,7 +1,7 @@
 class_name MeleeBehaviorComponent
 extends EnemyBehaviorComponent
 
-const LOCKED_STATES = [&"attack", &"hurt", &"dead"]
+const LOCKED_STATES = [&"attack", &"hurt", &"dead", &"ready"]
 
 @export var attack_range: AttackRangeComponent
 @export var stop_when_in_attack_range := true

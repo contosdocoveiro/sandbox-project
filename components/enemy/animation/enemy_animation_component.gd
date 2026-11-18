@@ -8,6 +8,7 @@ extends Node
 
 @export var animations: Dictionary = {
 	&"idle": &"idle",
+	&"ready": &"idle",
 	&"chase": &"run",
 	&"attack": &"attack",
 	&"hurt": &"hurt",

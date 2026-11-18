@@ -1,3 +1,4 @@
+class_name EnemyBrainComponent
 extends Node
 
 @export var state_chart: StateChart
