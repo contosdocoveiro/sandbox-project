@@ -6,6 +6,7 @@
 [ext_resource type="PackedScene" uid="uid://du2nkbrxyw642" path="res://actors/player/sword.tscn" id="5_g1hmt"]
 [ext_resource type="PackedScene" uid="uid://c41v5nytvgb45" path="res://components/movement/dash_component.tscn" id="12_dqava"]
 [ext_resource type="PackedScene" uid="uid://87eyytqhj2f3" path="res://components/presentation/outline_component.tscn" id="13_c8av6"]
+[ext_resource type="Script" uid="uid://b740xvetgsnd" path="res://components/movement/movement_modifier_component.gd" id="13_hwjpm"]
 [ext_resource type="PackedScene" uid="uid://cltn1q0lij7k2" path="res://components/state/player/player_state_manager_component.tscn" id="13_lxbtq"]
 [ext_resource type="PackedScene" uid="uid://c3n4e6ptpinp2" path="res://components/combat/health_component.tscn" id="13_whrp2"]
 [ext_resource type="PackedScene" uid="uid://d03sqsfjcl40x" path="res://components/animation/player/player_animation_component.tscn" id="14_cvovx"]
@@ -799,13 +800,15 @@ _data = {
 [sub_resource type="CircleShape2D" id="CircleShape2D_krfs2"]
 radius = 2.0
 
-[node name="Dog" type="CharacterBody2D" unique_id=207404119 node_paths=PackedStringArray("physics_component", "input_component", "health_component") groups=["player"]]
+[node name="Dog" type="CharacterBody2D" unique_id=207404119 node_paths=PackedStringArray("physics_component", "input_component", "health_component", "weapon", "movement_modifier") groups=["player"]]
 collision_layer = 2
 motion_mode = 1
 script = ExtResource("1_wcb0j")
 physics_component = NodePath("PhysicsComponent")
 input_component = NodePath("PlayerInputComponent")
 health_component = NodePath("HealthComponent")
+weapon = NodePath("Weapon")
+movement_modifier = NodePath("MovementModifierComponent")
 
 [node name="Body" type="AnimatedSprite2D" parent="." unique_id=2015410582]
 position = Vector2(0, -5)
@@ -833,8 +836,9 @@ position = Vector2(0, -2.50001)
 scale = Vector2(0.166667, 0.166667)
 shape = SubResource("CircleShape2D_1aob0")
 
-[node name="Weapon" parent="." unique_id=1437929468 instance=ExtResource("5_g1hmt")]
+[node name="Weapon" parent="." unique_id=1437929468 node_paths=PackedStringArray("aim_origin") instance=ExtResource("5_g1hmt")]
 position = Vector2(12, 1)
+aim_origin = NodePath("..")
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="." unique_id=1670270325]
 libraries/ = SubResource("AnimationLibrary_o7bou")
@@ -860,10 +864,10 @@ position = Vector2(0, -17)
 move_speed = 120.0
 dash_speed = 250.0
 dash_duration = 0.1
+knockback_resistance = 10.0
 actor = NodePath("..")
 dash_component = NodePath("../DashComponent")
 input_component = NodePath("../PlayerInputComponent")
-knockback_resistance = 10.0
 
 [node name="PlayerStateManagerComponent" parent="." unique_id=1455225692 node_paths=PackedStringArray("actor", "animation_component") instance=ExtResource("13_lxbtq")]
 actor = NodePath("..")
@@ -878,3 +882,8 @@ sprite = NodePath("../Body")
 body = NodePath("../Body")
 outline_color = Color(0.3529412, 0.21960784, 0.14509805, 1)
 health_component = NodePath("../HealthComponent")
+
+[node name="MovementModifierComponent" type="Node" parent="." unique_id=711576296 node_paths=PackedStringArray("physics_component")]
+script = ExtResource("13_hwjpm")
+physics_component = NodePath("../PhysicsComponent")
+metadata/_custom_type_script = "uid://b740xvetgsnd"

@@ -16,6 +16,7 @@ var direction : Vector2
 var last_faced_direction : Vector2
 var applied_knockback : Vector2
 @export var can_be_knocked_back := true
+var speed_scale := 1.0
 
 signal facing_changed(direction: Vector2)
 
@@ -26,18 +27,24 @@ func _ready() -> void:
 
 func move() -> void:
 	actor.move_and_slide()
+	
+func get_effective_move_speed() -> float:
+	return move_speed * speed_scale
+	
+func get_effective_dash_speed() -> float:
+	return dash_speed * speed_scale
 
 func calculate_velocity() -> Vector2:
 	direction = input_component.input_direction
 	if(direction != Vector2.ZERO):
 		last_faced_direction = direction
 		facing_changed.emit(direction)
-	var speed := move_speed
+	var speed := get_effective_move_speed()
 	if is_instance_valid(dash_component):
 		if input_component.dash_input and not dash_component.is_dashing():
 			dash_component.start_dash(dash_duration)
 		if dash_component.is_dashing():
-			speed = dash_speed
+			speed = get_effective_dash_speed()
 	
 	if(steer_force != 0):
 		var final_velocity = direction * speed

@@ -1,13 +1,18 @@
 class_name MeleeBehaviorComponent
 extends EnemyBehaviorComponent
 
-const LOCKED_STATES = [&"attack", &"hurt", &"dead", &"ready"]
+@export var movement_lock_states: Array[StringName] = [
+	&"attack",
+	&"ready",
+	&"hurt",
+	&"dead",
+]
 
 @export var attack_range: AttackRangeComponent
 @export var stop_when_in_attack_range := true
 
 func tick(_delta: float) -> void:
-	if state_manager.current_state in LOCKED_STATES:
+	if state_manager.current_state in movement_lock_states:
 		actor.velocity = Vector2.ZERO
 	else:
 		input_component.handle_inputs()

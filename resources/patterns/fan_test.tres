@@ -1,0 +1,14 @@
+[gd_resource type="Resource" script_class="SpreadPattern" format=3 uid="uid://brjx7mny70rtk"]
+
+[ext_resource type="Script" uid="uid://jqie5l6vjqhe" path="res://components/combat/bullets/patterns/spread_pattern.gd" id="1_ggbbm"]
+[ext_resource type="Script" uid="uid://g5qobf8pwuwb" path="res://components/combat/bullets/bullet_data.gd" id="1_u1vte"]
+
+[sub_resource type="Resource" id="Resource_ob752"]
+script = ExtResource("1_u1vte")
+metadata/_custom_type_script = "uid://g5qobf8pwuwb"
+
+[resource]
+script = ExtResource("1_ggbbm")
+count = 1
+bullet = SubResource("Resource_ob752")
+metadata/_custom_type_script = "uid://jqie5l6vjqhe"

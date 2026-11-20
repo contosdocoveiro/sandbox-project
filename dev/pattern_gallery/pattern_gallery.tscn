@@ -1,0 +1,98 @@
+[gd_scene format=3 uid="uid://bnvvkcspri5ev"]
+
+[ext_resource type="Script" uid="uid://dedpdq633tvqw" path="res://dev/pattern_gallery/pattern_gallery.gd" id="1_ogdxx"]
+[ext_resource type="PackedScene" uid="uid://ottra48x0ht0" path="res://dev/pattern_gallery/enemy_dummy.tscn" id="2_xor6i"]
+[ext_resource type="PackedScene" uid="uid://ddai18xcn2f46" path="res://dev/pattern_gallery/player_dummy.tscn" id="3_2w3ox"]
+[ext_resource type="Script" uid="uid://bjg43q0bv3fyj" path="res://components/combat/bullets/bullet_emitter_component.gd" id="4_vasq2"]
+[ext_resource type="Script" uid="uid://d1mide77e5u3f" path="res://components/combat/bullets/aim_source.gd" id="5_6dhma"]
+
+[node name="PatternGallery" type="Node2D" unique_id=1171808375]
+script = ExtResource("1_ogdxx")
+
+[node name="BulletLayer" type="Node2D" parent="." unique_id=253514005 groups=["bullet_layer"]]
+y_sort_enabled = true
+
+[node name="EnemyDummy" parent="." unique_id=1488788581 instance=ExtResource("2_xor6i")]
+position = Vector2(400, 177)
+
+[node name="PlayerDummy" parent="." unique_id=372286212 instance=ExtResource("3_2w3ox")]
+position = Vector2(203, 177)
+
+[node name="BulletEmitterComponent" type="Node2D" parent="." unique_id=430317409 node_paths=PackedStringArray("aim_source", "muzzle")]
+script = ExtResource("4_vasq2")
+aim_source = NodePath("AimSource")
+muzzle = NodePath("Muzzle")
+metadata/_custom_type_script = "uid://bjg43q0bv3fyj"
+
+[node name="Muzzle" type="Marker2D" parent="BulletEmitterComponent" unique_id=1256830262]
+
+[node name="AimSource" type="Node2D" parent="BulletEmitterComponent" unique_id=1811716451 node_paths=PackedStringArray("origin")]
+script = ExtResource("5_6dhma")
+origin = NodePath("..")
+metadata/_custom_type_script = "uid://d1mide77e5u3f"
+
+[node name="UI" type="CanvasLayer" parent="." unique_id=296030389]
+
+[node name="PatternOption" type="OptionButton" parent="UI" unique_id=1502268303]
+offset_left = 203.0
+offset_top = 53.0
+offset_right = 243.0
+offset_bottom = 73.0
+
+[node name="TeamOption" type="OptionButton" parent="UI" unique_id=136410712]
+offset_left = 304.0
+offset_top = 43.0
+offset_right = 344.0
+offset_bottom = 63.0
+
+[node name="TelegraphOption" type="OptionButton" parent="UI" unique_id=897817607]
+offset_left = 408.0
+offset_top = 43.0
+offset_right = 448.0
+offset_bottom = 63.0
+scale = Vector2(0.5, 0.5)
+
+[node name="DurationSlider" type="HSlider" parent="UI" unique_id=111787532]
+offset_right = 8.0
+offset_bottom = 16.0
+
+[node name="FollowAim" type="CheckBox" parent="UI" unique_id=1518360732]
+offset_left = 259.0
+offset_top = 43.0
+offset_right = 283.0
+offset_bottom = 67.0
+
+[node name="FireButton" type="Button" parent="UI" unique_id=120071311]
+offset_right = 8.0
+offset_bottom = 8.0
+
+[node name="StopButton" type="Button" parent="UI" unique_id=1199436119]
+offset_right = 8.0
+offset_bottom = 8.0
+
+[node name="ClearButton" type="Button" parent="UI" unique_id=563110312]
+offset_right = 8.0
+offset_bottom = 8.0
+
+[node name="StressButton" type="Button" parent="UI" unique_id=124649916]
+anchors_preset = -1
+anchor_left = 0.23200001
+anchor_top = 0.20300001
+anchor_right = 0.23200001
+anchor_bottom = 0.20300001
+offset_left = 35.51999
+offset_top = 25.919998
+offset_right = 43.51999
+offset_bottom = 33.92
+
+[node name="MoveCheck" type="CheckBox" parent="UI" unique_id=2139227405]
+offset_left = 366.0
+offset_top = 43.0
+offset_right = 390.0
+offset_bottom = 67.0
+
+[node name="Stats" type="Label" parent="UI" unique_id=965238883]
+offset_left = -51.0
+offset_top = 20.0
+offset_right = -11.0
+offset_bottom = 43.0
