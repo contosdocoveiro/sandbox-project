@@ -2,6 +2,7 @@
 
 [ext_resource type="TileSet" uid="uid://d3i8x7h6osvuv" path="res://assets/tilesets/tileset dungeon cinza.tres" id="1_fsimj"]
 [ext_resource type="PackedScene" uid="uid://cb45780p6hfc1" path="res://actors/player/dog_with_camera_setup.tscn" id="2_fxpsc"]
+[ext_resource type="PackedScene" uid="uid://vguqdea1dnnb" path="res://components/combat/bullets/bullet_layer.tscn" id="4_2c3gb"]
 [ext_resource type="PackedScene" uid="uid://b8pj7dbcr4vg3" path="res://world/lighting/canvas_modulate_green_dungeon.tscn" id="4_l4ovr"]
 
 [node name="Node2D" type="Node2D" unique_id=1796502725]
@@ -29,3 +30,5 @@ tile_set = ExtResource("1_fsimj")
 position = Vector2(219, 185)
 
 [node name="CanvasModulate" parent="." unique_id=1091040143 instance=ExtResource("4_l4ovr")]
+
+[node name="BulletLayer" parent="." unique_id=1558402636 instance=ExtResource("4_2c3gb")]

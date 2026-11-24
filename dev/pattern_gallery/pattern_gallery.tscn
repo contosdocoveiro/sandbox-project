@@ -3,28 +3,91 @@
 [ext_resource type="Script" uid="uid://dedpdq633tvqw" path="res://dev/pattern_gallery/pattern_gallery.gd" id="1_ogdxx"]
 [ext_resource type="PackedScene" uid="uid://ottra48x0ht0" path="res://dev/pattern_gallery/enemy_dummy.tscn" id="2_xor6i"]
 [ext_resource type="PackedScene" uid="uid://ddai18xcn2f46" path="res://dev/pattern_gallery/player_dummy.tscn" id="3_2w3ox"]
+[ext_resource type="PackedScene" uid="uid://vguqdea1dnnb" path="res://components/combat/bullets/bullet_layer.tscn" id="4_2w3ox"]
 [ext_resource type="Script" uid="uid://bjg43q0bv3fyj" path="res://components/combat/bullets/bullet_emitter_component.gd" id="4_vasq2"]
 [ext_resource type="Script" uid="uid://d1mide77e5u3f" path="res://components/combat/bullets/aim_source.gd" id="5_6dhma"]
 
-[node name="PatternGallery" type="Node2D" unique_id=1171808375]
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_arena"]
+bg_color = Color(0.0980392, 0.109804, 0.145098, 1)
+border_width_left = 1
+border_width_top = 1
+border_width_right = 1
+border_width_bottom = 1
+border_color = Color(0.223529, 0.247059, 0.313726, 1)
+corner_radius_top_left = 6
+corner_radius_top_right = 6
+corner_radius_bottom_right = 6
+corner_radius_bottom_left = 6
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_topbar"]
+bg_color = Color(0.0705882, 0.0784314, 0.101961, 0.97)
+border_width_bottom = 1
+border_color = Color(0.223529, 0.247059, 0.313726, 1)
+
+[node name="PatternGallery" type="Node2D" unique_id=1171808375 node_paths=PackedStringArray("emitter")]
 script = ExtResource("1_ogdxx")
+emitter = NodePath("BulletEmitterComponent")
 
-[node name="BulletLayer" type="Node2D" parent="." unique_id=253514005 groups=["bullet_layer"]]
-y_sort_enabled = true
+[node name="Background" type="ColorRect" parent="." unique_id=726075475]
+offset_right = 640.0
+offset_bottom = 360.0
+mouse_filter = 2
+color = Color(0.0588235, 0.0666667, 0.0862745, 1)
 
-[node name="EnemyDummy" parent="." unique_id=1488788581 instance=ExtResource("2_xor6i")]
-position = Vector2(400, 177)
+[node name="Arena" type="Panel" parent="." unique_id=942128572]
+offset_left = 16.0
+offset_top = 100.0
+offset_right = 624.0
+offset_bottom = 344.0
+mouse_filter = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_arena")
 
 [node name="PlayerDummy" parent="." unique_id=372286212 instance=ExtResource("3_2w3ox")]
-position = Vector2(203, 177)
+position = Vector2(160, 248)
+
+[node name="EnemyDummy" parent="." unique_id=1488788581 instance=ExtResource("2_xor6i")]
+position = Vector2(480, 248)
+
+[node name="PlayerLabel" type="Label" parent="." unique_id=1404154459]
+offset_left = 112.0
+offset_top = 276.0
+offset_right = 208.0
+offset_bottom = 290.0
+theme_override_colors/font_color = Color(0.54902, 0.6, 0.701961, 1)
+theme_override_font_sizes/font_size = 8
+text = "PLAYER DUMMY"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="EnemyLabel" type="Label" parent="." unique_id=723752830]
+offset_left = 432.0
+offset_top = 276.0
+offset_right = 528.0
+offset_bottom = 290.0
+theme_override_colors/font_color = Color(0.54902, 0.6, 0.701961, 1)
+theme_override_font_sizes/font_size = 8
+text = "ENEMY DUMMY"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="BulletLayer" parent="." unique_id=1558402636 instance=ExtResource("4_2w3ox")]
 
 [node name="BulletEmitterComponent" type="Node2D" parent="." unique_id=430317409 node_paths=PackedStringArray("aim_source", "muzzle")]
+position = Vector2(320, 230)
 script = ExtResource("4_vasq2")
 aim_source = NodePath("AimSource")
 muzzle = NodePath("Muzzle")
 metadata/_custom_type_script = "uid://bjg43q0bv3fyj"
 
 [node name="Muzzle" type="Marker2D" parent="BulletEmitterComponent" unique_id=1256830262]
+
+[node name="EmitterMarker" type="ColorRect" parent="BulletEmitterComponent" unique_id=1261286247]
+offset_left = -4.0
+offset_top = -4.0
+offset_right = 4.0
+offset_bottom = 4.0
+mouse_filter = 2
+color = Color(0.35, 0.42, 0.55, 0.6)
 
 [node name="AimSource" type="Node2D" parent="BulletEmitterComponent" unique_id=1811716451 node_paths=PackedStringArray("origin")]
 script = ExtResource("5_6dhma")
@@ -33,66 +96,127 @@ metadata/_custom_type_script = "uid://d1mide77e5u3f"
 
 [node name="UI" type="CanvasLayer" parent="." unique_id=296030389]
 
-[node name="PatternOption" type="OptionButton" parent="UI" unique_id=1502268303]
-offset_left = 203.0
-offset_top = 53.0
-offset_right = 243.0
-offset_bottom = 73.0
+[node name="TopBar" type="PanelContainer" parent="UI" unique_id=54612457]
+offset_right = 640.0
+offset_bottom = 92.0
+theme_override_styles/panel = SubResource("StyleBoxFlat_topbar")
 
-[node name="TeamOption" type="OptionButton" parent="UI" unique_id=136410712]
-offset_left = 304.0
-offset_top = 43.0
-offset_right = 344.0
-offset_bottom = 63.0
+[node name="Margin" type="MarginContainer" parent="UI/TopBar" unique_id=148999910]
+layout_mode = 2
+theme_override_constants/margin_left = 8
+theme_override_constants/margin_top = 6
+theme_override_constants/margin_right = 8
+theme_override_constants/margin_bottom = 6
 
-[node name="TelegraphOption" type="OptionButton" parent="UI" unique_id=897817607]
-offset_left = 408.0
-offset_top = 43.0
-offset_right = 448.0
-offset_bottom = 63.0
-scale = Vector2(0.5, 0.5)
+[node name="Rows" type="VBoxContainer" parent="UI/TopBar/Margin" unique_id=203833851]
+layout_mode = 2
+theme_override_constants/separation = 4
 
-[node name="DurationSlider" type="HSlider" parent="UI" unique_id=111787532]
-offset_right = 8.0
-offset_bottom = 16.0
+[node name="TitleRow" type="HBoxContainer" parent="UI/TopBar/Margin/Rows" unique_id=1790270697]
+layout_mode = 2
+theme_override_constants/separation = 6
 
-[node name="FollowAim" type="CheckBox" parent="UI" unique_id=1518360732]
-offset_left = 259.0
-offset_top = 43.0
-offset_right = 283.0
-offset_bottom = 67.0
+[node name="Title" type="Label" parent="UI/TopBar/Margin/Rows/TitleRow" unique_id=376662234]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.890196, 0.921569, 0.980392, 1)
+theme_override_font_sizes/font_size = 14
+text = "PATTERN GALLERY"
 
-[node name="FireButton" type="Button" parent="UI" unique_id=120071311]
-offset_right = 8.0
-offset_bottom = 8.0
+[node name="Spacer" type="Control" parent="UI/TopBar/Margin/Rows/TitleRow" unique_id=1079321725]
+layout_mode = 2
+size_flags_horizontal = 3
 
-[node name="StopButton" type="Button" parent="UI" unique_id=1199436119]
-offset_right = 8.0
-offset_bottom = 8.0
+[node name="Stats" type="Label" parent="UI/TopBar/Margin/Rows/TitleRow" unique_id=1289308338]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_colors/font_color = Color(0.647059, 0.701961, 0.8, 1)
+theme_override_font_sizes/font_size = 9
+text = "FPS -- | active 0"
+vertical_alignment = 1
 
-[node name="ClearButton" type="Button" parent="UI" unique_id=563110312]
-offset_right = 8.0
-offset_bottom = 8.0
+[node name="OptionsRow" type="HBoxContainer" parent="UI/TopBar/Margin/Rows" unique_id=1213061959]
+layout_mode = 2
+theme_override_constants/separation = 6
 
-[node name="StressButton" type="Button" parent="UI" unique_id=124649916]
-anchors_preset = -1
-anchor_left = 0.23200001
-anchor_top = 0.20300001
-anchor_right = 0.23200001
-anchor_bottom = 0.20300001
-offset_left = 35.51999
-offset_top = 25.919998
-offset_right = 43.51999
-offset_bottom = 33.92
+[node name="PatternOption" type="OptionButton" parent="UI/TopBar/Margin/Rows/OptionsRow" unique_id=625720993]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(140, 0)
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_font_sizes/font_size = 9
 
-[node name="MoveCheck" type="CheckBox" parent="UI" unique_id=2139227405]
-offset_left = 366.0
-offset_top = 43.0
-offset_right = 390.0
-offset_bottom = 67.0
+[node name="TeamOption" type="OptionButton" parent="UI/TopBar/Margin/Rows/OptionsRow" unique_id=133235651]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(64, 0)
+layout_mode = 2
+theme_override_font_sizes/font_size = 9
 
-[node name="Stats" type="Label" parent="UI" unique_id=965238883]
-offset_left = -51.0
-offset_top = 20.0
-offset_right = -11.0
-offset_bottom = 43.0
+[node name="TelegraphOption" type="OptionButton" parent="UI/TopBar/Margin/Rows/OptionsRow" unique_id=132462092]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(72, 0)
+layout_mode = 2
+theme_override_font_sizes/font_size = 9
+
+[node name="WarnLabel" type="Label" parent="UI/TopBar/Margin/Rows/OptionsRow" unique_id=181206299]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.647059, 0.701961, 0.8, 1)
+theme_override_font_sizes/font_size = 8
+text = "Warn"
+vertical_alignment = 1
+
+[node name="DurationSlider" type="HSlider" parent="UI/TopBar/Margin/Rows/OptionsRow" unique_id=720808197]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(70, 0)
+layout_mode = 2
+size_flags_vertical = 4
+max_value = 2.0
+step = 0.05
+value = 0.6
+
+[node name="FollowAim" type="CheckBox" parent="UI/TopBar/Margin/Rows/OptionsRow" unique_id=234280542]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_font_sizes/font_size = 9
+button_pressed = true
+text = "Follow"
+
+[node name="MoveCheck" type="CheckBox" parent="UI/TopBar/Margin/Rows/OptionsRow" unique_id=1174304524]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_font_sizes/font_size = 9
+text = "Move"
+
+[node name="ButtonRow" type="HBoxContainer" parent="UI/TopBar/Margin/Rows" unique_id=543421783]
+layout_mode = 2
+theme_override_constants/separation = 6
+
+[node name="StopButton" type="Button" parent="UI/TopBar/Margin/Rows/ButtonRow" unique_id=944504050]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(52, 0)
+layout_mode = 2
+theme_override_font_sizes/font_size = 9
+text = "Stop"
+
+[node name="ClearButton" type="Button" parent="UI/TopBar/Margin/Rows/ButtonRow" unique_id=1029594963]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(52, 0)
+layout_mode = 2
+theme_override_font_sizes/font_size = 9
+text = "Clear"
+
+[node name="StressButton" type="Button" parent="UI/TopBar/Margin/Rows/ButtonRow" unique_id=1589467072]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(58, 0)
+layout_mode = 2
+theme_override_font_sizes/font_size = 9
+text = "Stress"
+
+[node name="BottomHint" type="Label" parent="UI" unique_id=699101755]
+offset_left = 16.0
+offset_top = 346.0
+offset_right = 624.0
+offset_bottom = 358.0
+theme_override_colors/font_color = Color(0.54902, 0.6, 0.701961, 1)
+theme_override_font_sizes/font_size = 8
+text = "Click the arena to fire at the cursor."
+vertical_alignment = 1

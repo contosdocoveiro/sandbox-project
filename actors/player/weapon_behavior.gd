@@ -30,9 +30,14 @@ func _ready() -> void:
 	if idle_blade:
 		_idle_blade_base = idle_blade.position
 
+func emit_attack_started() -> void:
+	attack_started.emit()
+	
+func emit_attack_ended() -> void:
+	attack_ended.emit()
+	
 func begin_attack() -> void:
 	attacking = true
-	attack_started.emit()
 	
 	var dir := get_aim_direction()
 	locked_offset = dir * attack_offset
@@ -46,7 +51,6 @@ func lock_aim() -> void:
 
 func end_attack() -> void:
 	attacking = false
-	attack_ended.emit()
 
 func _physics_process(delta: float) -> void:
 	if attacking:

@@ -123,10 +123,10 @@ tracks/0/path = NodePath("AnimatedSprite2D:frame")
 tracks/0/interp = 1
 tracks/0/loop_wrap = true
 tracks/0/keys = {
-"times": PackedFloat32Array(0, 0.0333333, 0.0666667, 0.133333, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7),
-"transitions": PackedFloat32Array(1, 1, 1, 1, 1, 1, 1, 1, 1, 1),
+"times": PackedFloat32Array(0, 0.10000001, 0.2, 0.3, 0.40000004, 0.5),
+"transitions": PackedFloat32Array(1, 1, 1, 1, 1, 1),
 "update": 1,
-"values": [0, 1, 2, 3, 4, 5, 6, 7, 8, 9]
+"values": [4, 5, 6, 7, 8, 9]
 }
 tracks/1/type = "value"
 tracks/1/imported = false
@@ -159,7 +159,7 @@ tracks/3/path = NodePath("SwordStateMachine:can_input_attack")
 tracks/3/interp = 1
 tracks/3/loop_wrap = true
 tracks/3/keys = {
-"times": PackedFloat32Array(0, 0.566667),
+"times": PackedFloat32Array(0, 0.36666703),
 "transitions": PackedFloat32Array(1, 1),
 "update": 1,
 "values": [false, true]
@@ -221,11 +221,42 @@ tracks/8/path = NodePath(".")
 tracks/8/interp = 1
 tracks/8/loop_wrap = true
 tracks/8/keys = {
-"times": PackedFloat32Array(0.3),
+"times": PackedFloat32Array(0.10000001),
 "transitions": PackedFloat32Array(1),
 "values": [{
 "args": [],
 "method": &"lock_aim"
+}]
+}
+tracks/9/type = "method"
+tracks/9/imported = false
+tracks/9/enabled = true
+tracks/9/path = NodePath("BulletEmitterComponent")
+tracks/9/interp = 1
+tracks/9/loop_wrap = true
+tracks/9/keys = {
+"times": PackedFloat32Array(0.10000001),
+"transitions": PackedFloat32Array(1),
+"values": [{
+"args": [0],
+"method": &"fire_pattern"
+}]
+}
+tracks/10/type = "method"
+tracks/10/imported = false
+tracks/10/enabled = true
+tracks/10/path = NodePath(".")
+tracks/10/interp = 1
+tracks/10/loop_wrap = true
+tracks/10/keys = {
+"times": PackedFloat32Array(0.1, 0.43333334),
+"transitions": PackedFloat32Array(1, 1),
+"values": [{
+"args": [],
+"method": &"emit_attack_started"
+}, {
+"args": [],
+"method": &"emit_attack_ended"
 }]
 }
 
@@ -343,6 +374,37 @@ tracks/4/keys = {
 "values": [{
 "args": [],
 "method": &"lock_aim"
+}]
+}
+tracks/5/type = "method"
+tracks/5/imported = false
+tracks/5/enabled = true
+tracks/5/path = NodePath("BulletEmitterComponent")
+tracks/5/interp = 1
+tracks/5/loop_wrap = true
+tracks/5/keys = {
+"times": PackedFloat32Array(0.099999994),
+"transitions": PackedFloat32Array(1),
+"values": [{
+"args": [0],
+"method": &"fire_pattern"
+}]
+}
+tracks/6/type = "method"
+tracks/6/imported = false
+tracks/6/enabled = true
+tracks/6/path = NodePath(".")
+tracks/6/interp = 1
+tracks/6/loop_wrap = true
+tracks/6/keys = {
+"times": PackedFloat32Array(0.1, 0.56666666),
+"transitions": PackedFloat32Array(1, 1),
+"values": [{
+"args": [],
+"method": &"emit_attack_started"
+}, {
+"args": [],
+"method": &"emit_attack_ended"
 }]
 }
 
@@ -928,29 +990,20 @@ to = NodePath("../../../Idle")
 event = &"combo_finished"
 delay_in_seconds = "0.0"
 
-[node name="To Combo 3" type="Node" parent="StateChart/Root/Attack/Combo 2" unique_id=846363163]
+[node name="To Combo 1" type="Node" parent="StateChart/Root/Attack/Combo 2" unique_id=846363163]
 script = ExtResource("7_132pl")
-to = NodePath("../../Combo 3")
+to = NodePath("../../Combo 1")
 event = &"attack_pressed_mid_combo"
-delay_in_seconds = "0.0"
-
-[node name="Combo 3" type="Node" parent="StateChart/Root/Attack" unique_id=124135107]
-script = ExtResource("6_ssq3d")
-
-[node name="To Idle" type="Node" parent="StateChart/Root/Attack/Combo 3" unique_id=780871964]
-script = ExtResource("7_132pl")
-to = NodePath("../../../Idle")
-event = &"combo_finished"
 delay_in_seconds = "0.0"
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="." unique_id=527972801]
 visible = false
 sprite_frames = SubResource("SpriteFrames_qs03q")
-animation = &"combo 3"
+animation = &"combo 2"
 offset = Vector2(0.5, -15)
 
 [node name="Muzzle" type="Marker2D" parent="AnimatedSprite2D" unique_id=878060632]
-position = Vector2(-14, -16)
+position = Vector2(18, 0)
 gizmo_extents = 0.0
 
 [node name="SwordStateMachine" type="Node" parent="." unique_id=555017300]
@@ -983,4 +1036,3 @@ metadata/_custom_type_script = "uid://d1mide77e5u3f"
 [connection signal="state_physics_processing" from="StateChart/Root/Attack/Combo 1" to="SwordStateMachine" method="_on_combo_1_state_physics_processing"]
 [connection signal="state_entered" from="StateChart/Root/Attack/Combo 2" to="SwordStateMachine" method="_on_combo_2_state_entered"]
 [connection signal="state_physics_processing" from="StateChart/Root/Attack/Combo 2" to="SwordStateMachine" method="_on_combo_2_state_physics_processing"]
-[connection signal="state_entered" from="StateChart/Root/Attack/Combo 3" to="SwordStateMachine" method="_on_combo_3_state_entered"]

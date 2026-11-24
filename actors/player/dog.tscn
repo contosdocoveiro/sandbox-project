@@ -6,7 +6,7 @@
 [ext_resource type="PackedScene" uid="uid://du2nkbrxyw642" path="res://actors/player/sword.tscn" id="5_g1hmt"]
 [ext_resource type="PackedScene" uid="uid://c41v5nytvgb45" path="res://components/movement/dash_component.tscn" id="12_dqava"]
 [ext_resource type="PackedScene" uid="uid://87eyytqhj2f3" path="res://components/presentation/outline_component.tscn" id="13_c8av6"]
-[ext_resource type="Script" uid="uid://b740xvetgsnd" path="res://components/movement/movement_modifier_component.gd" id="13_hwjpm"]
+[ext_resource type="PackedScene" uid="uid://uqibrtewo21t" path="res://components/movement/movement_modifier_component.tscn" id="13_hwjpm"]
 [ext_resource type="PackedScene" uid="uid://cltn1q0lij7k2" path="res://components/state/player/player_state_manager_component.tscn" id="13_lxbtq"]
 [ext_resource type="PackedScene" uid="uid://c3n4e6ptpinp2" path="res://components/combat/health_component.tscn" id="13_whrp2"]
 [ext_resource type="PackedScene" uid="uid://d03sqsfjcl40x" path="res://components/animation/player/player_animation_component.tscn" id="14_cvovx"]
@@ -809,6 +809,7 @@ input_component = NodePath("PlayerInputComponent")
 health_component = NodePath("HealthComponent")
 weapon = NodePath("Weapon")
 movement_modifier = NodePath("MovementModifierComponent")
+attack_move_multiplier = 1.0
 
 [node name="Body" type="AnimatedSprite2D" parent="." unique_id=2015410582]
 position = Vector2(0, -5)
@@ -861,9 +862,9 @@ position = Vector2(0, -17)
 [node name="PlayerInputComponent" parent="." unique_id=1845429960 instance=ExtResource("16_iy211")]
 
 [node name="PhysicsComponent" parent="." unique_id=1117724638 node_paths=PackedStringArray("actor", "dash_component", "input_component") instance=ExtResource("17_wtar8")]
-move_speed = 120.0
-dash_speed = 250.0
-dash_duration = 0.1
+move_speed = 100.0
+dash_speed = 200.0
+dash_duration = 0.2
 knockback_resistance = 10.0
 actor = NodePath("..")
 dash_component = NodePath("../DashComponent")
@@ -883,7 +884,4 @@ body = NodePath("../Body")
 outline_color = Color(0.3529412, 0.21960784, 0.14509805, 1)
 health_component = NodePath("../HealthComponent")
 
-[node name="MovementModifierComponent" type="Node" parent="." unique_id=711576296 node_paths=PackedStringArray("physics_component")]
-script = ExtResource("13_hwjpm")
-physics_component = NodePath("../PhysicsComponent")
-metadata/_custom_type_script = "uid://b740xvetgsnd"
+[node name="MovementModifierComponent" parent="." unique_id=1916568270 instance=ExtResource("13_hwjpm")]

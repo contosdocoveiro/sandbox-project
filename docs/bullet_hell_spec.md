@@ -1772,7 +1772,6 @@ PatternGallery (Node2D, script pattern_gallery.gd)
     |-- TelegraphOption (OptionButton: None, LINE, CONE, RING, CIRCLE, RECT, ARC)
     |-- DurationSlider (HSlider: 0.0-2.0)
     |-- FollowAim (CheckBox)
-    |-- FireButton (Button)
     |-- StopButton (Button)
     |-- ClearButton (Button)
     |-- StressButton (Button)
@@ -1815,7 +1814,6 @@ extends Node2D
 @onready var telegraph_option: OptionButton = %TelegraphOption
 @onready var duration_slider: HSlider = %DurationSlider
 @onready var follow_aim: CheckBox = %FollowAim
-@onready var fire_button: Button = %FireButton
 @onready var stop_button: Button = %StopButton
 @onready var clear_button: Button = %ClearButton
 @onready var stress_button: Button = %StressButton
@@ -1832,7 +1830,6 @@ func _ready() -> void:
 	_scan_patterns(pattern_root)
 	_fill_options()
 
-	fire_button.pressed.connect(_on_fire)
 	stop_button.pressed.connect(func() -> void: emitter.stop())
 	clear_button.pressed.connect(func() -> void: BulletManager.clear_all())
 	stress_button.pressed.connect(_on_stress)
@@ -1847,6 +1844,11 @@ func _process(delta: float) -> void:
 	if move_check.button_pressed:
 		emitter.position = _orbit_origin + Vector2(cos(_time) * 80.0, sin(_time) * 40.0)
 	stats.text = "FPS %d | active %d" % [Engine.get_frames_per_second(), BulletManager.active_count()]
+
+func _unhandled_input(event: InputEvent) -> void:
+	if event is InputEventMouseButton:
+		if event.button_index == MOUSE_BUTTON_LEFT and event.pressed:
+			_on_fire()
 
 func _scan_patterns(path: String) -> void:
 	var dir := DirAccess.open(path)

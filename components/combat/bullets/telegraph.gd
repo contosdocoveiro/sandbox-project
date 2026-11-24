@@ -21,6 +21,10 @@ func show_telegraph(d: TelegraphData, origin: Vector2, angle: float) -> void:
 	set_process(true)
 	queue_redraw()
 
+func hide_telegraph() -> void:
+	visible = false
+	set_process(false)
+
 func set_aim(origin: Vector2, angle: float) -> void:
 	global_position = origin
 	global_rotation = angle

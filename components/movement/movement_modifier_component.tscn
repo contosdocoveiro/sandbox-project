@@ -1,0 +1,8 @@
+[gd_scene format=3 uid="uid://uqibrtewo21t"]
+
+[ext_resource type="Script" uid="uid://b740xvetgsnd" path="res://components/movement/movement_modifier_component.gd" id="1_e0v47"]
+
+[node name="MovementModifierComponent" type="Node" unique_id=1916568270 node_paths=PackedStringArray("physics_component")]
+script = ExtResource("1_e0v47")
+physics_component = NodePath("")
+metadata/_custom_type_script = "uid://b740xvetgsnd"

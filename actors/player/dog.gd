@@ -7,7 +7,7 @@ class_name PlayableCharacter
 @export var health_component : HealthComponent
 @export var weapon : Weapon
 @export var movement_modifier : MovementModifierComponent
-@export var attack_move_multiplier := 0.5
+@export var attack_move_multiplier := 0.8
 
 var _last_faced_direction := Vector2.RIGHT
 

@@ -30,9 +30,6 @@ func move() -> void:
 	
 func get_effective_move_speed() -> float:
 	return move_speed * speed_scale
-	
-func get_effective_dash_speed() -> float:
-	return dash_speed * speed_scale
 
 func calculate_velocity() -> Vector2:
 	direction = input_component.input_direction
@@ -44,7 +41,7 @@ func calculate_velocity() -> Vector2:
 		if input_component.dash_input and not dash_component.is_dashing():
 			dash_component.start_dash(dash_duration)
 		if dash_component.is_dashing():
-			speed = get_effective_dash_speed()
+			speed = dash_speed
 	
 	if(steer_force != 0):
 		var final_velocity = direction * speed

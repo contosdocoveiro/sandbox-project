@@ -4,21 +4,28 @@
 [ext_resource type="Script" uid="uid://csxwetitact43" path="res://components/combat/health_component.gd" id="2_wllf3"]
 [ext_resource type="Script" uid="uid://bv7wdpl8uy0cl" path="res://components/combat/hitbox_component.gd" id="3_vtfj8"]
 [ext_resource type="Texture2D" uid="uid://ci0pldf061fyw" path="res://assets/test dummy.png" id="4_vtfj8"]
+[ext_resource type="Script" uid="uid://b70bnf4keaps6" path="res://components/combat/damage_numbers_component.gd" id="5_4hqvd"]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_bhunq"]
-radius = 3.1622777
+radius = 8.0
 
 [node name="PlayerDummy" type="CharacterBody2D" unique_id=1488788581]
 script = ExtResource("1_tsfxv")
 
-[node name="HealthComponent" type="Node" parent="." unique_id=330365275]
+[node name="HealthComponent" type="Node" parent="." unique_id=330365275 node_paths=PackedStringArray("damage_numbers_component")]
 script = ExtResource("2_wllf3")
+damage_numbers_component = NodePath("../DamageNumbersComponent")
+MAX_HEALTH = 9999999.0
 metadata/_custom_type_script = "uid://csxwetitact43"
 
-[node name="HitboxComponent" type="Area2D" parent="." unique_id=291805844]
+[node name="InvincibilityTime" type="Timer" parent="HealthComponent" unique_id=281441668]
+one_shot = true
+
+[node name="HitboxComponent" type="Area2D" parent="." unique_id=291805844 node_paths=PackedStringArray("health_component")]
 collision_layer = 2
 collision_mask = 0
 script = ExtResource("3_vtfj8")
+health_component = NodePath("../HealthComponent")
 metadata/_custom_type_script = "uid://bv7wdpl8uy0cl"
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="HitboxComponent" unique_id=1578336312]
@@ -26,4 +33,12 @@ shape = SubResource("CircleShape2D_bhunq")
 
 [node name="Sprite2D" type="Sprite2D" parent="." unique_id=1300732271]
 position = Vector2(0, -8)
+scale = Vector2(2, 2)
 texture = ExtResource("4_vtfj8")
+
+[node name="DamageNumbersComponent" type="Node2D" parent="." unique_id=940057437]
+position = Vector2(0, -9)
+script = ExtResource("5_4hqvd")
+metadata/_custom_type_script = "uid://b70bnf4keaps6"
+
+[connection signal="timeout" from="HealthComponent/InvincibilityTime" to="HealthComponent" method="_on_invincibility_time_timeout"]

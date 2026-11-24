@@ -8,7 +8,6 @@ extends Node2D
 @onready var telegraph_option: OptionButton = %TelegraphOption
 @onready var duration_slider: HSlider = %DurationSlider
 @onready var follow_aim: CheckBox = %FollowAim
-@onready var fire_button: Button = %FireButton
 @onready var stop_button: Button = %StopButton
 @onready var clear_button: Button = %ClearButton
 @onready var stress_button: Button = %StressButton
@@ -25,7 +24,6 @@ func _ready() -> void:
 	_scan_patterns(pattern_root)
 	_fill_options()
 
-	fire_button.pressed.connect(_on_fire)
 	stop_button.pressed.connect(func() -> void: emitter.stop())
 	clear_button.pressed.connect(func() -> void: BulletManager.clear_all())
 	stress_button.pressed.connect(_on_stress)
@@ -39,7 +37,14 @@ func _process(delta: float) -> void:
 	_time += delta
 	if move_check.button_pressed:
 		emitter.position = _orbit_origin + Vector2(cos(_time) * 80.0, sin(_time) * 40.0)
+	elif emitter.position != _orbit_origin:
+		emitter.position = _orbit_origin
 	stats.text = "FPS %d | active %d" % [Engine.get_frames_per_second(), BulletManager.active_count()]
+
+func _unhandled_input(event: InputEvent) -> void:
+	if event is InputEventMouseButton:
+		if event.button_index == MOUSE_BUTTON_LEFT and event.pressed:
+			_on_fire()
 
 func _scan_patterns(path: String) -> void:
 	var dir := DirAccess.open(path)
@@ -57,14 +62,19 @@ func _fill_options() -> void:
 	pattern_option.clear()
 	for p in _patterns:
 		pattern_option.add_item(p.resource_path.get_file().get_basename())
+	if not _patterns.is_empty():
+		pattern_option.select(0)
 
 	team_option.clear()
 	team_option.add_item("Player")
 	team_option.add_item("Enemy")
+	team_option.select(1)
+	emitter.team_override = 1
 
 	telegraph_option.clear()
 	for shape_name in ["None", "LINE", "CONE", "RING", "CIRCLE", "RECT", "ARC"]:
 		telegraph_option.add_item(shape_name)
+	telegraph_option.select(0)
 
 func _on_pattern_selected(index: int) -> void:
 	if index < 0 or index >= _patterns.size():
