@@ -1,0 +1,11 @@
+[gd_resource type="Resource" script_class="BulletData" format=3 uid="uid://5mu8o32w8c5a"]
+
+[ext_resource type="Script" uid="uid://g5qobf8pwuwb" path="res://components/combat/bullets/bullet_data.gd" id="1_ynn3h"]
+[ext_resource type="Texture2D" uid="uid://chd2wtf7vs54" path="res://assets/bullets/slash.png" id="2_aebws"]
+
+[resource]
+script = ExtResource("1_ynn3h")
+team = 0
+radius = 12.0
+texture = ExtResource("2_aebws")
+metadata/_custom_type_script = "uid://g5qobf8pwuwb"

@@ -31,6 +31,7 @@ DamageNumbers="*res://services/damage_numbers.gd"
 BetterTerrain="*res://addons/better-terrain/BetterTerrain.gd"
 FrameFreeze="*res://services/frame_freeze.gd"
 _fennara_game_capture="*res://addons/fennara/runtime/game_capture_helper.gd"
+BulletManager="*uid://cstak7gs7v6fg"
 
 [display]
 
@@ -49,6 +50,7 @@ enabled=PackedStringArray("res://addons/AS2P/plugin.cfg", "res://addons/better-t
 
 player=""
 camera=""
+bullet_layer=""
 
 [input]
 
@@ -93,11 +95,14 @@ dash={
 2d_render/layer_2="player"
 2d_render/layer_3="entities"
 2d_render/layer_4="hitboxes"
+2d_render/layer_5="detectiona_areas"
+2d_render/layer_6="bullets"
 2d_physics/layer_1="environment"
 2d_physics/layer_2="player"
 2d_physics/layer_3="entities"
 2d_physics/layer_4="hitboxes"
 2d_physics/layer_5="detection_areas"
+2d_physics/layer_6="bullets"
 
 [physics]
 

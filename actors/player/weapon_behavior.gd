@@ -11,12 +11,16 @@ class_name Weapon
 @export var idle_bob_amplitude := 0.5
 @export var idle_bob_frequency := 7.0
 @export var idle_side_distance := 12.0
+@export var aim_origin: Node2D
 
 var attacking := false
 var _idle_time = 0.0
 var _idle_blade_base := Vector2.ZERO
 var _idle_side := 1.0
 var locked_offset := Vector2.ZERO
+
+signal attack_started
+signal attack_ended
 
 func _ready() -> void:
 	top_level = true
@@ -26,6 +30,12 @@ func _ready() -> void:
 	if idle_blade:
 		_idle_blade_base = idle_blade.position
 
+func emit_attack_started() -> void:
+	attack_started.emit()
+	
+func emit_attack_ended() -> void:
+	attack_ended.emit()
+	
 func begin_attack() -> void:
 	attacking = true
 	
@@ -49,14 +59,14 @@ func _physics_process(delta: float) -> void:
 	
 	#idle: lazy position
 	var player_speed: float = maxf(
-	owner.physics_component.move_speed,
+	owner.physics_component.get_effective_move_speed(),
 	owner.velocity.length()
-)
+	)
 	var speed_ratio := player_speed / maxf(reference_speed, 0.001)
 	var follow_rate := maxf(follow_speed * speed_ratio, min_follow_speed)
 	
 	var target = get_idle_target()
-	var t := 1.0 - exp(-follow_speed * delta)
+	var t := 1.0 - exp(-follow_rate * delta)
 	global_position = global_position.lerp(target, t)
 	
 	_animate_idle_blade(delta)

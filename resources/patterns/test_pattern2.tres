@@ -1,0 +1,9 @@
+[gd_resource type="Resource" script_class="SpreadPattern" format=3 uid="uid://dri6rsximhvob"]
+
+[ext_resource type="Resource" uid="uid://5mu8o32w8c5a" path="res://resources/bullets/player/slash.tres" id="1_e1j8a"]
+[ext_resource type="Script" uid="uid://jqie5l6vjqhe" path="res://components/combat/bullets/patterns/spread_pattern.gd" id="1_ornvq"]
+
+[resource]
+script = ExtResource("1_ornvq")
+bullet = ExtResource("1_e1j8a")
+metadata/_custom_type_script = "uid://jqie5l6vjqhe"

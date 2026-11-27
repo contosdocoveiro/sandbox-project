@@ -1,0 +1,22 @@
+[gd_scene format=3 uid="uid://d2n45vn4wqnnx"]
+
+[ext_resource type="Script" uid="uid://11bge8hw0m5x" path="res://components/combat/bullets/bullet.gd" id="1_f3x2p"]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_bhunq"]
+radius = 4.0
+
+[node name="Bullet" type="Area2D" unique_id=732554236]
+physics_interpolation_mode = 2
+collision_layer = 32
+monitoring = false
+monitorable = false
+script = ExtResource("1_f3x2p")
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="." unique_id=327371432]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=1478350507]
+shape = SubResource("CircleShape2D_bhunq")
+
+[node name="VisibleOnScreenNotifier2D" type="VisibleOnScreenNotifier2D" parent="." unique_id=396219827]
+
+[node name="Sprite2D" type="Sprite2D" parent="." unique_id=235652403]

@@ -1,0 +1,4 @@
+[gd_scene format=3 uid="uid://vguqdea1dnnb"]
+
+[node name="BulletLayer" type="Node2D" unique_id=1558402636 groups=["bullet_layer"]]
+y_sort_enabled = true
